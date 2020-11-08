@@ -1,0 +1,345 @@
+﻿@{ ViewData["Title"] = "Tổng quan"; }
+
+@model VNPT.CRM.Models.ReportViewModel
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.MembershipIDCount.ToString("N0")</h3>
+                <p>Khách hàng</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.MembershipIDPropertyCount.ToString("N0")</h3>
+                <p>Thực tế</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-tie"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3 style="color:white;">@Model.RevenueByYear.ToString("N0")</h3>
+                <p style="color:white;">Doanh thu năm @Model.YearFinance</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.RevenueByYearAndMonth.ToString("N0")</h3>
+                <p>Doanh thu tháng @Model.MonthFinance</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-funnel-dollar"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <section class="col-lg-12 connectedSortable">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-bar mr-1"></i>
+                    Doanh thu theo khu vực năm @Model.YearFinance
+                </h3>
+            </div>
+            <div class="card-body">
+                <div id="RevenueByCityIDAndYearAndMonth">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="row">
+    <section class="col-lg-12 connectedSortable">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-bar mr-1"></i>
+                    Doanh thu tháng năm @Model.YearFinance
+                </h3>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Chart<VNPT.Data.DataTransferObject.ReportPropertyDataTransfer>()
+.Name("ChartBarReportPropertyDataTransferMonth")
+.Theme("Material")
+.Title("Doanh thu tháng")
+  .HtmlAttributes(new { style = "min-height:400px;" })
+   .Legend(legend => legend
+       .Position(ChartLegendPosition.Bottom)
+   )
+   .ChartArea(chartArea => chartArea
+      .Background("#ffffff")
+  )
+.DataSource(dataSource => dataSource.Read(t => t.Action("ReportSelect002ByYearNowToList", "Report")))
+.Series(series =>
+{
+    series.Column(model => model.RevenueByYearAndMonth).Name("Doanh thu").Axis("Revenue").Color("#04b7c7");
+})
+   .CategoryAxis(axis => axis
+      .Name("MonthFinance")
+      .Title("Tháng")
+       .Categories(model => model.MonthFinance)
+   )
+
+    .ValueAxis(axis => axis
+       .Numeric()
+       .Color("#04b7c7")
+       .Name("Revenue")
+       .Title("Doanh thu (đồng)")
+   )
+   .Tooltip(tooltip => tooltip
+       .Visible(true)
+       .Format("{0:N0} đồng")
+   )
+            )
+            </div>
+        </div>
+    </section>
+</div>
+<div class="row">
+    <section class="col-lg-12 connectedSortable">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-bar mr-1"></i>
+                    Doanh thu năm
+                </h3>
+            </div>
+            <div class="card-body">
+                @(Html.Kendo().Chart<VNPT.Data.DataTransferObject.ReportPropertyDataTransfer>()
+.Name("ChartBarReportPropertyDataTransferYear")
+.Theme("Material")
+.Title("Doanh thu năm")
+  .HtmlAttributes(new { style = "min-height:400px;" })
+   .Legend(legend => legend
+       .Position(ChartLegendPosition.Bottom)
+   )
+   .ChartArea(chartArea => chartArea
+      .Background("#ffffff")
+  )
+.DataSource(dataSource => dataSource.Read(t => t.Action("ReportSelect000ToList", "Report")))
+.Series(series =>
+{
+    series.Column(model => model.RevenueByYear).Name("Doanh thu").Axis("Revenue").Color("#04b7c7");
+})
+   .CategoryAxis(axis => axis
+      .Name("YearFinance")
+      .Title("Năm")
+       .Categories(model => model.YearFinance)
+   )
+
+    .ValueAxis(axis => axis
+       .Numeric()
+       .Color("#04b7c7")
+       .Name("Revenue")
+       .Title("Doanh thu (đồng)")
+   )
+   .Tooltip(tooltip => tooltip
+       .Visible(true)
+       .Format("{0:N0} đồng")
+   )
+            )
+            </div>
+        </div>
+    </section>
+</div>
+<div class="row">
+    <section class="col-lg-6 connectedSortable">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-map-marked-alt mr-1"></i>
+                    VNPT Bà Rịa - Vũng Tàu
+                </h3>
+                <div class="card-tools">                  
+                </div>
+            </div>
+            <div class="card-body">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1JFjXShFremPPib59brnofnpZcSStFig5" width="100%" height="350"></iframe>
+            </div>
+        </div>
+    </section>
+    <section class="col-lg-6 connectedSortable">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-users mr-1"></i>
+                    Khách hàng
+                </h3>
+                <div class="card-tools">
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="Customer">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(() => {
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("ReportSelect003ByYearNowToList", "Report")",
+            data: {
+            },
+            success: function (ListReportPropertyDataTransfer) {
+                var html = '<table style="font-size:12px; width:100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+                html = html + '<th class="text-center">Khu vực</th>';
+                html = html + '<th class="text-center">Năm</th>';
+                html = html + '<th class="text-center">Tháng 01</th>';
+                html = html + '<th class="text-center">Tháng 02</th>';
+                html = html + '<th class="text-center">Tháng 03</th>';
+                html = html + '<th class="text-center">Tháng 04</th>';
+                html = html + '<th class="text-center">Tháng 05</th>';
+                html = html + '<th class="text-center">Tháng 06</th>';
+                html = html + '<th class="text-center">Tháng 07</th>';
+                html = html + '<th class="text-center">Tháng 08</th>';
+                html = html + '<th class="text-center">Tháng 09</th>';
+                html = html + '<th class="text-center">Tháng 10</th>';
+                html = html + '<th class="text-center">Tháng 11</th>';
+                html = html + '<th class="text-center">Tháng 12</th>';
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                var STT = 0;
+                for (var index in ListReportPropertyDataTransfer) {
+                    $(ListReportPropertyDataTransfer[index]).each(function (iRec, ReportPropertyDataTransfer) {
+
+                        STT = STT + 1;
+                        if (STT % 2 === 0) {
+                            html = html + '<tr style="background-color:#ffffff;">';
+                        }
+                        else {
+                            html = html + '<tr style="background-color:#f1f1f1;">';
+                        }
+                        html = html + '<td style="padding:10px;">' + ReportPropertyDataTransfer.CityName + '</td>';
+                        var RevenueByYear = Math.round(ReportPropertyDataTransfer.RevenueByYear);
+                        var RevenueByYearString = RevenueByYear.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month01 = Math.round(ReportPropertyDataTransfer.Month01);
+                        var Month01String = Month01.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month02 = Math.round(ReportPropertyDataTransfer.Month02);
+                        var Month02String = Month02.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month03 = Math.round(ReportPropertyDataTransfer.Month03);
+                        var Month03String = Month03.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month04 = Math.round(ReportPropertyDataTransfer.Month04);
+                        var Month04String = Month04.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month05 = Math.round(ReportPropertyDataTransfer.Month05);
+                        var Month05String = Month05.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month06 = Math.round(ReportPropertyDataTransfer.Month06);
+                        var Month06String = Month06.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month07 = Math.round(ReportPropertyDataTransfer.Month07);
+                        var Month07String = Month07.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month08 = Math.round(ReportPropertyDataTransfer.Month08);
+                        var Month08String = Month08.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month09 = Math.round(ReportPropertyDataTransfer.Month09);
+                        var Month09String = Month09.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month10 = Math.round(ReportPropertyDataTransfer.Month10);
+                        var Month10String = Month10.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month11 = Math.round(ReportPropertyDataTransfer.Month11);
+                        var Month11String = Month11.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var Month12 = Math.round(ReportPropertyDataTransfer.Month12);
+                        var Month12String = Month12.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+
+                        html = html + '<td class="text-right"><b>' + RevenueByYearString + '</b></td>';
+                        html = html + '<td class="text-right">' + Month01String + '</td>';
+                        html = html + '<td class="text-right">' + Month02String + '</td>';
+                        html = html + '<td class="text-right">' + Month03String + '</td>';
+                        html = html + '<td class="text-right">' + Month04String + '</td>';
+                        html = html + '<td class="text-right">' + Month05String + '</td>';
+                        html = html + '<td class="text-right">' + Month06String + '</td>';
+                        html = html + '<td class="text-right">' + Month07String + '</td>';
+                        html = html + '<td class="text-right">' + Month08String + '</td>';
+                        html = html + '<td class="text-right">' + Month09String + '</td>';
+                        html = html + '<td class="text-right">' + Month10String + '</td>';
+                        html = html + '<td class="text-right">' + Month11String + '</td>';
+                        html = html + '<td class="text-right">' + Month12String + '</td>';
+                        html = html + '</tr>';
+                    });
+                }
+                html = html + '</tbody>';
+                html = html + '</table>';
+                $("#RevenueByCityIDAndYearAndMonth").append(html);
+            }
+        }).done(() => {
+        });
+
+         $.ajax({
+            type: 'GET',
+            url: "@Url.Action("ReportSelect004ToList", "Report")",
+            data: {
+            },
+            success: function (ListReportPropertyDataTransfer) {
+                var html = '<table style="font-size:12px; width:100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+                html = html + '<th class="text-center">Khu vực</th>';
+                html = html + '<th class="text-center">Thực tế</th>';
+                html = html + '<th class="text-center">Khách hàng</th>';                
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                var STT = 0;
+                for (var index in ListReportPropertyDataTransfer) {
+                    $(ListReportPropertyDataTransfer[index]).each(function (iRec, ReportPropertyDataTransfer) {
+
+                        STT = STT + 1;
+                        if (STT % 2 === 0) {
+                            html = html + '<tr style="background-color:#ffffff;">';
+                        }
+                        else {
+                            html = html + '<tr style="background-color:#f1f1f1;">';
+                        }
+                        html = html + '<td style="padding:10px;"><b>' + ReportPropertyDataTransfer.CityName + '</b></td>';
+                        var MembershipIDCount = Math.round(ReportPropertyDataTransfer.MembershipIDCount);
+                        var MembershipIDCountString = MembershipIDCount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+                        var MembershipIDPropertyCount = Math.round(ReportPropertyDataTransfer.MembershipIDPropertyCount);
+                        var MembershipIDPropertyCountString = MembershipIDPropertyCount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+
+                        
+                        html = html + '<td class="text-right"><b>' + MembershipIDPropertyCountString + '</b></td>';
+                        html = html + '<td class="text-right"><b>' + MembershipIDCount + '</b></td>';                       
+                        html = html + '</tr>';
+                    });
+                }
+                html = html + '</tbody>';
+                html = html + '</table>';
+                $("#Customer").append(html);
+            }
+        }).done(() => {
+        });
+    });
+</script>

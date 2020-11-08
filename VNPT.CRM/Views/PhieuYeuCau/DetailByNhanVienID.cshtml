@@ -1,0 +1,158 @@
+﻿@{ ViewData["Title"] = Model.TieuDe + " - Chi tiết"; }
+
+@model VNPT.Data.Models.PhieuYeuCau
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-body">
+                <form asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
+                    @Html.HiddenFor(Model => Model.ID)
+                    <div class="row">
+                        <div class='col-md-8'>
+
+                        </div>
+                        <div class='col-md-1'>
+                            <button style="width:100%;" type="submit" title="Lưu thay đổi" class="btn btn-primary">
+                                <span class="fas fa-save"></span>
+                            </button>
+                        </div>
+                        <div class='col-md-1'>
+                            <a asp-route-ID="@Model.ID" asp-action="InfoByNhanVienID" asp-controller="PhieuYeuCau" title="Nội dung" style="width:100%;" class="btn btn-success">
+                                <span class="fas fa-eye"></span>
+                            </a>
+                        </div>
+                        <div class='col-md-1'>
+                            <a asp-route-ID="0" asp-action="DetailByNhanVienID" asp-controller="PhieuYeuCau" title="Nội dung" style="width:100%;" class="btn btn-success">
+                                <span class="fas fa-plus"></span>
+                            </a>
+                        </div>
+                        <div class='col-md-1'>
+                            <a asp-action="DanhSachByNhanVienID" asp-controller="PhieuYeuCau" title="Phiếu yêu cầu" style="width:100%;" class="btn btn-info">
+                                <span class="fas fa-arrow-left"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class='form-group'>
+                                <label for='TieuDe'>Phiếu yêu cầu</label>
+                                @(Html.TextBoxFor(Model => Model.TieuDe, new { placeholder = "Phiếu yêu cầu", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Upload'>Upload file đính kèm</label>
+                                @(Html.Kendo().Upload()
+                              .Name("Upload")
+                              .HtmlAttributes(new { @class = "form-control" })
+                                )
+                            </div>
+                            <div class='form-group'>
+                                <label for='DaGui'>Trạng thái</label>
+                                <br />
+                                @(Html.CheckBoxFor(Model => Model.DaGui.Value, new { placeholder = "Đã gửi" }))
+                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Đã gửi</p>
+                                @(Html.CheckBoxFor(Model => Model.DangXuLy.Value, new { placeholder = "Đang xử lý" }))
+                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Đang xử lý</p>
+                                @(Html.CheckBoxFor(Model => Model.HoanThanh.Value, new { placeholder = "Hoàn thành" }))
+                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Hoàn thành</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class='form-group'>
+                                <label for='ProductID'>Dịch vụ</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.ProductID)
+                                   .DataValueField("ID")
+                                   .DataTextField("Title")
+                                   .HtmlAttributes(new {@class = "form-control" })
+                                    .Filter(FilterType.Contains)
+                                   .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetProductToList", "Config")))
+                                    )
+                            </div>
+                            <div class='form-group'>
+                                <label for='NguoiNhanID'>Người nhận</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.NguoiNhanID)
+                                   .DataValueField("ID")
+                                   .DataTextField("FullName")
+                                   .HtmlAttributes(new {@class = "form-control" })
+                                    .Filter(FilterType.Contains)
+                                   .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNhanVienToList", "Membership")))
+                                    )
+                            </div>
+                            <div class='form-group'>
+                                <label for='KhachHangID'>Khách hàng</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.KhachHangID)
+                                   .DataValueField("ID")
+                                   .DataTextField("FullName")
+                                   .HtmlAttributes(new {@class = "form-control" })
+                                    .Filter(FilterType.Contains)                                    
+                                   .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMembershipDataTransferKhachHangToList", "Membership")))
+                                    )
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class='form-group'>
+                            <label for='Data'>File đính kèm</label>
+                            <div id="Data"></div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-md-12" style="width:100%;">
+                            @Html.TextAreaFor(Model => Model.NoiDung)
+
+                            <script src="/ckeditor/ckeditor.js"></script>
+                            <script src="/ckeditor/adapters/jquery.js"></script>
+                            <script>
+                                CKEDITOR.replace("NoiDung", {
+                                    on: {
+                                        'instanceReady': function (evt) {
+                                            evt.editor.resize("100%", "500");
+                                        }
+                                    }
+                                });</script>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+
+<script>
+    $(document).ready(() => {
+        onGetCompanyByIDToListToJSON();
+    });
+    function onGetCompanyByIDToListToJSON() {
+        $("#Data").html('');
+        var IDValue = $("#ID").val();
+         $.ajax({
+            type: 'GET',
+            url: "@Url.Action("GetDinhKemByPhieuYeuCauIDToListJSON", "PhieuYeuCau")",
+            data: {
+                ID: IDValue,
+            },
+             success: function (list) {
+                 var html = '';
+                 for (var index in list) {
+                     $(list[index]).each(function (iRec, item) {
+                         html = html + '<a target="_blank" href="' + item.URL + '" title="' + item.URL + '">' + item.Title + '</a> | ';
+                    });
+                }
+                html = $.parseHTML(html);
+                 $("#Data").append(html);
+            }
+        }).done(() => {
+        });
+    }
+</script>

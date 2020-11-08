@@ -1,0 +1,65 @@
+﻿@{ ViewData["Title"] = Model.FullName + " - Thông tin nhân viên"; }
+
+@model VNPT.Data.Models.Membership
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">@Model.FullName - Thông tin nhân viên</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="SaveEmployee" asp-controller="Membership">
+                    @Html.HiddenFor(Model => Model.ID)
+                    @Html.HiddenFor(Model => Model.ParentID)
+                    <div class="row">
+                        <div class='col-md-11'>
+                        </div>
+                        <div class='col-md-1'>
+                            <button style="width:100%;" type="submit" title="Save" class="btn btn-primary">
+                                <span class="fas fa-save"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class='form-group'>
+                                <label for='FullName'>Nhân viên</label>
+                                @(Html.TextBoxFor(Model => Model.FullName, new { placeholder = "Nhân viên", @class = "form-control" }))
+                            </div>
+
+                            <div class='form-group'>
+                                <label for='Email'>Email</label>
+                                @(Html.TextBoxFor(Model => Model.Email, new { placeholder = "Email", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Address'>Địa chỉ</label>
+                                @(Html.TextBoxFor(Model => Model.Address, new { placeholder = "Địa chỉ", @class = "form-control" }))
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class='form-group'>
+                                <label for='Phone'>Điện thoại (Tài khoản)</label>
+                                @(Html.TextBoxFor(Model => Model.Phone, new { placeholder = "Điện thoại", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Password'>Mật khẩu</label>
+                                @(Html.TextBoxFor(Model => Model.Password, new { placeholder = "Mật khẩu", @class = "form-control", @type="password" }))
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
