@@ -34,6 +34,9 @@ namespace VNPT.Controllers
         [AcceptVerbs("Post")]
         public IActionResult SavePhieuYeuCau(PhieuYeuCau model)
         {
+            model.DaGui = true;
+            model.DangXuLy = false;
+            model.HoanThanh = false;
             model.NgayTao = DateTime.Now;
             if (!string.IsNullOrEmpty(model.TaxCode))
             {
