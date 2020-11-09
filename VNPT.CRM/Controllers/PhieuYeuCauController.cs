@@ -20,11 +20,13 @@ namespace VNPT.CRM.Controllers
     public class PhieuYeuCauController : BaseController
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IMembershipRepository _membershipRepository;
         private readonly IPhieuYeuCauRepository _phieuYeuCauRepository;
         private readonly IPhieuYeuCau_ThuocTinhRepository _phieuYeuCau_ThuocTinhRepository;
-        public PhieuYeuCauController(IWebHostEnvironment hostingEnvironment, IPhieuYeuCauRepository phieuYeuCauRepository, IPhieuYeuCau_ThuocTinhRepository phieuYeuCau_ThuocTinhRepository) : base()
+        public PhieuYeuCauController(IWebHostEnvironment hostingEnvironment, IMembershipRepository membershipRepository, IPhieuYeuCauRepository phieuYeuCauRepository, IPhieuYeuCau_ThuocTinhRepository phieuYeuCau_ThuocTinhRepository) : base()
         {
             _hostingEnvironment = hostingEnvironment;
+            _membershipRepository = membershipRepository;
             _phieuYeuCauRepository = phieuYeuCauRepository;
             _phieuYeuCau_ThuocTinhRepository = phieuYeuCau_ThuocTinhRepository;
         }
@@ -72,6 +74,13 @@ namespace VNPT.CRM.Controllers
             viewModel.MonthFinance = DateTime.Now.Month;
             return View(viewModel);
         }
+        public IActionResult DanhSachDoKhachHangGui()
+        {
+            BaseViewModel viewModel = new BaseViewModel();
+            viewModel.YearFinance = DateTime.Now.Year;
+            viewModel.MonthFinance = DateTime.Now.Month;
+            return View(viewModel);
+        }
         public IActionResult Detail(int ID)
         {
             PhieuYeuCau model = new PhieuYeuCau();
@@ -101,6 +110,11 @@ namespace VNPT.CRM.Controllers
             }
             return View(model);
         }
+        public ActionResult GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList([DataSourceRequest] DataSourceRequest request, int year, int month, bool daGui, bool dangXuLy, bool hoanThanh)
+        {
+            var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList(year, month, daGui, dangXuLy, hoanThanh);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList([DataSourceRequest] DataSourceRequest request, int year, int month, bool daGui, bool dangXuLy, bool hoanThanh)
         {
             var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList(year, month, daGui, dangXuLy, hoanThanh, RequestUserID);
@@ -118,7 +132,7 @@ namespace VNPT.CRM.Controllers
         [AcceptVerbs("Post")]
         public IActionResult SavePhieuYeuCau(PhieuYeuCau model)
         {
-            model.NgayTao = new DateTime(model.NgayTao.Value.Year, model.NgayTao.Value.Month, model.NgayTao.Value.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            model.NgayTao = new DateTime(model.NgayTao.Value.Year, model.NgayTao.Value.Month, model.NgayTao.Value.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);            
             if (model.ID > 0)
             {
                 model.Initialization(InitType.Update, RequestUserID);

@@ -18,5 +18,8 @@ namespace VNPT.Data.Models
         public bool? HoanThanh { get; set; }
         public string TaxCode { get; set; }
         public int? KhachHangID { get; set; }
+        public string NguoiTao { get; set; }
+        public string DienThoai { get; set; }
+        public string Email { get; set; }
     }
 }

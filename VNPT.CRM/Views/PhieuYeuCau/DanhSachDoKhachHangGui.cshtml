@@ -1,0 +1,142 @@
+﻿@{ ViewData["Title"] = "Phiếu yêu cầu"; }
+
+@model VNPT.CRM.Models.BaseViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Phiếu yêu cầu</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class='col-sm-2'>
+                        @(Html.Kendo().DropDownListFor(Model => Model.YearFinance)
+                     .DataValueField("Display")
+                     .DataTextField("Display")
+                     .HtmlAttributes(new { @class = "form-control" })
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetYearFinanceToList", "AppGlobal")))
+                            )
+                    </div>
+                    <div class='col-sm-2'>
+                        @(Html.Kendo().DropDownListFor(Model => Model.MonthFinance)
+                     .DataValueField("Display")
+                     .DataTextField("Display")
+                     .HtmlAttributes(new { @class = "form-control" })
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMonthFinanceToList", "AppGlobal")))
+                            )
+                    </div>
+                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
+                        <input id="DaGui" type="checkbox" checked="checked" />
+                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Đã gửi</p>
+                    </div>
+                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
+                        <input id="DangXuLy" type="checkbox" checked="checked" />
+                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Đang xử lý</p>
+                    </div>
+                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
+                        <input id="HoanThanh" type="checkbox" checked="checked" />
+                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Hoàn thành</p>
+                    </div>
+                    <div class='col-sm-1'>
+                        <button type="button" class="btn btn-success" onclick="onSearch()">
+                            <span class="fas fa-search"></span>
+                        </button>
+                    </div>
+                    <div class='col-sm-1'>
+                        <a asp-route-ID="0" asp-action="Detail" asp-controller="PhieuYeuCau" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <br />
+                @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.PhieuYeuCauDataTransfer>()
+.Name("PhieuYeuCau")
+.Columns(columns =>
+{
+    columns.Command(command => { command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(70);
+    columns.Template(@"<a href='/PhieuYeuCau/Detail?ID=#=ID#' class='btn btn-success' style='color:white;'><i class='fas fa-edit'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+    columns.Template(@"<a href='/PhieuYeuCau/Info?ID=#=ID#' class='btn btn-success' style='color:white;'><i class='fas fa-eye'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+
+    columns.Bound(t => t.DaGui).Title("Đã gửi").Width(120);
+    columns.Bound(t => t.DangXuLy).Title("Đang xử lý").Width(120);
+    columns.Bound(t => t.HoanThanh).Title("Hoàn thành").Width(120);
+    columns.Bound(t => t.ProductName).Title("Dịch vụ").Width(200);
+    columns.Bound(t => t.NguoiTao).Title("Họ tên").Width(200);
+    columns.Bound(t => t.NguoiTao).Title("Điện thoại").Width(120).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.NguoiTao).Title("Mã số thuế").Width(120).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.NgayTao).Title("Ngày tạo").Width(200).Format("{0:MM/dd/yyyy HH:mm:ss}").HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.ID).Title("ID").Width(100);
+})
+
+.ToolBar(toolBar => toolBar.Search())
+.Editable(editable => editable.Mode(GridEditMode.InLine))
+.Sortable()
+.Scrollable()
+.Reorderable(r => r.Columns(true))
+.Resizable(r => r.Columns(true))
+.Pageable(pageable => pageable
+.Refresh(true)
+.PageSizes(true)
+.ButtonCount(10))
+.Excel(excel => excel
+.FileName("Config.xlsx")
+.Filterable(true)
+.ProxyURL(Url.Action("ExportExcel", "Config"))
+)
+.Pdf(pdf => pdf
+.AllPages()
+.AvoidLinks()
+.PaperSize("A4")
+.Margin("2cm", "1cm", "1cm", "1cm")
+.Landscape()
+.RepeatHeaders()
+.FileName("Config.pdf")
+)
+.HtmlAttributes(new { @class = "KendoGrid" })
+.Search(search => { search.Field(f => f.ProductName); search.Field(f => f.KhachHang); search.Field(f => f.TieuDe); })
+.DataSource(dataSource => dataSource
+.Ajax()
+.PageSize(1000)
+.Model(model =>
+{
+    model.Id(t => t.ID);
+    model.Field(t => t.ID).Editable(false);
+})
+.Events(t => { t.RequestEnd("onGridRequestEnd"); })
+.Read(t => t.Action("GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList", "PhieuYeuCau").Data("filterPhieuYeuCau"))
+.Destroy(t => t.Action("Delete", "Config"))
+)
+)
+            </div>
+        </div>
+    </div>
+</div>
+
+    @(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+
+    <script>
+        function onGridRequestEnd(e) {
+            if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+                var response = e.response;
+                var messageType = response.split('-')[0];
+                var note = response.split('-')[1];
+                var notification = $("#Notification").data("kendoNotification");
+                notification.show(note, messageType);
+                $("#PhieuYeuCau").data("kendoGrid").dataSource.read();
+            }
+        }
+        function filterPhieuYeuCau(e) {
+            var yearValue = $("#YearFinance").data("kendoDropDownList").value();
+            var monthValue = $("#MonthFinance").data("kendoDropDownList").value();
+            var daGuiValue = document.getElementById("DaGui").checked;
+            var dangXuLyValue = document.getElementById("DangXuLy").checked;
+            var hoanThanhValue = document.getElementById("HoanThanh").checked;           
+            return { year: yearValue, month: monthValue, daGui: daGuiValue, dangXuLy: dangXuLyValue, hoanThanh: hoanThanhValue };
+        }
+        function onSearch() {
+            $("#PhieuYeuCau").data("kendoGrid").dataSource.read();
+        }
+    </script>

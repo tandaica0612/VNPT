@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using VNPT.Data.Models;
+using VNPT.Data.Repositories;
 
 namespace VNPT
 {
@@ -33,7 +35,14 @@ namespace VNPT
                 // Maintain property names during serialization. See:
                 // https://github.com/aspnet/Announcements/issues/194
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
+            services.AddDbContext<VNPTContext>();
+            services.AddTransient<IMembershipRepository, MembershipRepository>();
+            services.AddTransient<IMembershipPropertyRepository, MembershipPropertyRepository>();
+            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<IInvoicePropertyRepository, InvoicePropertyRepository>();
+            services.AddTransient<IConfigRepository, ConfigRepository>();
+            services.AddTransient<IPhieuYeuCauRepository, PhieuYeuCauRepository>();
+            services.AddTransient<IPhieuYeuCau_ThuocTinhRepository, PhieuYeuCau_ThuocTinhRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

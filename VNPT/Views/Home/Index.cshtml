@@ -1,0 +1,68 @@
+﻿@{ ViewData["Title"] = "Hỗ trợ"; }
+
+@model VNPT.Data.Models.PhieuYeuCau
+
+<div class="row">
+    <div class="col s3">
+    </div>
+    <div class="col s6">
+        <div id="basic-demo" class="card card-tabs">
+            <div class="card-content">
+                <div class="card-title">
+                    <div class="row">
+                        <div class="col s12 m6 l10">
+                            <h4 class="card-title">Hãy gửi yêu cầu của bạn, chúng tôi sẽ giải quyết.</h4>
+                        </div>
+                        <div class="col s12 m6 l2">
+                        </div>
+                    </div>
+                </div>
+                <div id="view-basic-demo">
+                    <div class="row">
+                        <form class="col s12" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
+                            <div class="row">
+                                <div class="input-field col m6 s12">
+                                    @(Html.TextBoxFor(Model => Model.NguoiTao, new { placeholder = "Họ tên" }))
+                                    <label for="NguoiTao">Họ tên</label>
+                                </div>
+                                <div class="input-field col m6 s12">
+                                    @(Html.TextBoxFor(Model => Model.DienThoai, new { placeholder = "Điện thoại" }))
+                                    <label for="DienThoai">Điện thoại</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col m6 s12">
+                                    @(Html.TextBoxFor(Model => Model.TaxCode, new { placeholder = "Mã số thuế" }))
+                                    <label for="TaxCode">Mã số thuế</label>
+                                </div>
+                                <div class="input-field col m6 s12">
+                                    @(Html.Kendo().Upload()
+                              .Name("Upload")
+                              .HtmlAttributes(new { @class = "form-control" })
+                                )
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col m12 s12">
+                                    @(Html.TextAreaFor(Model => Model.NoiDung, new { placeholder = "Nội dung", @style="height:100px;", @class = "materialize-textarea" }))
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col m12 s12">
+                                    <button style="width:100%;" type="submit" title="Gửi yêu cầu" class="waves-effect waves-light  btn gradient-45deg-green-teal box-shadow-none border-round mr-1 mb-1">
+                                        Gửi
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col s3">
+</div>
+</div>

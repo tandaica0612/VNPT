@@ -20,4 +20,12 @@
     <None Remove="Templates\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VNPT.Data\VNPT.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\PhieuYeuCau\" />
+  </ItemGroup>
+
 </Project>
