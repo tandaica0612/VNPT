@@ -41,7 +41,10 @@ namespace VNPT.Controllers
             if (!string.IsNullOrEmpty(model.TaxCode))
             {
                 Membership membership = _membershipRepository.GetByTaxCode(model.TaxCode);
-                model.KhachHangID = membership.ID;
+                if (membership != null)
+                {
+                    model.KhachHangID = membership.ID;
+                }
             }
             if (model.ID > 0)
             {
