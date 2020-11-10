@@ -82,12 +82,12 @@ namespace VNPT.Controllers
                                 phieuYeuCau_ThuocTinh.PhieuYeuCauID = model.ID;
                                 phieuYeuCau_ThuocTinh.ParentID = model.ID;
                                 phieuYeuCau_ThuocTinh.Title = fileName;
+                                phieuYeuCau_ThuocTinh.URL = AppGlobal.DomainSub + "/" + AppGlobal.URLPhieuYeuCau + "/" + phieuYeuCau_ThuocTinh.Title;
                                 _phieuYeuCau_ThuocTinhRepository.Create(phieuYeuCau_ThuocTinh);
                                 if ((fileExtension.Contains(@".png") == true) || (fileExtension.Contains(@".jpg") == true) || (fileExtension.Contains(@".gif") == true) || (fileExtension.Contains(@".ipeg") == true) || (fileExtension.Contains(@".webp") == true))
                                 {
-                                    string url = "http://vnptvungtau.vn/" + AppGlobal.URLPhieuYeuCau + "/" + fileName;
                                     txt.AppendLine("<br/>");
-                                    txt.AppendLine("<img src='" + url + "' class='img-thumbnail' alt='" + model.TieuDe + "' title='" + model.TieuDe + "' />");
+                                    txt.AppendLine("<img src='" + phieuYeuCau_ThuocTinh.URL + "' class='img-thumbnail' alt='" + model.TieuDe + "' title='" + model.TieuDe + "' />");
                                 }
                             }
                         }

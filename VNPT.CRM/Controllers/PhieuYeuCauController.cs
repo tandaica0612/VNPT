@@ -132,7 +132,7 @@ namespace VNPT.CRM.Controllers
         [AcceptVerbs("Post")]
         public IActionResult SavePhieuYeuCau(PhieuYeuCau model)
         {
-            model.NgayTao = new DateTime(model.NgayTao.Value.Year, model.NgayTao.Value.Month, model.NgayTao.Value.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);            
+            model.NgayTao = new DateTime(model.NgayTao.Value.Year, model.NgayTao.Value.Month, model.NgayTao.Value.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             if (model.ID > 0)
             {
                 model.Initialization(InitType.Update, RequestUserID);
@@ -169,13 +169,12 @@ namespace VNPT.CRM.Controllers
                                 phieuYeuCau_ThuocTinh.PhieuYeuCauID = model.ID;
                                 phieuYeuCau_ThuocTinh.ParentID = model.ID;
                                 phieuYeuCau_ThuocTinh.Title = fileName;
+                                phieuYeuCau_ThuocTinh.URL = AppGlobal.DomainSub + "/" + AppGlobal.URLPhieuYeuCau + "/" + phieuYeuCau_ThuocTinh.Title;
                                 _phieuYeuCau_ThuocTinhRepository.Create(phieuYeuCau_ThuocTinh);
-
                                 if ((fileExtension.Contains(@".png") == true) || (fileExtension.Contains(@".jpg") == true) || (fileExtension.Contains(@".gif") == true) || (fileExtension.Contains(@".ipeg") == true) || (fileExtension.Contains(@".webp") == true))
                                 {
-                                    string url = "/" + AppGlobal.URLPhieuYeuCau + "/" + fileName;
                                     txt.AppendLine("<br/>");
-                                    txt.AppendLine("<img src='" + url + "' class='img-thumbnail' alt='" + model.TieuDe + "' title='" + model.TieuDe + "' />");
+                                    txt.AppendLine("<img src='" + phieuYeuCau_ThuocTinh.URL + "' class='img-thumbnail' alt='" + model.TieuDe + "' title='" + model.TieuDe + "' />");
                                 }
                             }
                         }
