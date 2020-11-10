@@ -55,7 +55,7 @@ namespace VNPT.Data.Repositories
         public List<PhieuYeuCau> GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList(int year, int month, bool daGui, bool dangXuLy, bool hoanThanh)
         {
             List<PhieuYeuCau> list = new List<PhieuYeuCau>();
-            list = _context.Set<PhieuYeuCau>().Where(item => item.NgayTao.Value.Year == year && item.NgayTao.Value.Month == month && item.NguoiTao == null && (item.DaGui.Value == daGui || item.DangXuLy.Value == dangXuLy || item.HoanThanh.Value == hoanThanh)).OrderByDescending(item => item.NgayTao).ToList();
+            list = _context.Set<PhieuYeuCau>().Where(item => item.NgayTao.Value.Year == year && item.NgayTao.Value.Month == month && item.NguoiTaoID == null && (item.DaGui.Value == daGui || item.DangXuLy.Value == dangXuLy || item.HoanThanh.Value == hoanThanh)).OrderByDescending(item => item.NgayTao).ToList();
             return list;
         }
         public List<PhieuYeuCauDataTransfer> GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList(int year, int month, bool daGui, bool dangXuLy, bool hoanThanh, int nguoiTaoID)
