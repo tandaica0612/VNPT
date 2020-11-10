@@ -41,12 +41,18 @@
                                 @(Html.TextBoxFor(Model => Model.TieuDe, new { placeholder = "Phiếu yêu cầu", @class = "form-control" }))
                             </div>
                             <div class='form-group'>
-                                <label for='Upload'>Upload file đính kèm</label>
-                                @(Html.Kendo().Upload()
-                              .Name("Upload")
-                              .HtmlAttributes(new { @class = "form-control" })
-                                )
+                                <label for='NguoiTao'>Người tạo</label>
+                                @(Html.TextBoxFor(Model => Model.NguoiTao, new { placeholder = "Người tạo", @class = "form-control" }))
                             </div>
+                            <div class='form-group'>
+                                <label for='DienThoai'>Điện thoại</label>
+                                @(Html.TextBoxFor(Model => Model.DienThoai, new { placeholder = "Điện thoại", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='TaxCode'>Mã số thuế</label>
+                                @(Html.TextBoxFor(Model => Model.TaxCode, new { placeholder = "Mã số thuế", @class = "form-control" }))
+                            </div>
+                           
                             <div class='form-group'>
                                 <label for='DaGui'>Trạng thái</label>
                                 <br />
@@ -85,9 +91,16 @@
                                    .DataValueField("ID")
                                    .DataTextField("FullName")
                                    .HtmlAttributes(new {@class = "form-control" })
-                                    .Filter(FilterType.Contains)                                    
+                                    .Filter(FilterType.Contains)
                                    .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMembershipDataTransferKhachHangToList", "Membership")))
                                     )
+                            </div>
+                            <div class='form-group'>
+                                <label for='Upload'>Upload file đính kèm</label>
+                                @(Html.Kendo().Upload()
+                              .Name("Upload")
+                              .HtmlAttributes(new { @class = "form-control" })
+                                )
                             </div>
                         </div>
                     </div>

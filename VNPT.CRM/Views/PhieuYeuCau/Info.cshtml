@@ -18,6 +18,18 @@
                     </div>
                     <div class="col-md-4">
                         <div class='form-group'>
+                            <label for='DienThoai' style="font-weight:unset;">Điện thoại: </label>
+                            <b>@Model.PhieuYeuCauDataTransfer.DienThoai</b>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class='form-group'>
+                            <label for='TaxCode' style="font-weight:unset;">Mã số thuế: </label>
+                            <b>@Model.PhieuYeuCauDataTransfer.TaxCode</b>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class='form-group'>
                             <label for='NguoiNhan' style="font-weight:unset;">Người nhận: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.NguoiNhan</b>
                         </div>
@@ -27,12 +39,6 @@
                             <label for='ProductName' style="font-weight:unset;">Dịch vụ: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.ProductName</b>
                         </div>
-                    </div>                   
-                    <div class="col-md-8">
-                        <div class='form-group'>
-                            <label for='KhachHang' style="font-weight:unset;">Khách hàng: </label>
-                            <b>@Model.PhieuYeuCauDataTransfer.KhachHang</b>
-                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class='form-group'>
@@ -40,6 +46,12 @@
                             @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.DangXuLy.Value, new { placeholder = "Đã gửi", disabled= "disabled" }))
                             <label for='HoanThanh'>Hoàn thành: </label>
                             @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.HoanThanh.Value, new { placeholder = "Đã gửi", disabled= "disabled" }))
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class='form-group'>
+                            <label for='KhachHang' style="font-weight:unset;">Khách hàng: </label>
+                            <b>@Model.PhieuYeuCauDataTransfer.KhachHang</b>
                         </div>
                     </div>
                 </div>                
