@@ -85,7 +85,7 @@ namespace VNPT.Controllers
                                 _phieuYeuCau_ThuocTinhRepository.Create(phieuYeuCau_ThuocTinh);
                                 if ((fileExtension.Contains(@".png") == true) || (fileExtension.Contains(@".jpg") == true) || (fileExtension.Contains(@".gif") == true) || (fileExtension.Contains(@".ipeg") == true) || (fileExtension.Contains(@".webp") == true))
                                 {
-                                    string url = "/" + AppGlobal.URLPhieuYeuCau + "/" + fileName;
+                                    string url = "http://vnptvungtau.vn/" + AppGlobal.URLPhieuYeuCau + "/" + fileName;
                                     txt.AppendLine("<br/>");
                                     txt.AppendLine("<img src='" + url + "' class='img-thumbnail' alt='" + model.TieuDe + "' title='" + model.TieuDe + "' />");
                                 }

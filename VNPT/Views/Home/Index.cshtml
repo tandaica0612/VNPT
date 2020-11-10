@@ -19,7 +19,7 @@
                 </div>
                 <div id="view-basic-demo">
                     <div class="row">
-                        <form class="col s12" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
+                        <form method="post" enctype="multipart/form-data" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
                             <div class="row">
                                 <div class="input-field col m6 s12">
                                     @(Html.TextBoxFor(Model => Model.NguoiTao, new { placeholder = "Họ tên" }))
@@ -35,12 +35,10 @@
                                     @(Html.TextBoxFor(Model => Model.TaxCode, new { placeholder = "Mã số thuế" }))
                                     <label for="TaxCode">Mã số thuế</label>
                                 </div>
-                                <div class="input-field col m6 s12">
+                                <div class="input-field col m6 s12">                                    
                                     @(Html.Kendo().Upload()
-                              .Name("Upload")
-                              .HtmlAttributes(new { @class = "form-control" })
-                                )
-
+                                        .Name("Upload")
+                                    )
                                 </div>
                             </div>
                             <div class="row">
@@ -62,7 +60,7 @@
 
         </div>
     </div>
+    <div class="col s3">
+    </div>
 </div>
-<div class="col s3">
-</div>
-</div>
+
