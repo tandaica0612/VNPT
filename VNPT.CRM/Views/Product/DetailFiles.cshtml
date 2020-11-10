@@ -63,9 +63,8 @@
 .Columns(columns =>
 {
     columns.Command(command => { command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(70);
-    columns.Bound(t => t.ID).Title("ID").Width(100);
-    columns.Bound(t => t.Title).Title("Tiêu đề").Width(200);
-    columns.Bound(t => t.Note).Title("Extension").Width(200);
+    columns.Bound(t => t.Title).Title("Tiêu đề").Width(400);
+    columns.Bound(t => t.Note).Title("Extension").Width(100).HtmlAttributes(new { @class = "text-right" });
     columns.Template(@"<a onclick='javascript:OpenWindowByURL(""/Product/#=FileName#"");' class='btn btn-success' style='color:white; cursor:pointer;'><i class='fas fa-paperclip'></i></a>").Title("File").Width(70).HtmlAttributes(new { style = "text-align:center;" });
 
 })
