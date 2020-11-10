@@ -1,0 +1,114 @@
+﻿@{ ViewData["Title"] = "Bài viết"; }
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Bài viết</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class='col-sm-6'>
+                        @(Html.Kendo().DropDownList()
+                     .Name("LoaiBaiViet")
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control" })
+                      .Events(e => e.DataBound("onLoaiBaiVietDataBound").Change("onLoaiBaiVietChange"))
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetLoaiBaiVietToList", "Config")))
+                            )
+                    </div>
+                    <div class='col-sm-1'>
+                        <a href="/Product/Detail/0" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <br />
+                @(Html.Kendo().Grid<VNPT.Data.Models.Product>()
+.Name("Product")
+.Columns(columns =>
+{
+
+    columns.Template(@"<a href='/Product/Detail/#=ID#' class='btn btn-success' style='color:white;'><i class='fas fa-edit'></i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+    columns.Bound(t => t.DateUpdated).Title("Ngày đăng").Format("{0:dd/MM/yyyy HH:mm:ss}").Width(200).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.Title).Title("Tiêu đề").Width(500);
+    columns.Bound(t => t.ID).Title("ID").Width(100);
+})
+.ToolBar(toolBar => toolBar.Search())
+.Editable(editable => editable.Mode(GridEditMode.InLine))
+.Sortable()
+.Scrollable()
+.Reorderable(r => r.Columns(true))
+.Resizable(r => r.Columns(true))
+.Pageable(pageable => pageable
+.Refresh(true)
+.PageSizes(true)
+.ButtonCount(10))
+.Excel(excel => excel
+.FileName("Config.xlsx")
+.Filterable(true)
+.ProxyURL(Url.Action("ExportExcel", "Config"))
+)
+.Pdf(pdf => pdf
+.AllPages()
+.AvoidLinks()
+.PaperSize("A4")
+.Margin("2cm", "1cm", "1cm", "1cm")
+.Landscape()
+.RepeatHeaders()
+.FileName("Config.pdf")
+)
+.HtmlAttributes(new { @class = "KendoGrid" })
+.Search(search => { search.Field(f => f.Title);})
+.DataSource(dataSource => dataSource
+.Ajax()
+.PageSize(1000)
+.Model(model =>
+{
+    model.Id(t => t.ID);
+    model.Field(t => t.ID).Editable(false);
+})
+.Events(t => { t.RequestEnd("onGridRequestEnd"); })
+.Read(t => t.Action("GetByParentIDToList", "Product").Data("filterProduct"))
+
+)
+)
+            </div>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+
+<script>
+    function onGridRequestEnd(e) {
+        if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+            var response = e.response;
+            var messageType = response.split('-')[0];
+            var note = response.split('-')[1];
+            var notification = $("#Notification").data("kendoNotification");
+            notification.show(note, messageType);
+            $("#Product").data("kendoGrid").dataSource.read();
+        }
+    }
+    function onLoaiBaiVietDataBound() {
+        var control = $("#LoaiBaiViet").data("kendoDropDownList");
+        var controlLength = control.dataSource.data().length;
+        if (controlLength > 0) {
+            control.select(0);
+            control.trigger("change");
+        }
+    }
+    function onLoaiBaiVietChange() {
+        $("#Product").data("kendoGrid").dataSource.read();
+    }
+    function filterProduct(e) {
+        var parentIDValue = $("#LoaiBaiViet").data("kendoDropDownList").value();
+        return { parentID: parentIDValue };
+    }
+</script>

@@ -68,6 +68,15 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult LoaiBaiViet()
+        {
+            return View();
+        }
+        public ActionResult GetLoaiBaiVietToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.LoaiBaiViet);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetProductToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Product);
@@ -102,6 +111,30 @@ namespace VNPT.CRM.Controllers
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.City);
             return Json(data.ToDataSourceResult(request));
+        }
+        public IActionResult CreateLoaiBaiViet(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.LoaiBaiViet;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
         }
         public IActionResult CreateProduct(Config model)
         {

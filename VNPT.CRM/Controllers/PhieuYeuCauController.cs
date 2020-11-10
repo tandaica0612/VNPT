@@ -129,6 +129,20 @@ namespace VNPT.CRM.Controllers
         {
             return Json(_phieuYeuCau_ThuocTinhRepository.GetByPhieuYeuCauIDAndParentIDAndCodeToList(ID, ID, AppGlobal.PhieuYeuCauDinhKem));
         }
+        public IActionResult Delete(int ID)
+        {
+            string note = AppGlobal.InitString;
+            int result = _phieuYeuCauRepository.Delete(ID);
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.DeleteSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.DeleteFail;
+            }
+            return Json(note);
+        }
         [AcceptVerbs("Post")]
         public IActionResult SavePhieuYeuCau(PhieuYeuCau model)
         {

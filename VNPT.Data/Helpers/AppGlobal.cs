@@ -22,6 +22,14 @@ namespace VNPT.Data.Helpers
         #endregion
 
         #region AppSettings 
+        public static string LoaiBaiViet
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("LoaiBaiViet").Value;
+            }
+        }
         public static string DomainSub
         {
             get
@@ -44,6 +52,14 @@ namespace VNPT.Data.Helpers
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 return builder.Build().GetSection("AppSettings").GetSection("PhieuYeuCauPhanHoi").Value;
+            }
+        }
+        public static string URLProduct
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("URLProduct").Value;
             }
         }
         public static string URLPhieuYeuCau

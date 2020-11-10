@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Product\" />
     <Folder Include="wwwroot\PhieuYeuCau\" />
   </ItemGroup>
 
