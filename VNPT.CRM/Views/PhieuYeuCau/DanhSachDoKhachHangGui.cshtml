@@ -61,8 +61,8 @@
     columns.Bound(t => t.HoanThanh).Title("Hoàn thành").Width(120);
     columns.Bound(t => t.ProductName).Title("Dịch vụ").Width(200);
     columns.Bound(t => t.NguoiTao).Title("Họ tên").Width(200);
-    columns.Bound(t => t.NguoiTao).Title("Điện thoại").Width(120).HtmlAttributes(new { @class = "text-right" });
-    columns.Bound(t => t.NguoiTao).Title("Mã số thuế").Width(120).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.DienThoai).Title("Điện thoại").Width(120).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.TaxCode).Title("Mã số thuế").Width(120).HtmlAttributes(new { @class = "text-right" });
     columns.Bound(t => t.NgayTao).Title("Ngày tạo").Width(200).Format("{0:MM/dd/yyyy HH:mm:ss}").HtmlAttributes(new { @class = "text-right" });
     columns.Bound(t => t.ID).Title("ID").Width(100);
 })
