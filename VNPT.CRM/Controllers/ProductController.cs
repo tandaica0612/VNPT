@@ -69,7 +69,7 @@ namespace VNPT.CRM.Controllers
             return Json(note);
         }
         [AcceptVerbs("Post")]
-        public IActionResult Save(Product model)
+        public IActionResult SaveChange(Product model)
         {
             if (Request.Form.Files.Count > 0)
             {
