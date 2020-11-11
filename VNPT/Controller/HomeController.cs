@@ -28,6 +28,20 @@ namespace VNPT.Controllers
         }
         public IActionResult LoiCamOn()
         {
+            BaseViewModel model = new BaseViewModel();
+            model.ListLoaiBaiViet = _configRepository.GetByGroupNameAndCodeToList(AppGlobal.CRM, AppGlobal.LoaiBaiViet);
+            model.ListProduct = _productRepository.GetByParentIDToList(832).OrderByDescending(item => item.DateUpdated).ToList();
+            return View(model);
+        }
+        public IActionResult Blog(int ID)
+        {
+            return View();
+        }
+        public IActionResult Blogs(int ID)
+        {
+            BaseViewModel model = new BaseViewModel();
+            model.ListLoaiBaiViet = _configRepository.GetByGroupNameAndCodeToList(AppGlobal.CRM, AppGlobal.LoaiBaiViet);
+            model.ListProduct = _productRepository.GetByParentIDToList(ID).OrderByDescending(item => item.DateUpdated).ToList();
             return View();
         }
     }

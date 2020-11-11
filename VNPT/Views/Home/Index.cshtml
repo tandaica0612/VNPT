@@ -31,7 +31,7 @@
                     @{
                         foreach (VNPT.Data.Models.Config item in Model.ListLoaiBaiViet)
                         {
-                            string url = VNPT.Data.Helpers.AppGlobal.Domain + "blogs/" + item.Note + '-' + item.ID + ".html";
+                            string url = VNPT.Data.Helpers.AppGlobal.Domain + item.Note + '-' + item.ID;
                             @Html.Raw("<li>");
                             @Html.Raw("<a class='dropdown-menu' title='" + item.Title + "' href='" + url + "'><i class='material-icons'>dashboard</i><span>" + item.Title + "</span></a>");
                             @Html.Raw("</li>");
@@ -54,7 +54,7 @@
                     try
                     {
                         VNPT.Data.Models.Product item = Model.ListProduct[i];
-                        string url = VNPT.Data.Helpers.AppGlobal.Domain + "blog/" + item.MetaTitle + '-' + item.ID + ".html";
+                        string url = VNPT.Data.Helpers.AppGlobal.Domain + item.MetaTitle + '-' + item.ID + ".html";
                         switch (i)
                         {
                             case 0:
@@ -153,7 +153,7 @@
                     try
                     {
                         VNPT.Data.Models.Product item = Model.ListProduct[i];
-                        string url = VNPT.Data.Helpers.AppGlobal.Domain + "blog/" + item.MetaTitle + '-' + item.ID + ".html";
+                        string url = VNPT.Data.Helpers.AppGlobal.Domain + item.MetaTitle + '-' + item.ID + ".html";
                         switch (i)
                         {
                             case 0:
