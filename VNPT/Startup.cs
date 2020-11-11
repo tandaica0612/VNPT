@@ -43,6 +43,8 @@ namespace VNPT
             services.AddTransient<IConfigRepository, ConfigRepository>();
             services.AddTransient<IPhieuYeuCauRepository, PhieuYeuCauRepository>();
             services.AddTransient<IPhieuYeuCau_ThuocTinhRepository, PhieuYeuCau_ThuocTinhRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductConfigRepository, ProductConfigRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }
