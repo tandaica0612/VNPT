@@ -1,66 +1,193 @@
 ﻿@{ ViewData["Title"] = "Hỗ trợ"; }
 
-@model VNPT.Data.Models.PhieuYeuCau
+@model VNPT.Models.BaseViewModel
+<header class="page-topbar" id="header">
+    <div class="navbar navbar-fixed">
+        <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-light-blue-cyan">
+            <div class="nav-wrapper">
+                <ul class="left">
+                    <li>
+                        <h1 class="logo-wrapper"><a title="VNPT Bà Rịa - Vũng Tàu" class="brand-logo darken-1" href="http://vnptvungtau.vn/"><img src="/images/logo.png" title="VNPT Bà Rịa - Vũng Tàu" alt="VNPT Bà Rịa - Vũng Tàu"><span class="logo-text hide-on-med-and-down">VNPT</span></a></h1>
+                    </li>
+                </ul>
+                <div class="header-search-wrapper hide-on-med-and-down">
+                    <i class="material-icons">search</i>
+                    <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Bạn cần gì?">
+                </div>
 
-<div class="row">
-    <div class="col s3">
-    </div>
-    <div class="col s6">
-        <div id="basic-demo" class="card card-tabs">
-            <div class="card-content">
-                <div class="card-title">
-                    <div class="row">
-                        <div class="col s12 m6 l10">
-                            <h4 class="card-title">Hãy gửi yêu cầu của bạn, chúng tôi sẽ giải quyết.</h4>
-                        </div>
-                        <div class="col s12 m6 l2">
-                        </div>
+            </div>
+            <nav class="display-none search-sm">
+                <div class="nav-wrapper">
+                    <div class="input-field">
+                        <input class="search-box-sm" type="search" required="">
+                        <label class="label-icon" for="search"><i class="material-icons search-sm-icon">search</i></label><i class="material-icons search-sm-close">close</i>
                     </div>
                 </div>
-                <div id="view-basic-demo">
-                    <div class="row">
-                        <form method="post" enctype="multipart/form-data" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
-                            <div class="row">
-                                <div class="input-field col m6 s12">
-                                    @(Html.TextBoxFor(Model => Model.NguoiTao, new { placeholder = "Họ tên" }))
-                                    <label for="NguoiTao">Họ tên</label>
-                                </div>
-                                <div class="input-field col m6 s12">
-                                    @(Html.TextBoxFor(Model => Model.DienThoai, new { placeholder = "Điện thoại" }))
-                                    <label for="DienThoai">Điện thoại</label>
-                                </div>
+            </nav>
+        </nav>
+        <nav class="white hide-on-med-and-down" id="horizontal-nav">
+            <div class="nav-wrapper">
+                <ul class="left hide-on-med-and-down" id="ul-horizontal-nav" data-menu="menu-navigation">
+                    @{
+                        foreach (VNPT.Data.Models.Config item in Model.ListLoaiBaiViet)
+                        {
+                            string url = VNPT.Data.Helpers.AppGlobal.Domain + item.Note + '-' + item.ID;
+                            @Html.Raw("<li>");
+                            @Html.Raw("<a class='dropdown-menu' title='" + item.Title + "' href='" + url + "'><i class='material-icons'>dashboard</i><span>" + item.Title + "</span></a>");
+                            @Html.Raw("</li>");
+                        }
+                    }
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<div id="main">
+    <div class="row">
+        <div class="col s3">
+            @{
+                int begin = 0;
+                int end = 4;
+                
+                for (int i = begin; i < end; i++)
+                {
+                    try
+                    {
+                        VNPT.Data.Models.Product item = Model.ListProduct[i];
+                        string url = VNPT.Data.Helpers.AppGlobal.Domain + item.MetaTitle + '-' + item.ID + ".html";
+                        switch (i)
+                        {
+                            case 0:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-deep-orange-orange card-animation-2'>");
+                                break;
+                            case 1:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-purple-deep-orange card-animation-2'>");
+                                break;
+                            case 2:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-red-pink card-animation-2'>");
+                                break;
+                            case 3:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-purple-amber card-animation-2'>");
+                                break;
+
+                        }
+                        @Html.Raw("<h6 class='mt-5'>");
+                        @Html.Raw("<b>");
+                        @Html.Raw("<a href='" + url + "' title='" + item.Title + "' class='white-text'>");
+                        @Html.Raw("" + item.Title);
+                        @Html.Raw("</a>");
+                        @Html.Raw("</b>");
+                        @Html.Raw("</h6>");
+                        @Html.Raw("</div>");
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
+        </div>
+        <div class="col s6">
+            <div id="basic-demo" class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l10">
+                                <h4 class="card-title">Hãy gửi yêu cầu của bạn, chúng tôi sẽ giải quyết.</h4>
                             </div>
-                            <div class="row">
-                                <div class="input-field col m6 s12">
-                                    @(Html.TextBoxFor(Model => Model.TaxCode, new { placeholder = "Mã số thuế" }))
-                                    <label for="TaxCode">Mã số thuế</label>
+                            <div class="col s12 m6 l2">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="view-basic-demo">
+                        <div class="row">
+                            <form method="post" enctype="multipart/form-data" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
+                                <div class="row">
+                                    <div class="input-field col m6 s12">
+                                        @(Html.TextBoxFor(Model => Model.PhieuYeuCau.NguoiTao, new { placeholder = "Họ tên" }))
+                                        <label for="NguoiTao">Họ tên</label>
+                                    </div>
+                                    <div class="input-field col m6 s12">
+                                        @(Html.TextBoxFor(Model => Model.PhieuYeuCau.DienThoai, new { placeholder = "Điện thoại" }))
+                                        <label for="DienThoai">Điện thoại</label>
+                                    </div>
                                 </div>
-                                <div class="input-field col m6 s12">                                    
-                                    @(Html.Kendo().Upload()
+                                <div class="row">
+                                    <div class="input-field col m6 s12">
+                                        @(Html.TextBoxFor(Model => Model.PhieuYeuCau.TaxCode, new { placeholder = "Mã số thuế" }))
+                                        <label for="TaxCode">Mã số thuế</label>
+                                    </div>
+                                    <div class="input-field col m6 s12">
+                                        @(Html.Kendo().Upload()
                                         .Name("Upload")
                                     )
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col m12 s12">
-                                    @(Html.TextAreaFor(Model => Model.NoiDung, new { placeholder = "Nội dung", @style="height:100px;", @class = "materialize-textarea" }))
+                                <div class="row">
+                                    <div class="input-field col m12 s12">
+                                        @(Html.TextAreaFor(Model => Model.PhieuYeuCau.NoiDung, new { placeholder = "Nội dung", @style="height:100px;", @class = "materialize-textarea" }))
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col m12 s12">
-                                    <button style="width:100%;" type="submit" title="Gửi yêu cầu" class="waves-effect waves-light  btn gradient-45deg-green-teal box-shadow-none border-round mr-1 mb-1">
-                                        Gửi
-                                    </button>
+                                <div class="row">
+                                    <div class="input-field col m12 s12">
+                                        <button style="width:100%;" type="submit" title="Gửi yêu cầu" class="waves-effect waves-light  btn gradient-45deg-green-teal box-shadow-none border-round mr-1 mb-1">
+                                            Gửi
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
+        </div>
+        <div class="col s3">
+            @{
+                int beginRight = 4;
+                int endRight = 8;
+               
+                for (int i = beginRight; i < endRight; i++)
+                {
+                    try
+                    {
+                        VNPT.Data.Models.Product item = Model.ListProduct[i];
+                        string url = VNPT.Data.Helpers.AppGlobal.Domain + item.MetaTitle + '-' + item.ID + ".html";
+                        switch (i)
+                        {
+                            case 0:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-indigo-light-blue card-animation-2'>");
+                                break;
+                            case 1:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-indigo-light-blue card-animation-2'>");
+                                break;
+                            case 2:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-purple-deep-purple card-animation-2'>");
+                                break;
+                            case 3:
+                                @Html.Raw("<div class='card-panel border-radius-6 white-text gradient-45deg-purple-light-blue card-animation-2'>");
+                                break;
+
+                        }
+                        @Html.Raw("<h6 class='mt-5'>");
+                        @Html.Raw("<b>");
+                        @Html.Raw("<a href='" + url + "' title='" + item.Title + "' class='white-text'>");
+                        @Html.Raw("" + item.Title);
+                        @Html.Raw("</a>");
+                        @Html.Raw("</b>");
+                        @Html.Raw("</h6>");
+                        @Html.Raw("</div>");
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
         </div>
     </div>
-    <div class="col s3">
-    </div>
 </div>
+
 

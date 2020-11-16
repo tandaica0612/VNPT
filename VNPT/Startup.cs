@@ -43,6 +43,8 @@ namespace VNPT
             services.AddTransient<IConfigRepository, ConfigRepository>();
             services.AddTransient<IPhieuYeuCauRepository, PhieuYeuCauRepository>();
             services.AddTransient<IPhieuYeuCau_ThuocTinhRepository, PhieuYeuCau_ThuocTinhRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductConfigRepository, ProductConfigRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }
@@ -69,6 +71,16 @@ namespace VNPT
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Blog",
+                    pattern: "{MetaTitle}-{ID}.html",
+                    defaults: new { controller = "Home", action = "Blog" });
+
+                endpoints.MapControllerRoute(
+                    name: "Blogs",
+                    pattern: "{Note}-{ID}",
+                    defaults: new { controller = "Home", action = "Blogs" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -6,7 +6,7 @@
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-body">
-                <form asp-action="Save" asp-controller="Product">
+                <form method="post" enctype="multipart/form-data" asp-action="SaveChange" asp-controller="Product">
                     @Html.HiddenFor(Model => Model.ID)
                     <div class="row">
                         <div class='col-md-8'>

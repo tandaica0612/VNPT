@@ -13,7 +13,7 @@ using VNPT.Data.Enum;
 using VNPT.Data.DataTransferObject;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-
+using VNPT.Models;
 
 namespace VNPT.Controllers
 {
@@ -32,8 +32,9 @@ namespace VNPT.Controllers
         }
 
         [AcceptVerbs("Post")]
-        public IActionResult SavePhieuYeuCau(PhieuYeuCau model)
+        public IActionResult SavePhieuYeuCau(BaseViewModel baseViewModel)
         {
+            PhieuYeuCau model = baseViewModel.PhieuYeuCau;
             model.DaGui = true;
             model.DangXuLy = false;
             model.HoanThanh = false;
