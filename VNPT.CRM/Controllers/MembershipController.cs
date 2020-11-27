@@ -85,6 +85,10 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult CustomerList()
+        {
+            return View();
+        }
         public IActionResult Employee()
         {
             return View();
@@ -170,6 +174,11 @@ namespace VNPT.CRM.Controllers
         public ActionResult GetMembershipDataTransferKhachHangToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetMembershipDataTransferByParentIDToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetByParentIDToList(AppGlobal.DoanhNghiepID);
             return Json(data.ToDataSourceResult(request));
         }
         public ActionResult GetNhanVienToList([DataSourceRequest] DataSourceRequest request)

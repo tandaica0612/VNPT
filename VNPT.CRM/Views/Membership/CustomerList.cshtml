@@ -1,0 +1,85 @@
+﻿@{ ViewData["Title"] = "Khách hàng"; }
+
+
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        @(Html.Kendo().Grid<VNPT.Data.Models.Membership>()
+.Name("Membership")
+.Columns(columns =>
+{
+
+    columns.Template(@"<a href='/Membership/CustomerDetail/#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
+    columns.Bound(t => t.MembershipCode).Title("Mã khách hàng").Width(150);
+    columns.Bound(t => t.TaxCode).Title("Mã số thuế").Width(150);
+    columns.Bound(t => t.FullName).Title("Khách hàng").Width(700);
+    columns.Bound(t => t.Address).Title("Địa chỉ").Width(700);    
+    columns.Bound(t => t.ContactFullName).Title("Liên hệ").Width(200);
+    columns.Bound(t => t.ContactPhone).Title("Điện thoại").Width(150);
+})
+.ToolBar(toolBar => toolBar.Search())
+
+.Editable(editable => editable.Mode(GridEditMode.InLine))
+.Sortable()
+.Scrollable()
+.Reorderable(r => r.Columns(true))
+.Resizable(r => r.Columns(true))
+.Pageable(pageable => pageable
+.Refresh(true)
+.PageSizes(true)
+.ButtonCount(10))
+.Excel(excel => excel
+.FileName("Config.xlsx")
+.Filterable(true)
+.ProxyURL(Url.Action("ExportExcel", "Config"))
+)
+.Pdf(pdf => pdf
+.AllPages()
+.AvoidLinks()
+.PaperSize("A4")
+.Margin("2cm", "1cm", "1cm", "1cm")
+.Landscape()
+.RepeatHeaders()
+.FileName("Config.pdf")
+)
+.HtmlAttributes(new { @class = "KendoGrid" })
+.Search(search => { search.Field(f => f.TaxCode); search.Field(f => f.MembershipCode); search.Field(f => f.FullName); search.Field(f => f.Address); search.Field(f => f.Phone); })
+.DataSource(dataSource => dataSource
+.Ajax()
+.PageSize(100)
+.Model(model =>
+{
+    model.Id(t => t.ID);
+})
+.Events(t => { t.RequestEnd("onGridRequestEnd"); })
+.Read(t => t.Action("GetDoanhNghiepToList", "Membership"))
+
+)
+)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+<script>
+    function onGridRequestEnd(e) {
+        if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+            var response = e.response;
+            var messageType = response.split('-')[0];
+            var note = response.split('-')[1];
+            var notification = $("#Notification").data("kendoNotification");
+            notification.show(note, messageType);
+            $("#Membership").data("kendoGrid").dataSource.read();
+        }
+    }   
+</script>

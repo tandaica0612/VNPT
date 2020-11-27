@@ -13,43 +13,30 @@
     <link rel="apple-touch-icon" href="@VNPT.Data.Helpers.AppGlobal.LogoURLFull">
     <link rel="shortcut icon" type="image/x-icon" href="@VNPT.Data.Helpers.AppGlobal.LogoURLFull">
 
-    <link rel="stylesheet" href="/AdminLTE_3_0_5/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="/AdminLTE_3_0_5/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="/css/site001.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-menu-nav-dark-template/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-menu-nav-dark-template/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
+
+
+
     <link href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/jszip.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/kendo.aspnetmvc.min.js"></script>
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <script>
-        function BeginRequestHandler() {
-            Slider();
+    <link rel="stylesheet" href="/css/site001.css">
+    <style type="text/css">
+        .k-grid-header a.k-link {
+            text-align: center;
+            color: blue;
+            font-weight:bold;
         }
-        function EndRequestHandler() {
-            $('#Dim').css("display", "none");
-            $('#BackGround').fadeTo("fast", 2);
-        }
-        function Slider() {
-            $('#Dim').css("display", "");
-            $('#Dim').css("z-index", "10");
-            $('#Dim').css("position", "absolute");
-            $('#Dim').css("top", ($(window).height() - $('#Dim').height()) / 2 + $(window).scrollTop() + "px");
-            $('#Dim').css("left", ($(window).width() - $('#Dim').width()) / 2 + $(window).scrollLeft() + "px");
-            $('#BackGround').fadeTo("fast", 0.5);
-            $('#Dim').focus();
-        }
-        function OpenWindowByURL(URLParamater, w = 100, h = 200) {
-            var width01 = screen.width - w;
-            var height01 = screen.height - h;
-            var left = (screen.width - width01) / 2;
-            var top = (screen.height - height01) / 3;
-            var url = URLParamater;
-            window.open(url, '_blank', 'location=yes,height=' + height01 + ',width=' + width01 + ',scrollbars=yes,status=yes,toolbar=yes,top=' + top + ',left=' + left + '');
-        }</script>
+    </style>
 </head>
-<body id="BackGround" class="hold-transition sidebar-mini">
+<body id="BackGround" class="vertical-layout page-header-light vertical-menu-collapsible vertical-menu-nav-dark 2-columns  " data-open="click" data-menu="vertical-menu-nav-dark" data-col="2-columns">
     <div id="Dim" style="display: none;">
         <div class="msgbox">
             <img src="@VNPT.Data.Helpers.AppGlobal.LoadingURLFull" alt="Processing, please wait!"
@@ -57,255 +44,67 @@
         </div>
     </div>
 
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-            </ul>
-        </nav>
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="@VNPT.Data.Helpers.AppGlobal.Domain" class="brand-link" title="CRM">
-                <img src="@VNPT.Data.Helpers.AppGlobal.LogoURLFull"
-                     alt="CRM" title="CRM"
-                     class="brand-image img-circle elevation-3"
-                     style="opacity: .8">
-                <span class="brand-text font-weight-light">CRM</span>
-            </a>
-            <div class="sidebar">
-                @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
-                            <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="Lê Thanh Sơn">
-                        </div>
-                        <div class="info">
-                            <a href="#" class="d-block" title="Lê Thanh Sơn">Lê Thanh Sơn</a>
-                        </div>
-                    </div>*@
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-line"></i>
-                                <p>
-                                    Báo cáo thống kê
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Report/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Tổng quan</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Report/CustomerNotRevenueByYearAndMonthAndProductIDAndCityID" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Không phát sinh theo huyện</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Report/CustomerNotRevenueByYearAndMonthAndProductID" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Không phát sinh theo dịch vụ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Report/CustomerNotRevenueByYearAndMonth" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Không phát sinh theo tháng</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-headset"></i>
-                                <p>
-                                    Phiếu yêu cầu
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/PhieuYeuCau/DanhSachDoKhachHangGui" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Khách hàng</p>
-                                    </a>
-                                    <a href="/PhieuYeuCau/DanhSach" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Nhân viên</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-friends"></i>
-                                <p>
-                                    Khách hàng
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Membership/Customer" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Theo huyện</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Membership/CustomerByProduct" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Theo dịch vụ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Membership/CustomerNotByProduct" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Không sử dụng dịch vụ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Membership/Upload" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Upload</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-newspaper"></i>
-                                <p>
-                                    Bài viết
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Product/DanhSach" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Danh sách</p>
-                                    </a>                                    
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-tie"></i>
-                                <p>
-                                    Nhân viên
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Membership/Employee" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Danh sách</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Membership/EmployeeDetail" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Đổi mật khẩu</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>
-                                    Hệ thống
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/Config/Product" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dịch vụ</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/CustomerType" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Ngành nghề</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/Ward" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Phường, xã, thị trấn</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/City" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Thành phố, huyện, thị xã</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/Province" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Tỉnh</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/Unit" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Đơn vị tính</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/MembershipType" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Loại thành viên</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/Config/LoaiBaiViet" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Loại bài viết</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+
+    <header class="page-topbar" id="header">
+        <div class="navbar navbar-fixed">
+            <nav class="navbar-main navbar-color nav-collapsible sideNav-lock navbar-dark gradient-45deg-purple-deep-orange gradient-shadow">
+                <div class="nav-wrapper">
+                    <ul class="navbar-list right">
+                        <li class="hide-on-med-and-down"><a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i class="material-icons">settings_overscan</i></a></li>
+                        <li><a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);" data-target="profile-dropdown"><span class="avatar-status avatar-online"><img src="/app-assets/images/avatar/avatar-7.png" alt="avatar"><i></i></span></a></li>
                     </ul>
-                </nav>
-            </div>
-        </aside>
-        <div class="content-wrapper">
-            <section class="content" style="padding-top:10px;">
-                <div class="container-fluid">
-                    @RenderBody()
+                    <ul class="dropdown-content" id="profile-dropdown">
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">person_outline</i> Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a class="grey-text text-darken-1" href="#"><i class="material-icons">keyboard_tab</i> Logout</a></li>
+                    </ul>
                 </div>
-            </section>
+            </nav>
         </div>
+    </header>
 
+    <aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light navbar-full sidenav-active-rounded">
+        <div class="brand-sidebar">
+            <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="#"><img src="@VNPT.Data.Helpers.AppGlobal.LogoURLFull" alt="@VNPT.Data.Helpers.AppGlobal.Title" /><span class="logo-text hide-on-med-and-down">VNPT</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
+        </div>
+       
+        <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+            <li class="navigation-header">
+                <a class="navigation-header-text">Bà Rịa - Vũng Tàu</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/CustomerList"><i class="material-icons">assignment_ind</i><span class="menu-title" data-i18n="">Khách hàng</span></a>
+        </ul>
+        <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+    </aside>
+
+    <div id="main">
+        <div class="row">
+            <div class="col s12">
+                <div class="container">
+                    <div class="section">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
+    @*<script src="/app-assets/js/vendors.min.js" type="text/javascript"></script>
+        <script src="/app-assets/js/plugins.js" type="text/javascript"></script>
+        <script src="/app-assets/js/custom/custom-script.js" type="text/javascript"></script>*@
     <script src="/AdminLTE_3_0_5/dist/js/adminlte.min.js"></script>
-
     <script src="/AdminLTE_3_0_5/dist/js/demo.js"></script>
     <script src="/js/site.js"></script>
     <script>
         function setMenuLeftActive() {
             var tag = $('a[href="' + this.location.pathname + '"]');
             tag.addClass('active');
-            var tag01 = tag.parent('li').parent('ul').parent('li');
-            tag01.addClass('menu-open');
-            var tag02 = tag01.children('a');
-            tag02.addClass('active');
+
+            var tag01 = tag.parent('li');
+            tag01.addClass('active');           
         }
         jQuery(function ($) {
             setMenuLeftActive();
-        });</script>
-
+        });
+    </script>
 </body>
 </html>
