@@ -19,6 +19,8 @@ namespace VNPT.Data.Repositories
         public List<Membership> GetByProductIDAndCityIDAndActionToList(int productID, int cityID, int action);
         public List<Membership> GetByProductIDNotAndCityIDAndActionToList(int productID, int cityID, int action);
         public string UploadInvoiceByYearAndMonth(int requestUserID, int year, int month, string taxCode, string paymentCode, string productCode, string productName, string groupName, string code, decimal valueContract);
+        public List<Membership> GetParentIDAndSeachStringToList(int parentID, string searchString);
+        public List<MembershipDataTransfer> GetSQLByParentIDToList(int parentID);
 
     }
 }

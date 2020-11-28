@@ -3,30 +3,24 @@
 @model VNPT.CRM.Models.BaseViewModel
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Upload - Doanh thu</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" onsubmit="return BeginRequestHandler()" action='@Url.Action("UploadInvoiceBySQL", "Membership")'>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Download'>Bước 01: File excel mẫu: </label>
-                            <a href="@VNPT.Data.Helpers.AppGlobal.URLDownloadExcel/Invoice.xlsx" target="_blank">Download</a>
-                        </div>
-                    </div>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Ten'>Bước 02: Chọn file excel có dữ liệu: </label>
-                            @(Html.Kendo().Upload()
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <div class="row">
+                    <div class="input-field col s12 m12 l6">
+                        <h4 class="card-title">Doanh thu</h4>
+                        <form method="post" onsubmit="return BeginRequestHandler()" action='@Url.Action("UploadInvoiceBySQL", "Membership")'>
+                            <div class="input-field col s12">
+                                Bước 01: File excel mẫu:
+                                <a id="Download" href="@VNPT.Data.Helpers.AppGlobal.URLDownloadExcel/Invoice.xlsx" target="_blank">Download</a>
+                            </div>
+                            <div class="input-field col s12">
+                                Bước 02: Chọn file excel có dữ liệu:
+                                @(Html.Kendo().Upload()
                                   .Name("UploadInvoice")
-                            )
-                        </div>
-                    </div>
-                    <div class='col-sm-12'>
-                        <div class="row">
-                            <div class='col-sm-6'>
+                                )
+                            </div>
+                            <div class="input-field col s12 m12 l6">
                                 @(Html.Kendo().DropDownListFor(Model => Model.YearFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -34,7 +28,7 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetYearFinanceToList", "AppGlobal")))
                             )
                             </div>
-                            <div class='col-sm-6'>
+                            <div class="input-field col s12 m12 l6">
                                 @(Html.Kendo().DropDownListFor(Model => Model.MonthFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -42,48 +36,30 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMonthFinanceToList", "AppGlobal")))
                             )
                             </div>
-                        </div>
+                            <div class="input-field col s12">
+                                <button class="btn btn-primary">Upload doanh thu</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Upload'></label>
-                            <button class="btn btn-primary"><span class="fas fa-upload"></span> Upload doanh thu</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Upload - Khách hàng</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" onsubmit="return BeginRequestHandler()" action='@Url.Action("UploadCustomer", "Membership")'>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Download'>Bước 01: File excel mẫu: </label>
-                            <a href="@VNPT.Data.Helpers.AppGlobal.URLDownloadExcel/Customer.xlsx" target="_blank">Download</a>
-                        </div>
-                    </div>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Ten'>Bước 02: Chọn file excel có dữ liệu: </label>
-                            @(Html.Kendo().Upload()
+                    <div class="input-field col s12 m12 l6">
+                        <h4 class="card-title">Khách hàng</h4>
+                        <form method="post" onsubmit="return BeginRequestHandler()" action='@Url.Action("UploadCustomer", "Membership")'>
+                            <div class="input-field col s12">
+                                Bước 01: File excel mẫu:
+                                <a id="Download" href="@VNPT.Data.Helpers.AppGlobal.URLDownloadExcel/Customer.xlsx" target="_blank">Download</a>
+                            </div>
+                            <div class="input-field col s12">
+                                Bước 02: Chọn file excel có dữ liệu:
+                                @(Html.Kendo().Upload()
                                   .Name("UploadCustomer")
-                            )
-                        </div>
+                                )
+                            </div>                            
+                            <div class="input-field col s12">
+                                <button class="btn btn-primary">Upload khách hàng</button>
+                            </div>                          
+                        </form>
                     </div>
-                    <div class='col-sm-12'>
-                        <div class='form-group'>
-                            <label for='Upload'></label>
-                            <button class="btn btn-primary"><span class="fas fa-upload"></span> Upload Khách hàng</button>
-                        </div>
-                    </div>
-                </form>
-
+                </div>
             </div>
         </div>
     </div>
@@ -94,7 +70,5 @@
     .Position(p => p.Pinned(true).Top(30).Right(30))
     .Width(400)
 )
-
 <script>
-
 </script>

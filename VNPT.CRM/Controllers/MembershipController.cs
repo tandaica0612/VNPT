@@ -176,6 +176,16 @@ namespace VNPT.CRM.Controllers
             var data = _membershipRepository.GetMembershipDataTransferByParentIDToList(AppGlobal.DoanhNghiepID);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetDoanhNghiepAndSeachStringToList([DataSourceRequest] DataSourceRequest request, string searchString)
+        {
+            var data = _membershipRepository.GetParentIDAndSeachStringToList(AppGlobal.DoanhNghiepID, searchString);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetSQLDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetSQLByParentIDToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetByParentIDToList(AppGlobal.DoanhNghiepID);

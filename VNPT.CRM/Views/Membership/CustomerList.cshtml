@@ -6,22 +6,33 @@
         <div class="card card card-default scrollspy">
             <div class="card-content">
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 m6 l6">
+                        <input placeholder="Tìm..." id="SearchString" type="text" style="border-style:solid; border-color:#d6d6d6; border-width:1px; color:#000000;" class='btn border-round' />
+                    </div>
+                    <div class="col s12 m6 l2">
+                        <a onclick="onSearch()" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
+                    </div>
+                    <div class="col s12 m6 l2">
+                        <a href="/Membership/Upload" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">cloud_upload</i></a>
+                    </div>
+                    <div class="col s12 m6 l2">
+                        <a href="/Membership/CustomerDetail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                    </div>
+                    <br />
+                    <div class="col s12 m12 l12">
                         @(Html.Kendo().Grid<VNPT.Data.Models.Membership>()
 .Name("Membership")
 .Columns(columns =>
 {
 
-    columns.Template(@"<a href='/Membership/CustomerDetail/#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
+    columns.Template(@"<a href='/Membership/CustomerDetail?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
     columns.Bound(t => t.MembershipCode).Title("Mã khách hàng").Width(150);
     columns.Bound(t => t.TaxCode).Title("Mã số thuế").Width(150);
     columns.Bound(t => t.FullName).Title("Khách hàng").Width(700);
-    columns.Bound(t => t.Address).Title("Địa chỉ").Width(700);    
+    columns.Bound(t => t.Address).Title("Địa chỉ").Width(700);
     columns.Bound(t => t.ContactFullName).Title("Liên hệ").Width(200);
     columns.Bound(t => t.ContactPhone).Title("Điện thoại").Width(150);
 })
-.ToolBar(toolBar => toolBar.Search())
-
 .Editable(editable => editable.Mode(GridEditMode.InLine))
 .Sortable()
 .Scrollable()
@@ -46,7 +57,7 @@
 .FileName("Config.pdf")
 )
 .HtmlAttributes(new { @class = "KendoGrid" })
-.Search(search => { search.Field(f => f.TaxCode); search.Field(f => f.MembershipCode); search.Field(f => f.FullName); search.Field(f => f.Address); search.Field(f => f.Phone); })
+.Search(search => { search.Field(f => f.TaxCode); search.Field(f => f.MembershipCode); search.Field(f => f.FullName); search.Field(f => f.Address); search.Field(f => f.ContactPhone); })
 .DataSource(dataSource => dataSource
 .Ajax()
 .PageSize(100)
@@ -55,7 +66,7 @@
     model.Id(t => t.ID);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetDoanhNghiepToList", "Membership"))
+.Read(t => t.Action("GetDoanhNghiepAndSeachStringToList", "Membership").Data("filterMembership"))
 
 )
 )
@@ -81,5 +92,12 @@
             notification.show(note, messageType);
             $("#Membership").data("kendoGrid").dataSource.read();
         }
-    }   
+    }
+    function filterMembership(e) {
+        var searchStringValue = $("#SearchString").val();
+        return { searchString: searchStringValue };
+    }
+    function onSearch() {
+        $("#Membership").data("kendoGrid").dataSource.read();
+    }
 </script>

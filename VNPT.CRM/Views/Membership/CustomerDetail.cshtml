@@ -1,33 +1,48 @@
-﻿@{ ViewData["Title"] = "Thông tin khách hàng"; }
+﻿@{ ViewData["Title"] = Model.Membership.FullName + " - Thông tin khách hàng"; }
 
 @model VNPT.CRM.Models.BaseViewModel
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Thông tin khách hàng</h3>
-            </div>
-            <div class="card-body">
-                <form asp-action="SaveCustomer" asp-controller="Membership">
-                    @Html.HiddenFor(Model => Model.Membership.ID)
-                    @Html.HiddenFor(Model => Model.Membership.ParentID)
-                    <div class="row">
-                        <div class='col-md-10'>
-                        </div>
-                        <div class='col-md-1'>
-                            <button style="width:100%;" type="submit" title="Save" class="btn btn-primary">
-                                <span class="fas fa-save"></span>
-                            </button>
-                        </div>
-                        <div class='col-md-1'>
-                            <a asp-action="Customer" asp-controller="Membership" title="Danh sách" style="width:100%;" class="btn btn-info">
-                                <span class="fas fa-arrow-left"></span>
-                            </a>
+<form asp-action="SaveCustomer" asp-controller="Membership">
+    @Html.HiddenFor(Model => Model.Membership.ID)
+    @Html.HiddenFor(Model => Model.Membership.ParentID)
+    <div class="row">
+        <div class="col s12">
+            <div class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                @(Html.Kendo().DropDownList()
+                        .Name("Customer")
+                     .DataValueField("ID")
+                     .DataTextField("FullName")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:46px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLDoanhNghiepToList", "Membership")))
+                            )
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <ul class="tabs">
+                                    <li class="tab col s3">
+                                        <a onclick="onSearch()" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
+                                    </li>
+                                    <li class="tab col s3">
+                                        <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
+                                            <i class="material-icons">save</i>
+                                        </button>
+                                    </li>
+                                    <li class="tab col s3">
+                                        <a href="/Membership/CustomerDetail?ID=0" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                                    </li>
+                                    <li class="tab col s3">
+                                        <a href="/Membership/CustomerList" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">keyboard_backspace</i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='FullName'>Khách hàng</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.FullName, new { placeholder = "Khách hàng", @class = "form-control" }))
@@ -53,7 +68,7 @@
                                 @(Html.TextBoxFor(Model => Model.Membership.Address, new { placeholder = "Địa chỉ", @class = "form-control" }))
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='ContactFullName'>Liên hệ</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.ContactFullName, new { placeholder = "Liên hệ", @class = "form-control" }))
@@ -67,7 +82,7 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.Membership.CategoryID)
                      .DataValueField("ID")
                      .DataTextField("Title")
-                     .HtmlAttributes(new { @class = "form-control" })
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
                        .Filter(FilterType.Contains)
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCustomerTypeToList", "Config")))
                             )
@@ -78,7 +93,7 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.Membership.WardID)
                      .DataValueField("ID")
                      .DataTextField("Title")
-                     .HtmlAttributes(new { @class = "form-control" })
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
                        .Filter(FilterType.Contains)
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetWardToList", "Config")))
                             )
@@ -88,7 +103,7 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.Membership.CityID)
                      .DataValueField("ID")
                      .DataTextField("Title")
-                     .HtmlAttributes(new { @class = "form-control" })
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
                        .Filter(FilterType.Contains)
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCityToList", "Config")))
                             )
@@ -98,23 +113,25 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.Membership.ProvinceID)
                      .DataValueField("ID")
                      .DataTextField("Title")
-                     .HtmlAttributes(new { @class = "form-control" })
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
                        .Filter(FilterType.Contains)
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetProvinceToList", "Config")))
                             )
                             </div>
                         </div>
                     </div>
-                </form>
-                <br />
+                </div>
             </div>
         </div>
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Dịch vụ đăng ký</h3>
-            </div>
-            <div class="card-body">
-                @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.MembershipPropertyDataTransfer>()
+    </div>
+</form>
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <h4 class="card-title">Dịch vụ đăng ký</h4>
+                <div class="row">
+                    @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.MembershipPropertyDataTransfer>()
 .Name("MembershipPropertyDataTransfer")
 .Columns(columns =>
 {
@@ -170,15 +187,19 @@
 .Update(t => t.Action("Update", "MembershipProperty"))
 )
 )
+                </div>
             </div>
         </div>
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Hóa đơn phát sinh</h3>
-            </div>
-            <div class="card-body">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <h4 class="card-title">Doanh thu theo tháng</h4>
                 <div class="row">
-                    <div class='col-sm-2'>
+                    <div class="col s12 m4 l4">
                         @(Html.Kendo().DropDownListFor(Model => Model.YearFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -186,7 +207,7 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetYearFinanceToList", "AppGlobal")))
                             )
                     </div>
-                    <div class='col-sm-2'>
+                    <div class="col s12 m4 l4">
                         @(Html.Kendo().DropDownListFor(Model => Model.MonthFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -194,14 +215,13 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMonthFinanceToList", "AppGlobal")))
                             )
                     </div>
-                    <div class='col-sm-1'>
-                        <button style="width:100%;" title="Tìm kiếm" class="btn btn-success" onclick="onSearchInvoicePropertyDataTransfer()">
-                            <span class="fas fa-search"></span>
-                        </button>
+                    <div class="col s12 m4 l4">
+                        <a onclick="onSearchInvoicePropertyDataTransfer()" style="" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
                     </div>
-                </div>
-                <br />
-                @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.InvoicePropertyDataTransfer>()
+                    <br />
+                    <br />
+                    <div class="col s12 m12 l12">
+                        @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.InvoicePropertyDataTransfer>()
 .Name("InvoicePropertyDataTransfer")
 .Columns(columns =>
 {
@@ -251,13 +271,12 @@
 .Read(t => t.Action("GetDataTransferProductByMembershipIDAndYearAndMonthToList", "InvoiceProperty").Data("filterInvoicePropertyDataTransfer"))
 )
 )
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 @(Html.Kendo().Notification()
     .Name("Notification")
@@ -288,5 +307,10 @@
     }
     function onSearchInvoicePropertyDataTransfer() {
         $("#InvoicePropertyDataTransfer").data("kendoGrid").dataSource.read();
+    }
+    function onSearch() {
+        var IDValue = $("#Customer").data("kendoDropDownList").value();
+        var url = "/Membership/CustomerDetail?ID=" + IDValue;
+        window.location.replace(url);
     }
 </script>
