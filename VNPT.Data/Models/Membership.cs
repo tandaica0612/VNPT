@@ -26,6 +26,7 @@ namespace VNPT.Data.Models
         public string ContactFullName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
+        public string Image { get; set; }
         public void InitDefaultValue()
         {
             if (string.IsNullOrEmpty(this.GUICode))

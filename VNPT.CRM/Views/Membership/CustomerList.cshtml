@@ -13,12 +13,11 @@
                         <a onclick="onSearch()" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
                     </div>
                     <div class="col s12 m6 l2">
-                        <a href="/Membership/Upload" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">cloud_upload</i></a>
+                        <a href="/Membership/Upload" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">file_upload</i></a>
                     </div>
                     <div class="col s12 m6 l2">
-                        <a href="/Membership/CustomerDetail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                        <a href="/Membership/CustomerDetail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">person_add</i></a>
                     </div>
-                    <br />
                     <div class="col s12 m12 l12">
                         @(Html.Kendo().Grid<VNPT.Data.Models.Membership>()
 .Name("Membership")

@@ -93,7 +93,16 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
-        public IActionResult EmployeeDetail()
+        public IActionResult EmployeeDetail(int ID)
+        {
+            Membership model = new Membership();
+            if (ID > 0)
+            {
+                model = _membershipRepository.GetByID(ID);
+            }
+            return View(model);
+        }
+        public IActionResult EmployeeInfo()
         {
             Membership model = new Membership();
             if (this.RequestUserID > 0)
@@ -247,6 +256,24 @@ namespace VNPT.CRM.Controllers
         [AcceptVerbs("Post")]
         public IActionResult SaveEmployee(Membership model)
         {
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if (file != null)
+                {
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    fileName = AppGlobal.SetName(fileName);
+                    fileName = model.Phone + fileExtension;
+                    var physicalPath = Path.Combine(_hostingEnvironment.WebRootPath, "images/Membership", fileName);
+                    using (var stream = new FileStream(physicalPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                        model.Image = fileName;
+                    }
+                }
+            }
+            
             if (model.ID > 0)
             {
                 Initialization(model, 1);

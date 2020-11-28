@@ -1,41 +1,38 @@
 ﻿@{ ViewData["Title"] = Model.TieuDe + " - Chi tiết"; }
 
 @model VNPT.Data.Models.PhieuYeuCau
-
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
-                    @Html.HiddenFor(Model => Model.ID)
-                    <div class="row">
-                        <div class='col-md-8'>
-
-                        </div>
-                        <div class='col-md-1'>
-                            <button style="width:100%;" type="submit" title="Lưu thay đổi" class="btn btn-primary">
-                                <span class="fas fa-save"></span>
-                            </button>
-                        </div>
-                        <div class='col-md-1'>
-                            <a asp-route-ID="@Model.ID" asp-action="Info" asp-controller="PhieuYeuCau" title="Nội dung" style="width:100%;" class="btn btn-success">
-                                <span class="fas fa-eye"></span>
-                            </a>
-                        </div>
-                        <div class='col-md-1'>
-                            <a asp-route-ID="0" asp-action="Detail" asp-controller="PhieuYeuCau" title="Nội dung" style="width:100%;" class="btn btn-success">
-                                <span class="fas fa-plus"></span>
-                            </a>
-                        </div>
-                        <div class='col-md-1'>
-                            <a asp-action="DanhSach" asp-controller="PhieuYeuCau" title="Phiếu yêu cầu" style="width:100%;" class="btn btn-info">
-                                <span class="fas fa-arrow-left"></span>
-                            </a>
+<form method="post" enctype="multipart/form-data" asp-action="SavePhieuYeuCau" asp-controller="PhieuYeuCau">
+    @Html.HiddenFor(Model => Model.ID)
+    <div class="row">
+        <div class="col s12">
+            <div class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <ul class="tabs">
+                                    <li class="tab col s3">
+                                        <a href="/PhieuYeuCau/DanhSach" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">keyboard_backspace</i></a>                                       
+                                    </li>
+                                    <li class="tab col s3">
+                                        <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
+                                            <i class="material-icons">save</i>
+                                        </button>
+                                    </li>
+                                    <li class="tab col s3">                                        
+                                        <a target="_blank" href="/PhieuYeuCau/Info?ID=@Model.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
+                                    </li>
+                                    <li class="tab col s3">
+                                        <a href="/PhieuYeuCau/Detail?ID=0" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='TieuDe'>Phiếu yêu cầu</label>
                                 @(Html.TextBoxFor(Model => Model.TieuDe, new { placeholder = "Phiếu yêu cầu", @class = "form-control" }))
@@ -52,25 +49,25 @@
                                 <label for='TaxCode'>Mã số thuế</label>
                                 @(Html.TextBoxFor(Model => Model.TaxCode, new { placeholder = "Mã số thuế", @class = "form-control" }))
                             </div>
-                           
+
                             <div class='form-group'>
                                 <label for='DaGui'>Trạng thái</label>
                                 <br />
                                 @(Html.CheckBoxFor(Model => Model.DaGui.Value, new { placeholder = "Đã gửi" }))
-                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Đã gửi</p>
+                                <span>Đã gửi</span>                                
                                 @(Html.CheckBoxFor(Model => Model.DangXuLy.Value, new { placeholder = "Đang xử lý" }))
-                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Đang xử lý</p>
+                            <span>Đang xử lý</span>
                                 @(Html.CheckBoxFor(Model => Model.HoanThanh.Value, new { placeholder = "Hoàn thành" }))
-                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Hoàn thành</p>
+                            <span>Hoàn thành</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='ProductID'>Dịch vụ</label>
                                 @(Html.Kendo().DropDownListFor(Model => Model.ProductID)
                                    .DataValueField("ID")
                                    .DataTextField("Title")
-                                   .HtmlAttributes(new {@class = "form-control" })
+                                   .HtmlAttributes(new {@class = "form-control", @style = "height:50px;" })
                                     .Filter(FilterType.Contains)
                                    .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetProductToList", "Config")))
                                     )
@@ -80,7 +77,7 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.NguoiNhanID)
                                    .DataValueField("ID")
                                    .DataTextField("FullName")
-                                   .HtmlAttributes(new {@class = "form-control" })
+                                   .HtmlAttributes(new {@class = "form-control", @style = "height:50px;" })
                                     .Filter(FilterType.Contains)
                                    .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNhanVienToList", "Membership")))
                                     )
@@ -90,7 +87,7 @@
                                 @(Html.Kendo().DropDownListFor(Model => Model.KhachHangID)
                                    .DataValueField("ID")
                                    .DataTextField("FullName")
-                                   .HtmlAttributes(new {@class = "form-control" })
+                                   .HtmlAttributes(new {@class = "form-control", @style = "height:50px;" })
                                     .Filter(FilterType.Contains)
                                    .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMembershipDataTransferKhachHangToList", "Membership")))
                                     )
@@ -104,15 +101,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class='form-group'>
-                            <label for='Data'>File đính kèm</label>
-                            <div id="Data"></div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class='form-group'>
+                                <label for='Data'>File đính kèm</label>
+                                <div id="Data"></div>
+                            </div>
                         </div>
-
                     </div>
-                    <div class="row mt-1">
-                        <div class="col-md-12" style="width:100%;">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
                             @Html.TextAreaFor(Model => Model.NoiDung)
 
                             <script src="/ckeditor/ckeditor.js"></script>
@@ -127,14 +125,11 @@
                                 });</script>
                         </div>
                     </div>
-                </form>
-                
+                </div>
             </div>
         </div>
-
     </div>
-</div>
-
+</form>
 
 @(Html.Kendo().Notification()
     .Name("Notification")

@@ -115,6 +115,16 @@ namespace VNPT.CRM.Controllers
             var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList(year, month, daGui, dangXuLy, hoanThanh);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetByYearAndMonthDoKhachHangGuiToList([DataSourceRequest] DataSourceRequest request, int year, int month)
+        {
+            var data = _phieuYeuCauRepository.GetByYearAndMonthDoKhachHangGuiToList(year, month);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetByYearAndMonthAndNguoiTaoIDToList([DataSourceRequest] DataSourceRequest request, int year, int month)
+        {
+            var data = _phieuYeuCauRepository.GetByYearAndMonthAndNguoiTaoIDToList(year, month, RequestUserID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList([DataSourceRequest] DataSourceRequest request, int year, int month, bool daGui, bool dangXuLy, bool hoanThanh)
         {
             var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList(year, month, daGui, dangXuLy, hoanThanh, RequestUserID);

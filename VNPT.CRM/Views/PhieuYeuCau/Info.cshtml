@@ -2,99 +2,122 @@
 
 @model VNPT.CRM.Models.PhieuYeuCauViewModel
 
+
 <div class="row">
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">@Model.PhieuYeuCauDataTransfer.TieuDe - @Model.PhieuYeuCauDataTransfer.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss")</h3>
-            </div>
-            <div class="card-body">
+    <div class="col s12">
+        <div class="card card-tabs">
+            <div class="card-content">
+                <div class="card-title">
+                    <div class="row">
+                        <div class="col s12 m6 l6">
+                            <h5>@Model.PhieuYeuCauDataTransfer.TieuDe - @Model.PhieuYeuCauDataTransfer.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss")</h5>
+                        </div>
+                        <div class="col s12 m6 l6">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
                             <label for='NguoiTao' style="font-weight:unset;">Người tạo: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.NguoiTao</b>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
                             <label for='DienThoai' style="font-weight:unset;">Điện thoại: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.DienThoai</b>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
                             <label for='TaxCode' style="font-weight:unset;">Mã số thuế: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.TaxCode</b>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
                             <label for='NguoiNhan' style="font-weight:unset;">Người nhận: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.NguoiNhan</b>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
                             <label for='ProductName' style="font-weight:unset;">Dịch vụ: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.ProductName</b>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col s12 m4 l4">
                         <div class='form-group'>
-                            <label for='DangXuLy'>Đang xử lý: </label>
-                            @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.DangXuLy.Value, new { placeholder = "Đã gửi", disabled= "disabled" }))
-                            <label for='HoanThanh'>Hoàn thành: </label>
-                            @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.HoanThanh.Value, new { placeholder = "Đã gửi", disabled= "disabled" }))
+                            @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.DangXuLy.Value, new { placeholder = "Đã gửi" }))
+                            <span>Đang xử lý</span>
+                            @(Html.CheckBoxFor(Model => Model.PhieuYeuCauDataTransfer.HoanThanh.Value, new { placeholder = "Đã gửi" }))
+                            <span>Hoàn thành</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col s12 m12 l12">
                         <div class='form-group'>
                             <label for='KhachHang' style="font-weight:unset;">Khách hàng: </label>
                             <b>@Model.PhieuYeuCauDataTransfer.KhachHang</b>
                         </div>
                     </div>
-                </div>                
-                <div class="col-md-12">
-                    @{ int no = 0;
-                                    foreach (VNPT.Data.DataTransferObject.PhieuYeuCau_ThuocTinhDataTransfer item in Model.ListPhieuYeuCau_ThuocTinhDataTransferBinhLuan)
+                    <div class="col s12 m12 l12">
+                        @{ int no = 0;
+                            foreach (VNPT.Data.DataTransferObject.PhieuYeuCau_ThuocTinhDataTransfer item in Model.ListPhieuYeuCau_ThuocTinhDataTransferBinhLuan)
+                            {
+                                @Html.Raw("<hr />");
+                                if (no > 0)
+                                {
+                                    @Html.Raw("<h5><b>" + item.NguoiTao + " - " + item.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss") + "</b></h5>");
+                                }
+                                no = no + 1;
+                                foreach (VNPT.Data.DataTransferObject.PhieuYeuCau_ThuocTinhDataTransfer itemDinhKem in Model.ListPhieuYeuCau_ThuocTinhDataTransferDinhKem)
+                                {
+                                    if (itemDinhKem.ParentID == item.ID)
                                     {
-                                        @Html.Raw("<hr />");
-                                        if (no > 0)
-                                        {
-                                            @Html.Raw("<h5><b>" + item.NguoiTao + " - " + item.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss") + "</b></h5>");
-                                        }
-                                        no = no + 1;
-                                        foreach (VNPT.Data.DataTransferObject.PhieuYeuCau_ThuocTinhDataTransfer itemDinhKem in Model.ListPhieuYeuCau_ThuocTinhDataTransferDinhKem)
-                                        {
-                                            if (itemDinhKem.ParentID==item.ID)
-                                            {
-                                                @Html.Raw("<a target='_blank' href='" + itemDinhKem.URL + "' title='" + itemDinhKem.URL + "'>" + itemDinhKem.Title + "</a> | ");
-                                            }
-                                        }
-                                        @Html.Raw(item.Title);
+                                        @Html.Raw("<a target='_blank' href='" + itemDinhKem.URL + "' title='" + itemDinhKem.URL + "'>" + itemDinhKem.Title + "</a> | ");
                                     }
-                    }
-                </div>                
+                                }
+                                @Html.Raw(item.Title);
+                            }
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card card-primary">
-            <div class="card-body">
-                <form asp-action="SavePhieuYeuCau_ThuocTinh" asp-controller="PhieuYeuCau">
-                    @Html.HiddenFor(Model => Model.PhieuYeuCau_ThuocTinhDataTransfer.PhieuYeuCauID)
-                    @Html.HiddenFor(Model => Model.PhieuYeuCauDataTransfer.TieuDe)
-                    @Html.HiddenFor(Model => Model.PhieuYeuCauDataTransfer.ID)
-                    <div class="row">
-                        <div class='col-md-11'>
-                        </div>
-                        <div class='col-md-1'>
-                            <button style="width:100%;" type="submit" title="Lưu thay đổi" class="btn btn-primary">
-                                <span class="fas fa-save"></span>
-                            </button>
+    </div>
+</div>
+<form asp-action="SavePhieuYeuCau_ThuocTinh" asp-controller="PhieuYeuCau">
+    @Html.HiddenFor(Model => Model.PhieuYeuCau_ThuocTinhDataTransfer.PhieuYeuCauID)
+    @Html.HiddenFor(Model => Model.PhieuYeuCauDataTransfer.TieuDe)
+    @Html.HiddenFor(Model => Model.PhieuYeuCauDataTransfer.ID)
+    <div class="row">
+        <div class="col s12">
+            <div class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <ul class="tabs">
+                                    <li class="tab col s3">
+                                    </li>
+                                    <li class="tab col s3">
+                                    </li>
+                                    <li class="tab col s3">
+                                    </li>
+                                    <li class="tab col s3">
+                                        <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
+                                            <i class="material-icons">save</i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='Upload'>Upload file đính kèm</label>
                                 @(Html.Kendo().Upload()
@@ -103,19 +126,20 @@
                                 )
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='DaGui'>Trạng thái</label>
                                 <br />
                                 @(Html.CheckBoxFor(Model => Model.PhieuYeuCau_ThuocTinhDataTransfer.DangXuLy001, new { placeholder = "Đang xử lý" }))
-                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Đang xử lý</p>
+                                <span>Đang xử lý</span>                                
                                 @(Html.CheckBoxFor(Model => Model.PhieuYeuCau_ThuocTinhDataTransfer.HoanThanh001, new { placeholder = "Hoàn thành" }))
-                                <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px; padding-left:10px;">Hoàn thành</p>
+                                <span>Hoàn thành</span>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-1">
-                        <div class="col-md-12" style="width:100%;">
+
+                    <div class="row">
+                        <div class="col s12 m12 l12">
                             @Html.TextAreaFor(Model => Model.PhieuYeuCau_ThuocTinhDataTransfer.Title)
                             <script src="/ckeditor/ckeditor.js"></script>
                             <script src="/ckeditor/adapters/jquery.js"></script>
@@ -129,11 +153,13 @@
                                 });</script>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+
+
 
 @(Html.Kendo().Notification()
     .Name("Notification")

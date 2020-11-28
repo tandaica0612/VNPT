@@ -2,15 +2,13 @@
 
 @model VNPT.CRM.Models.BaseViewModel
 
+
 <div class="row">
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Phiếu yêu cầu</h3>
-            </div>
-            <div class="card-body">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
                 <div class="row">
-                    <div class='col-sm-2'>
+                    <div class="col s12 m6 l2">
                         @(Html.Kendo().DropDownListFor(Model => Model.YearFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -18,7 +16,7 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetYearFinanceToList", "AppGlobal")))
                             )
                     </div>
-                    <div class='col-sm-2'>
+                    <div class="col s12 m6 l2">
                         @(Html.Kendo().DropDownListFor(Model => Model.MonthFinance)
                      .DataValueField("Display")
                      .DataTextField("Display")
@@ -26,36 +24,20 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMonthFinanceToList", "AppGlobal")))
                             )
                     </div>
-                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
-                        <input id="DaGui" type="checkbox" checked="checked" />
-                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Đã gửi</p>
+                    <div class="col s12 m6 l2">
+                        <a onclick="onSearch()" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
                     </div>
-                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
-                        <input id="DangXuLy" type="checkbox" checked="checked" />
-                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Đang xử lý</p>
+                    <div class="col s12 m6 l2">
+                        <a asp-route-ID="0" asp-action="Detail" asp-controller="PhieuYeuCau" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
                     </div>
-                    <div class='col-sm-2' style="display:flex; justify-content:start; align-items:center;">
-                        <input id="HoanThanh" type="checkbox" checked="checked" />
-                        <p style="display:inline-block; font-size:14px; font-weight:bold; margin:0; padding-left:10px;">Hoàn thành</p>
-                    </div>
-                    <div class='col-sm-1'>
-                        <button type="button" class="btn btn-success" onclick="onSearch()">
-                            <span class="fas fa-search"></span>
-                        </button>
-                    </div>
-                    <div class='col-sm-1'>
-                        <a asp-route-ID="0" asp-action="Detail" asp-controller="PhieuYeuCau" class="btn btn-success"><i class="fas fa-plus"></i></a>
-                    </div>
-                </div>
-                <br />
-                @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.PhieuYeuCauDataTransfer>()
+                    <div class="col s12 m12 l12">
+                        @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.PhieuYeuCauDataTransfer>()
 .Name("PhieuYeuCau")
 .Columns(columns =>
 {
     columns.Command(command => { command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(70);
-    columns.Template(@"<a href='/PhieuYeuCau/Detail?ID=#=ID#' class='btn btn-success' style='color:white;'><i class='fas fa-edit'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
-    columns.Template(@"<a href='/PhieuYeuCau/Info?ID=#=ID#' class='btn btn-success' style='color:white;'><i class='fas fa-eye'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
-
+    columns.Template(@"<a target='_blank' href='/PhieuYeuCau/Detail?ID=#=ID#' style='color: blue;'><i class='material-icons'>border_color</i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+    columns.Template(@"<a target='_blank' href='/PhieuYeuCau/Info?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
     columns.Bound(t => t.DaGui).Title("Đã gửi").Width(120);
     columns.Bound(t => t.DangXuLy).Title("Đang xử lý").Width(120);
     columns.Bound(t => t.HoanThanh).Title("Hoàn thành").Width(120);
@@ -102,41 +84,42 @@
     model.Field(t => t.ID).Editable(false);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList", "PhieuYeuCau").Data("filterPhieuYeuCau"))
+.Read(t => t.Action("GetByYearAndMonthDoKhachHangGuiToList", "PhieuYeuCau").Data("filterPhieuYeuCau"))
 .Destroy(t => t.Action("Delete", "PhieuYeuCau"))
 )
 )
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-    @(Html.Kendo().Notification()
+
+
+@(Html.Kendo().Notification()
     .Name("Notification")
     .Position(p => p.Pinned(true).Top(30).Right(30))
     .Width(400)
 )
 
-    <script>
-        function onGridRequestEnd(e) {
-            if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
-                var response = e.response;
-                var messageType = response.split('-')[0];
-                var note = response.split('-')[1];
-                var notification = $("#Notification").data("kendoNotification");
-                notification.show(note, messageType);
-                $("#PhieuYeuCau").data("kendoGrid").dataSource.read();
-            }
-        }
-        function filterPhieuYeuCau(e) {
-            var yearValue = $("#YearFinance").data("kendoDropDownList").value();
-            var monthValue = $("#MonthFinance").data("kendoDropDownList").value();
-            var daGuiValue = document.getElementById("DaGui").checked;
-            var dangXuLyValue = document.getElementById("DangXuLy").checked;
-            var hoanThanhValue = document.getElementById("HoanThanh").checked;           
-            return { year: yearValue, month: monthValue, daGui: daGuiValue, dangXuLy: dangXuLyValue, hoanThanh: hoanThanhValue };
-        }
-        function onSearch() {
+<script>
+    function onGridRequestEnd(e) {
+        if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+            var response = e.response;
+            var messageType = response.split('-')[0];
+            var note = response.split('-')[1];
+            var notification = $("#Notification").data("kendoNotification");
+            notification.show(note, messageType);
             $("#PhieuYeuCau").data("kendoGrid").dataSource.read();
         }
-    </script>
+    }
+    function filterPhieuYeuCau(e) {
+        var yearValue = $("#YearFinance").data("kendoDropDownList").value();
+        var monthValue = $("#MonthFinance").data("kendoDropDownList").value();    
+        return { year: yearValue, month: monthValue};
+    }
+    function onSearch() {
+        $("#PhieuYeuCau").data("kendoGrid").dataSource.read();
+    }
+</script>

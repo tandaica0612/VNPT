@@ -12,5 +12,7 @@ namespace VNPT.Data.Repositories
         public PhieuYeuCauDataTransfer GetPhieuYeuCauDataTransferByID(int ID);
         public List<PhieuYeuCauDataTransfer> GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList(int year, int month, bool daGui, bool dangXuLy, bool hoanThanh, int nguoiTaoID);
         public List<PhieuYeuCauDataTransfer> GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndProductIDAndActionToList(int year, int month, bool daGui, bool dangXuLy, bool hoanThanh, int productID, int action);
+        public List<PhieuYeuCauDataTransfer> GetByYearAndMonthAndNguoiTaoIDToList(int year, int month, int nguoiTaoID);
+        public List<PhieuYeuCau> GetByYearAndMonthDoKhachHangGuiToList(int year, int month);
     }
 }

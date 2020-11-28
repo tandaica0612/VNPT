@@ -12,16 +12,14 @@
     <meta name="author" content="@VNPT.Data.Helpers.AppGlobal.Title">
     <link rel="apple-touch-icon" href="@VNPT.Data.Helpers.AppGlobal.LogoURLFull">
     <link rel="shortcut icon" type="image/x-icon" href="@VNPT.Data.Helpers.AppGlobal.LogoURLFull">
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="/AdminLTE_3_0_5/plugins/fontawesome-free/css/all.min.css">    
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-menu-nav-dark-template/materialize.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-menu-nav-dark-template/style.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/custom/custom.css">
-
-
-
     <link href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2020.2.617/js/jszip.min.js"></script>
@@ -32,7 +30,7 @@
         .k-grid-header a.k-link {
             text-align: center;
             color: blue;
-            font-weight:bold;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -67,13 +65,59 @@
         <div class="brand-sidebar">
             <h1 class="logo-wrapper"><a class="brand-logo darken-1" href="#"><img src="@VNPT.Data.Helpers.AppGlobal.LogoURLFull" alt="@VNPT.Data.Helpers.AppGlobal.Title" /><span class="logo-text hide-on-med-and-down">VNPT</span></a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a></h1>
         </div>
-       
+
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+            <li class="navigation-header">
+                <a class="navigation-header-text">Phiếu yêu cầu</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/PhieuYeuCau/DanhSachDoKhachHangGui"><i class="material-icons">contact_mail</i><span class="menu-title" data-i18n="">Khách hàng</span></a>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/PhieuYeuCau/DanhSach"><i class="material-icons">description</i><span class="menu-title" data-i18n="">Nhân viên</span></a>
             <li class="navigation-header">
                 <a class="navigation-header-text">Khách hàng</a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
-            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/CustomerList"><i class="material-icons">assignment_ind</i><span class="menu-title" data-i18n="">Khách hàng</span></a>
-            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/Upload"><i class="material-icons">cloud_upload</i><span class="menu-title" data-i18n="">Upload</span></a>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/CustomerList"><i class="material-icons">assignment_ind</i><span class="menu-title" data-i18n="">Danh sách</span></a>
+            <li class="navigation-header">
+                <a class="navigation-header-text">Nhân viên</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/Employee"><i class="material-icons">people</i><span class="menu-title" data-i18n="">Danh sách</span></a>
+            <li class="navigation-header">
+                <a class="navigation-header-text">Hệ thống</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="/Config/MembershipType"><i class="material-icons">settings</i><span class="menu-title" data-i18n="">Danh mục thành viên</span></a>
+                @*<li class="bold">
+                <a class="collapsible-header waves-effect waves-cyan " href="#"><i class="material-icons">settings</i><span class="menu-title" data-i18n="">Hệ thống</span></a>
+                <div class="collapsible-body">
+                    <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                        <li>
+                            <a class="collapsible-body" href="/Config/MembershipType"><i class="material-icons">radio_button_unchecked</i>Danh mục thành viên</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/LoaiBaiViet"><i class="material-icons">radio_button_unchecked</i>Danh mục bài viết</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/Product"><i class="material-icons">radio_button_unchecked</i>Danh mục dịch vụ</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/Unit"><i class="material-icons">radio_button_unchecked</i>Danh mục đơn vị tính</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/Province"><i class="material-icons">radio_button_unchecked</i>Danh mục tỉnh</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/City"><i class="material-icons">radio_button_unchecked</i>Danh mục huyện</a>
+                        </li>
+                        <li>
+                            <a class="collapsible-body" href="/Config/Ward"><i class="material-icons">radio_button_unchecked</i>Danh mục xã</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>*@
+            <li class="navigation-header">
+                <a class="navigation-header-text">Tài khoản</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/Membership/EmployeeInfo"><i class="material-icons">verified_user</i><span class="menu-title" data-i18n="">Thông tin</span></a>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/Home/Index"><i class="material-icons">power_settings_new</i><span class="menu-title" data-i18n="">Thoát</span></a>
         </ul>
         <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
     </aside>
@@ -89,9 +133,6 @@
             </div>
         </div>
     </div>
-    @*<script src="/app-assets/js/vendors.min.js" type="text/javascript"></script>
-        <script src="/app-assets/js/plugins.js" type="text/javascript"></script>
-        <script src="/app-assets/js/custom/custom-script.js" type="text/javascript"></script>*@
     <script src="/AdminLTE_3_0_5/dist/js/adminlte.min.js"></script>
     <script src="/AdminLTE_3_0_5/dist/js/demo.js"></script>
     <script src="/js/site.js"></script>
@@ -101,7 +142,7 @@
             tag.addClass('active');
 
             var tag01 = tag.parent('li');
-            tag01.addClass('active');           
+            tag01.addClass('active');
         }
         jQuery(function ($) {
             setMenuLeftActive();

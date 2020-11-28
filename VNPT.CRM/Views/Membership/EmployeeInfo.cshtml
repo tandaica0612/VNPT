@@ -1,7 +1,7 @@
 ﻿@{ ViewData["Title"] = Model.FullName + " - Thông tin nhân viên"; }
 
 @model VNPT.Data.Models.Membership
-<div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">
+<div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">    
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12 breadcrumbs-left">
@@ -38,30 +38,20 @@
                     <div class="card-title">
                         <div class="row">
                             <div class="col s12 m6 l6">
-                                @(Html.Kendo().DropDownList()
-                        .Name("Customer")
-                     .DataValueField("ID")
-                     .DataTextField("FullName")
-                     .HtmlAttributes(new { @class = "form-control", @style = "height:46px;" })
-                       .Filter(FilterType.Contains)
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNhanVienToList", "Membership")))
-                            )
                             </div>
                             <div class="col s12 m6 l6">
                                 <ul class="tabs">
                                     <li class="tab col s3">
-                                        <a onclick="onSearch()" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">search</i></a>
+                                    </li>
+                                    <li class="tab col s3">
+
+                                    </li>
+                                    <li class="tab col s3">
                                     </li>
                                     <li class="tab col s3">
                                         <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
                                             <i class="material-icons">save</i>
                                         </button>
-                                    </li>
-                                    <li class="tab col s3">
-                                        <a href="/Membership/EmployeeDetail?ID=0" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">person_add</i></a>
-                                    </li>
-                                    <li class="tab col s3">
-                                        <a href="/Membership/Employee" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">keyboard_backspace</i></a>
                                     </li>
                                 </ul>
                             </div>
