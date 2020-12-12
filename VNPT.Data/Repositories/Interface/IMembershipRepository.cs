@@ -21,6 +21,7 @@ namespace VNPT.Data.Repositories
         public string UploadInvoiceByYearAndMonth(int requestUserID, int year, int month, string taxCode, string paymentCode, string productCode, string productName, string groupName, string code, decimal valueContract);
         public List<Membership> GetParentIDAndSeachStringToList(int parentID, string searchString);
         public List<MembershipDataTransfer> GetSQLByParentIDToList(int parentID);
+        public List<MembershipDataTransfer> GetSQLMembershipDataTransferByParentID001ToList(int parentID);
 
     }
 }

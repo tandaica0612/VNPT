@@ -156,6 +156,23 @@ namespace VNPT.CRM.Controllers
             viewModel.Membership.ParentID = AppGlobal.DoanhNghiepID;
             return View(viewModel);
         }
+        public IActionResult CustomerDetail001(int ID)
+        {
+            BaseViewModel viewModel = new BaseViewModel();
+            viewModel.YearFinance = DateTime.Now.Year;
+            viewModel.MonthFinance = DateTime.Now.Month;
+            viewModel.Membership = new Membership();
+            if (ID > 0)
+            {
+                viewModel.Membership = _membershipRepository.GetByID(ID);
+            }
+            if (viewModel.Membership == null)
+            {
+                viewModel.Membership = new Membership();
+            }
+            viewModel.Membership.ParentID = AppGlobal.DoanhNghiepID;
+            return View(viewModel);
+        }
         public IActionResult CustomerDetailWithWindow(int ID)
         {
             BaseViewModel viewModel = new BaseViewModel();
@@ -180,6 +197,15 @@ namespace VNPT.CRM.Controllers
             viewModel.MonthFinance = DateTime.Now.Month;
             return View(viewModel);
         }
+        public Membership GetByID(int ID)
+        {
+            Membership model = new Membership();
+            if (ID > 0)
+            {
+                model = _membershipRepository.GetByID(ID);
+            }
+            return model;
+        }
         public ActionResult GetMembershipDataTransferKhachHangToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetMembershipDataTransferByParentIDToList(AppGlobal.DoanhNghiepID);
@@ -193,6 +219,11 @@ namespace VNPT.CRM.Controllers
         public ActionResult GetSQLDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetSQLByParentIDToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetSQLDoanhNghiep001ToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetSQLMembershipDataTransferByParentID001ToList(AppGlobal.DoanhNghiepID);
             return Json(data.ToDataSourceResult(request));
         }
         public ActionResult GetDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
@@ -273,7 +304,7 @@ namespace VNPT.CRM.Controllers
                     }
                 }
             }
-            
+
             if (model.ID > 0)
             {
                 Initialization(model, 1);

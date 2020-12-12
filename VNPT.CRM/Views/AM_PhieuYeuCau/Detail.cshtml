@@ -1,0 +1,298 @@
+﻿@{ ViewData["Title"] = Model.AM_PhieuYeuCau.TieuDe + " - Phiếu AM"; }
+
+@model VNPT.CRM.Models.AM_PhieuYeuCauViewModel
+<form method="post" enctype="multipart/form-data" asp-action="Save" asp-controller="AM_PhieuYeuCau">
+    @Html.HiddenFor(Model => Model.AM_PhieuYeuCau.ID)
+    <div class="row">
+        <div class="col s12">
+            <div class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                @Model.AM_PhieuYeuCau.TieuDe - Phiếu AM
+                            </div>
+                            <div class="col s12 m6 l6">
+                                <ul class="tabs">
+                                    <li class="tab col s6">
+                                    </li>
+                                    <li class="tab col s3">
+                                        <a target="_blank" href="/AM_PhieuYeuCau/Info?ID=@Model.AM_PhieuYeuCau.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
+                                    </li>
+                                    <li class="tab col s3">
+                                        <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
+                                            <i class="material-icons">save</i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5>Thông tin khách hàng</h5>
+                    <div class="row">
+                        <div class="col s12 m6 l4">
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_KhachHangID'>Tìm khách hàng</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.KhachHangID)
+                     .DataValueField("ID")
+                     .DataTextField("FullName")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:46px;" })
+                     .Events(e => e.Change("onKhachHangChange"))
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLDoanhNghiep001ToList", "Membership")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='FullName'>Khách hàng</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.FullName, new { placeholder = "Khách hàng", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='TaxCode'>Mã số thuế</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.TaxCode, new { placeholder = "Mã số thuế", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='MembershipCode'>Mã khách hàng</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.MembershipCode, new { placeholder = "Mã khách hàng", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Phone'>Điện thoại</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.Phone, new { placeholder = "Điện thoại", @class = "form-control" }))
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l4">
+                            <div class='form-group'>
+                                <label for='Address'>Địa chỉ</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.Address, new { placeholder = "Địa chỉ", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Email'>Email</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.Email, new { placeholder = "Email", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactFullName'>Liên hệ</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.ContactFullName, new { placeholder = "Liên hệ", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Điện thoại liên hệ</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.ContactPhone, new { placeholder = "Điện thoại liên hệ", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='NganHang_SoTaiKhoan'>Số tài khoản ngân hàng</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.NganHang_SoTaiKhoan, new { placeholder = "Số tài khoản ngân hàng", @class = "form-control" }))
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l4">
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Ngân hàng</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.NganHangID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNganHangToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Ngành nghề</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.CategoryID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCustomerTypeToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Phường, xã, thị trấn</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.WardID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetWardToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Thành phố, huyện, thị xã</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.CityID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCityToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Tỉnh</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.ProvinceID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetProvinceToList", "Config")))
+                            )
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5>Phiếu AM</h5>
+                    <div class="row">
+                        <div class="col s12 m6 l4">
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_TieuDe'>Yêu cầu</label>
+                                @(Html.TextBoxFor(Model => Model.AM_PhieuYeuCau.TieuDe, new { placeholder = "Yêu cầu", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_SoLuongHoaDon'>Số lượng hóa đơn</label>
+                                @(Html.TextBoxFor(Model => Model.AM_PhieuYeuCau.SoLuongHoaDon, new { placeholder = "Số lượng hóa đơn", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_KyHieu'>Ký hiệu</label>
+                                @(Html.TextBoxFor(Model => Model.AM_PhieuYeuCau.KyHieu, new { placeholder = "Ký hiệu", @class = "form-control" }))
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l4">
+
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_MauHoaDonID'>Mẫu hóa đơn</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.MauHoaDonID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetAMMauHoaDonToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_MauSoID'>Mẫu số</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.MauSoID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetAMMauSoToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_HeThongID'>Hệ thống</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.HeThongID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetAMHeThongToList", "Config")))
+                            )
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l4">
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_NgonNguID'>Ngôn ngữ</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.NgonNguID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetAMNgonNguToList", "Config")))
+                            )
+                            </div>
+                            <div class='form-group'>
+                                <label for='Upload'>Upload file đính kèm</label>
+                                @(Html.Kendo().Upload()
+                              .Name("Upload")
+                              .HtmlAttributes(new { @class = "form-control" })
+                                )
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class='form-group'>
+                                <label for='Data'>File đính kèm</label>
+                                <div id="Data"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class='form-group'>
+                                <label for='AM_PhieuYeuCau_NoiDung'>Nội dung</label>
+                                @Html.TextAreaFor(Model => Model.AM_PhieuYeuCau.NoiDung)
+                            </div>
+
+                            <script src="/ckeditor/ckeditor.js"></script>
+                            <script src="/ckeditor/adapters/jquery.js"></script>
+                            <script>
+                                CKEDITOR.replace("AM_PhieuYeuCau_NoiDung", {
+                                    on: {
+                                        'instanceReady': function (evt) {
+                                            evt.editor.resize("100%", "300");
+                                        }
+                                    }
+                                });</script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+<script>
+    function onKhachHangChange() {
+        var khachHangID = $("#AM_PhieuYeuCau_KhachHangID").data("kendoDropDownList").value();
+        $.ajax({
+            type: 'GET',
+            url: "/Membership/GetByID",
+            data: {
+                ID: khachHangID
+            },
+            success: function (item) {
+                $("#Membership_FullName").val(item.FullName);
+                $("#Membership_TaxCode").val(item.TaxCode);
+                $("#Membership_MembershipCode").val(item.MembershipCode);
+                $("#Membership_Phone").val(item.Phone);
+                $("#Membership_Address").val(item.Address);
+                $("#Membership_Email").val(item.Email);
+                $("#Membership_ContactFullName").val(item.ContactFullName);
+                $("#Membership_ContactPhone").val(item.ContactPhone);
+                $("#Membership_NganHang_SoTaiKhoan").val(item.NganHang_SoTaiKhoan);
+
+                $('#Membership_NganHangID').data("kendoDropDownList").value(item.NganHangID);
+                $('#Membership_CategoryID').data("kendoDropDownList").value(item.CategoryID);
+                $('#Membership_WardID').data("kendoDropDownList").value(item.WardID);
+                $('#Membership_CityID').data("kendoDropDownList").value(item.CityID);
+                $('#Membership_ProvinceID').data("kendoDropDownList").value(item.ProvinceID);
+            }
+        }).done(() => {
+
+        });
+    }
+     $(document).ready(() => {
+         onGetDinhKemByIDToListToJSON();
+    });
+    function onGetDinhKemByIDToListToJSON() {
+        $("#Data").html('');
+        var IDValue = $("#AM_PhieuYeuCau_ID").val();
+         $.ajax({
+            type: 'GET',
+            url: "@Url.Action("GetDinhKemByPhieuYeuCauIDToListJSON", "AM_PhieuYeuCau")",
+            data: {
+                ID: IDValue,
+            },
+             success: function (list) {
+                 var html = '';
+                 for (var index in list) {
+                     $(list[index]).each(function (iRec, item) {
+                         html = html + '<a target="_blank" href="' + item.URL + '" title="' + item.URL + '">' + item.Title + '</a> | ';
+                    });
+                }
+                html = $.parseHTML(html);
+                 $("#Data").append(html);
+            }
+        }).done(() => {
+        });
+    }
+</script>

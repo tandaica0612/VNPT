@@ -272,5 +272,19 @@ namespace VNPT.Data.Repositories
             }
             return list;
         }
+        public List<MembershipDataTransfer> GetSQLMembershipDataTransferByParentID001ToList(int parentID)
+        {
+            List<MembershipDataTransfer> list = new List<MembershipDataTransfer>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@ParentID",parentID)
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectMembershipDataTransferByParentID001", parameters);
+                list = SQLHelper.ToList<MembershipDataTransfer>(dt);
+            }
+            return list;
+        }
     }
 }

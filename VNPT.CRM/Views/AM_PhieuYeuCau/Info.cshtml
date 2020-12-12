@@ -1,0 +1,73 @@
+﻿@{ ViewData["Title"] = Model.AM_PhieuYeuCauDataTransfer.TieuDe + " - Kết quả"; }
+
+@model VNPT.CRM.Models.AM_PhieuYeuCauViewModel
+
+<div class="row">
+    <div class="col s12">
+        <div class="card card-tabs">
+            <div class="card-content">
+                <div class="card-title">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <h5><b>@Model.AM_PhieuYeuCauDataTransfer.TieuDe - @Model.NguoiTao.FullName - @Model.AM_PhieuYeuCauDataTransfer.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss")</b></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_SoLuongHoaDon' style="font-weight:unset;">Số lượng hóa đơn: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.SoLuongHoaDon</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_NgonNgu' style="font-weight:unset;">Ngôn ngữ: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.NgonNgu</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_HeThong' style="font-weight:unset;">Hệ thống: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.HeThong</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_KyHieu' style="font-weight:unset;">Ký hiệu: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.KyHieu</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_MauSo' style="font-weight:unset;">Mẫu số: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.MauSo</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCauDataTransfer_MauHoaDon' style="font-weight:unset;">Mẫu hóa đơn: </label>
+                            <b>@Model.AM_PhieuYeuCauDataTransfer.MauHoaDon</b>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <div class='form-group'>
+                            <label for='Membership_FullName' style="font-weight:unset;">Khách hàng: </label>
+                            <a target="_blank" href="/Membership/CustomerDetail001?ID=@Model.Membership.ID"><b>@Model.Membership.FullName</b></a>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <div class='form-group'>
+                            <label for='AM_PhieuYeuCau_NoiDung' style="font-weight:unset;">Nội dung: </label>
+                            @Html.Raw(Model.AM_PhieuYeuCauDataTransfer.NoiDung);
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

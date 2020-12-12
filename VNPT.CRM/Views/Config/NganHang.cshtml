@@ -1,4 +1,4 @@
-﻿@{ ViewData["Title"] = "Đơn vị tính"; }
+﻿@{ ViewData["Title"] = "Ngân hàng"; }
 
 <div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">
     <div class="container">
@@ -37,11 +37,12 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col s12 m12 l12">
         <div class="card card card-default scrollspy">
             <div class="card-content">
-                <h6>Danh mục Đơn vị tính</h6>
+                <h6>Ngân hàng</h6>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         @(Html.Kendo().Grid<VNPT.Data.Models.Config>()
@@ -50,7 +51,7 @@
 {
     columns.Command(command => { command.Edit().Text("&nbsp;").CancelText("&nbsp;").UpdateText("&nbsp;").IconClass("fas fa-edit").HtmlAttributes(new { style = "font-size: 16px; padding-left:16px; padding-top:6px; border-radius: 6px; font-weight:bold; width:50px;" }); command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(150);
     columns.Bound(t => t.ID).Title("ID").Width(50);
-    columns.Bound(t => t.Title).Title("Đơn vị tính").Width(300);
+    columns.Bound(t => t.Title).Title("Ngân hàng").Width(300);
     columns.Bound(t => t.Note).Title("Ghi chú").Width(200);
     columns.Bound(t => t.SortOrder).Title("Sắp xếp").Width(300);
 })
@@ -90,9 +91,9 @@
     model.Field(t => t.ID).Editable(false);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetUnitToList", "Config"))
+.Read(t => t.Action("GetNganHangToList", "Config"))
 .Destroy(t => t.Action("Delete", "Config"))
-.Create(t => t.Action("CreateUnit", "Config"))
+.Create(t => t.Action("CreateNganHang", "Config"))
 .Update(t => t.Action("Update", "Config"))
 )
 )
@@ -102,7 +103,6 @@
         </div>
     </div>
 </div>
-
 
 
 @(Html.Kendo().Notification()

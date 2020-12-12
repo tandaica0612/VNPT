@@ -14,7 +14,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="@VNPT.Data.Helpers.AppGlobal.LogoURLFull">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="/AdminLTE_3_0_5/plugins/fontawesome-free/css/all.min.css">    
+    <link rel="stylesheet" href="/AdminLTE_3_0_5/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/vendors/flag-icon/css/flag-icon.min.css">
     <link rel="stylesheet" type="text/css" href="/app-assets/css/themes/vertical-menu-nav-dark-template/materialize.css">
@@ -31,6 +31,11 @@
             text-align: center;
             color: blue;
             font-weight: bold;
+        }
+    </style>
+    <style>
+        .cke_inner .cke_top .cke_toolbox {
+            display: none;
         }
     </style>
 </head>
@@ -67,6 +72,10 @@
         </div>
 
         <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+            <li class="navigation-header">
+                <a class="navigation-header-text">Hóa đơn điện tử</a><i class="navigation-header-icon material-icons">more_horiz</i>
+            </li>
+            <li class="bold"><a class="waves-effect waves-cyan" href="/AM_PhieuYeuCau/List"><i class="material-icons">contact_mail</i><span class="menu-title" data-i18n="">Phiếu yêu cầu</span></a>            
             <li class="navigation-header">
                 <a class="navigation-header-text">Phiếu yêu cầu</a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>
@@ -113,6 +122,10 @@
                     </ul>
                 </div>
             </li>*@
+            </li>
+            <li class="bold">
+                <a class="waves-effect waves-cyan" href="/Config/AM_HeThong"><i class="material-icons">settings</i><span class="menu-title" data-i18n="">AM</span></a>
+            </li>
             <li class="navigation-header">
                 <a class="navigation-header-text">Tài khoản</a><i class="navigation-header-icon material-icons">more_horiz</i>
             </li>

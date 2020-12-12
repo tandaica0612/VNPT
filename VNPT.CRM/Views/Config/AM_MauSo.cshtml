@@ -1,4 +1,4 @@
-﻿@{ ViewData["Title"] = "Đơn vị tính"; }
+﻿@{ ViewData["Title"] = "AM - Mẫu số"; }
 
 <div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">
     <div class="container">
@@ -6,42 +6,28 @@
             <div class="col s12 m12 l12 breadcrumbs-left">
                 <ol class="breadcrumbs mb-0">
                     <li class="breadcrumb-item">
-                        <a href="/Config/MembershipType">Thành viên</a>
+                        <a href="/Config/AM_HeThong">Hệ thống</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="/Config/LoaiBaiViet">Bài viết</a>
+                        <a href="/Config/AM_MauHoaDon">Mẫu hóa đơn</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="/Config/LoaiPhieuYeuCau">Phiếu yêu cầu</a>
+                        <a href="/Config/AM_MauSo">Mẫu số</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="/Config/NganHang">Ngân hàng</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/Config/Product">Dịch vụ</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/Config/Unit">Đơn vị tính</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/Config/Ward">Xã</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/Config/City">Huyện</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="/Config/Province">Tỉnh</a>
+                        <a href="/Config/AM_NgonNgu">Ngôn ngữ</a>
                     </li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col s12 m12 l12">
         <div class="card card card-default scrollspy">
             <div class="card-content">
-                <h6>Danh mục Đơn vị tính</h6>
+                <h6>AM - Mẫu số</h6>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         @(Html.Kendo().Grid<VNPT.Data.Models.Config>()
@@ -50,7 +36,7 @@
 {
     columns.Command(command => { command.Edit().Text("&nbsp;").CancelText("&nbsp;").UpdateText("&nbsp;").IconClass("fas fa-edit").HtmlAttributes(new { style = "font-size: 16px; padding-left:16px; padding-top:6px; border-radius: 6px; font-weight:bold; width:50px;" }); command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(150);
     columns.Bound(t => t.ID).Title("ID").Width(50);
-    columns.Bound(t => t.Title).Title("Đơn vị tính").Width(300);
+    columns.Bound(t => t.Title).Title("Mẫu số").Width(300);
     columns.Bound(t => t.Note).Title("Ghi chú").Width(200);
     columns.Bound(t => t.SortOrder).Title("Sắp xếp").Width(300);
 })
@@ -90,9 +76,9 @@
     model.Field(t => t.ID).Editable(false);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetUnitToList", "Config"))
+.Read(t => t.Action("GetAMMauSoToList", "Config"))
 .Destroy(t => t.Action("Delete", "Config"))
-.Create(t => t.Action("CreateUnit", "Config"))
+.Create(t => t.Action("CreateAMMauSo", "Config"))
 .Update(t => t.Action("Update", "Config"))
 )
 )
@@ -102,7 +88,6 @@
         </div>
     </div>
 </div>
-
 
 
 @(Html.Kendo().Notification()

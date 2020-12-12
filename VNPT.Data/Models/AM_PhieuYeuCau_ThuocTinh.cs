@@ -4,7 +4,7 @@ using VNPT.Data.Helpers;
 
 namespace VNPT.Data.Models
 {
-    public partial class PhieuYeuCau_ThuocTinh : BaseModel
+    public partial class AM_PhieuYeuCau_ThuocTinh : BaseModel
     {
         public DateTime? NgayTao { get; set; }
         public string Code { get; set; }
