@@ -1,4 +1,4 @@
-﻿@{ ViewData["Title"] = Model.AM_PhieuYeuCau.TieuDe + " - Phiếu AM"; }
+﻿@{ Layout = "~/Views/Shared/_LayoutByNhanVien.cshtml"; ViewData["Title"] = Model.AM_PhieuYeuCau.TieuDe + " - Phiếu yêu cầu Hóa đơn điện tử"; }
 
 @model VNPT.CRM.Models.AM_PhieuYeuCauViewModel
 <form method="post" enctype="multipart/form-data" asp-action="Save" asp-controller="AM_PhieuYeuCau">
@@ -9,17 +9,15 @@
                 <div class="card-content">
                     <div class="card-title">
                         <div class="row">
-                            <div class="col s12 m6 l6">
-                                @Model.AM_PhieuYeuCau.TieuDe - Phiếu AM
+                            <div class="col s12 m6 l10">
+                                <h5><b>@Model.AM_PhieuYeuCau.TieuDe - Phiếu yêu cầu Hóa đơn điện tử</b></h5>
                             </div>
-                            <div class="col s12 m6 l6">
-                                <ul class="tabs">
-                                    <li class="tab col s6">
-                                    </li>
-                                    <li class="tab col s3">
+                            <div class="col s12 m6 l2">
+                                <ul class="tabs">                                    
+                                    <li class="tab col s12 m6 l6">
                                         <a target="_blank" href="/AM_PhieuYeuCau/Info?ID=@Model.AM_PhieuYeuCau.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
                                     </li>
-                                    <li class="tab col s3">
+                                    <li class="tab col s12 m6 l6">
                                         <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
                                             <i class="material-icons">save</i>
                                         </button>

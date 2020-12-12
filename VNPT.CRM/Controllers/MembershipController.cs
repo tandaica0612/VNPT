@@ -129,11 +129,11 @@ namespace VNPT.CRM.Controllers
                 var CookieExpires = new CookieOptions();
                 CookieExpires.Expires = DateTime.Now.AddMonths(2);
                 Response.Cookies.Append("UserID", membership.ID.ToString(), CookieExpires);
-                controller = "PhieuYeuCau";
+                controller = "AM_PhieuYeuCau";
                 action = "DanhSachByNhanVienID";
                 if (membership.ID == AppGlobal.NguyenVietDungID)
                 {
-                    controller = "PhieuYeuCau";
+                    controller = "AM_PhieuYeuCau";
                     action = "DanhSach";
                 }
             }
@@ -317,7 +317,7 @@ namespace VNPT.CRM.Controllers
                 model.Initialization(InitType.Insert, RequestUserID);
                 _membershipRepository.Create(model);
             }
-            return RedirectToAction("EmployeeDetail", new { ID = model.ID });
+            return RedirectToAction("EmployeeInfo", new { ID = model.ID });
         }
         [AcceptVerbs("Post")]
         public IActionResult SaveCustomerWithWindow(BaseViewModel model)

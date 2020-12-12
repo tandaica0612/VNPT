@@ -1,31 +1,7 @@
-﻿@{ ViewData["Title"] = Model.FullName + " - Thông tin nhân viên"; }
+﻿@{ Layout = "~/Views/Shared/_LayoutByNhanVien.cshtml"; ViewData["Title"] = Model.FullName + " - Thông tin nhân viên"; }
 
 @model VNPT.Data.Models.Membership
-<div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">    
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m12 l12 breadcrumbs-left">
-                <ol class="breadcrumbs mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="/Membership/EmployeeDetail?ID=@Model.ID">Thông tin nhân viên</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Khu vực quản lý</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Khách hàng quản lý</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Khách hàng hết hạn</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="#">Doanh thu</a>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
+
 <form asp-action="SaveEmployee" asp-controller="Membership">
     @Html.HiddenFor(Model => Model.ID)
     @Html.HiddenFor(Model => Model.ParentID)

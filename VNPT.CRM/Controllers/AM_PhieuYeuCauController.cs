@@ -34,6 +34,10 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult DanhSach()
+        {
+            return View();
+        }
         public IActionResult Detail(int ID)
         {
             AM_PhieuYeuCauViewModel model = new AM_PhieuYeuCauViewModel();
@@ -70,6 +74,7 @@ namespace VNPT.CRM.Controllers
                 {
                     model.NguoiTao = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.NguoiTaoID.Value);
                 }
+                
             }
             return View(model);
         }
@@ -77,12 +82,38 @@ namespace VNPT.CRM.Controllers
         {
             return Json(_aM_PhieuYeuCau_ThuocTinhRepository.GetByPhieuYeuCauIDAndParentIDAndCodeToList(ID, ID, AppGlobal.PhieuYeuCauDinhKem));
         }
+        public AM_PhieuYeuCauDataTransfer GetCountToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetCount();
+        }
+        public List<AM_PhieuYeuCauDataTransfer> GetDaGuiToListToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetDaGuiToList();
+        }
+        public List<AM_PhieuYeuCauDataTransfer> GetDaNhanToListToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetDaNhanToList();
+        }
+        public List<AM_PhieuYeuCauDataTransfer> GetDangXuLyToListToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetDangXuLyToList();
+        }
+        public List<AM_PhieuYeuCauDataTransfer> GetHoanThanhToListToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetHoanThanhToList();
+        }
+        public ActionResult GetByNguoiTaoIDToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _aM_PhieuYeuCauResposistory.GetByNguoiTaoIDToList(RequestUserID);
+            return Json(data.ToDataSourceResult(request));
+        }
         [AcceptVerbs("Post")]
         public IActionResult Save(AM_PhieuYeuCauViewModel model)
         {
             if (model.AM_PhieuYeuCau.KhachHangID > 0)
             {
                 model.AM_PhieuYeuCau.DaGui = true;
+                model.AM_PhieuYeuCau.DaNhan = true;
                 model.AM_PhieuYeuCau.NgayTao = DateTime.Now;
                 model.AM_PhieuYeuCau.NguoiTaoID = RequestUserID;
                 if (model.AM_PhieuYeuCau.ID > 0)
@@ -144,6 +175,40 @@ namespace VNPT.CRM.Controllers
             string controller = "AM_PhieuYeuCau";
             string action = "Detail";
             return RedirectToAction(action, controller, new { ID = model.AM_PhieuYeuCau.ID });
+        }
+        [AcceptVerbs("Post")]
+        public IActionResult Update(AM_PhieuYeuCauViewModel model)
+        {
+            if (model.AM_PhieuYeuCauDataTransfer.ID > 0)
+            {                
+                model.AM_PhieuYeuCau = _aM_PhieuYeuCauResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.ID);
+                if (model.AM_PhieuYeuCau != null)
+                {
+                    model.AM_PhieuYeuCau.KetQua = model.AM_PhieuYeuCauDataTransfer.KetQua;
+                    model.AM_PhieuYeuCau.DaNhan = model.AM_PhieuYeuCauDataTransfer.DaNhan001;
+                    model.AM_PhieuYeuCau.DangXuLy = model.AM_PhieuYeuCauDataTransfer.DangXuLy001;
+                    model.AM_PhieuYeuCau.HoanThanh = model.AM_PhieuYeuCauDataTransfer.HoanThanh001;
+                    model.AM_PhieuYeuCau.Initialization(InitType.Update, RequestUserID);
+                    _aM_PhieuYeuCauResposistory.Update(model.AM_PhieuYeuCau.ID, model.AM_PhieuYeuCau);
+                }
+            }
+            string controller = "AM_PhieuYeuCau";
+            string action = "Info";
+            return RedirectToAction(action, controller, new { ID = model.AM_PhieuYeuCauDataTransfer.ID });
+        }
+        public IActionResult Delete(int ID)
+        {
+            string note = AppGlobal.InitString;
+            int result = _aM_PhieuYeuCauResposistory.Delete(ID);
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.DeleteSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.DeleteFail;
+            }
+            return Json(note);
         }
     }
 }
