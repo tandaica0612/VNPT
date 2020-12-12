@@ -130,7 +130,7 @@ namespace VNPT.CRM.Controllers
                 CookieExpires.Expires = DateTime.Now.AddMonths(2);
                 Response.Cookies.Append("UserID", membership.ID.ToString(), CookieExpires);
                 controller = "AM_PhieuYeuCau";
-                action = "DanhSachByNhanVienID";
+                action = "DanhSach";
                 if (membership.ID == AppGlobal.NguyenVietDungID)
                 {
                     controller = "AM_PhieuYeuCau";
