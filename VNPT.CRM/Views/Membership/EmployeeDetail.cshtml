@@ -90,6 +90,16 @@
                                 <label for='Password'>Mật khẩu</label>
                                 @(Html.TextBoxFor(Model => Model.Password, new { placeholder = "Mật khẩu", @class = "form-control", @type="password" }))
                             </div>
+                            <div class='form-group'>
+                                <label for='ParentID'>Nhóm</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.ParentID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNganHangToList", "Config")))
+                            )
+                            </div>
                         </div>
                         <div class="col s12 m6 l6">
                             <div class='form-group'>

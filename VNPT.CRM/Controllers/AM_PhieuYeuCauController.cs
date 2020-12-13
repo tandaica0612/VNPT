@@ -34,6 +34,10 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult ListKyThuat()
+        {
+            return View();
+        }
         public IActionResult DanhSach()
         {
             return View();
@@ -74,7 +78,61 @@ namespace VNPT.CRM.Controllers
                 {
                     model.NguoiTao = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.NguoiTaoID.Value);
                 }
-                
+
+            }
+            return View(model);
+        }
+        public IActionResult InfoView(int ID)
+        {
+            AM_PhieuYeuCauViewModel model = new AM_PhieuYeuCauViewModel();
+            if (ID > 0)
+            {
+                model.AM_PhieuYeuCauDataTransfer = _aM_PhieuYeuCauResposistory.GetSQLByID(ID);
+                if (model.AM_PhieuYeuCauDataTransfer.KhachHangID > 0)
+                {
+                    model.Membership = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.KhachHangID.Value);
+                }
+                if (model.AM_PhieuYeuCauDataTransfer.NguoiTaoID > 0)
+                {
+                    model.NguoiTao = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.NguoiTaoID.Value);
+                }
+
+            }
+            return View(model);
+        }
+        public IActionResult InfoKyThuat(int ID)
+        {
+            AM_PhieuYeuCauViewModel model = new AM_PhieuYeuCauViewModel();
+            if (ID > 0)
+            {
+                model.AM_PhieuYeuCauDataTransfer = _aM_PhieuYeuCauResposistory.GetSQLByID(ID);
+                if (model.AM_PhieuYeuCauDataTransfer.KhachHangID > 0)
+                {
+                    model.Membership = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.KhachHangID.Value);
+                }
+                if (model.AM_PhieuYeuCauDataTransfer.NguoiTaoID > 0)
+                {
+                    model.NguoiTao = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.NguoiTaoID.Value);
+                }
+
+            }
+            return View(model);
+        }
+        public IActionResult InfoViewKyThuat(int ID)
+        {
+            AM_PhieuYeuCauViewModel model = new AM_PhieuYeuCauViewModel();
+            if (ID > 0)
+            {
+                model.AM_PhieuYeuCauDataTransfer = _aM_PhieuYeuCauResposistory.GetSQLByID(ID);
+                if (model.AM_PhieuYeuCauDataTransfer.KhachHangID > 0)
+                {
+                    model.Membership = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.KhachHangID.Value);
+                }
+                if (model.AM_PhieuYeuCauDataTransfer.NguoiTaoID > 0)
+                {
+                    model.NguoiTao = _membershipResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.NguoiTaoID.Value);
+                }
+
             }
             return View(model);
         }
@@ -102,6 +160,10 @@ namespace VNPT.CRM.Controllers
         {
             return _aM_PhieuYeuCauResposistory.GetHoanThanhToList();
         }
+        public List<AM_PhieuYeuCauDataTransfer> GetHoanThanhByNguoiTaoIDToListToJSON()
+        {
+            return _aM_PhieuYeuCauResposistory.GetHoanThanhByNguoiTaoIDToList(RequestUserID);
+        }
         public ActionResult GetByNguoiTaoIDToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _aM_PhieuYeuCauResposistory.GetByNguoiTaoIDToList(RequestUserID);
@@ -113,7 +175,6 @@ namespace VNPT.CRM.Controllers
             if (model.AM_PhieuYeuCau.KhachHangID > 0)
             {
                 model.AM_PhieuYeuCau.DaGui = true;
-                model.AM_PhieuYeuCau.DaNhan = true;
                 model.AM_PhieuYeuCau.NgayTao = DateTime.Now;
                 model.AM_PhieuYeuCau.NguoiTaoID = RequestUserID;
                 if (model.AM_PhieuYeuCau.ID > 0)
@@ -162,7 +223,7 @@ namespace VNPT.CRM.Controllers
                                     if ((fileExtension.Contains(@".png") == true) || (fileExtension.Contains(@".jpg") == true) || (fileExtension.Contains(@".gif") == true) || (fileExtension.Contains(@".jpeg") == true) || (fileExtension.Contains(@".webp") == true))
                                     {
                                         txt.AppendLine("<br/>");
-                                        txt.AppendLine("<img src='" + phieuYeuCau_ThuocTinh.URL + "' class='img-thumbnail' alt='" + model.AM_PhieuYeuCau.TieuDe + "' title='" + model.AM_PhieuYeuCau.TieuDe + "' />");
+                                        txt.AppendLine("<img src='" + phieuYeuCau_ThuocTinh.URL + "' class='img-thumbnail' style='width:50%; height:50%;' alt='" + model.AM_PhieuYeuCau.TieuDe + "' title='" + model.AM_PhieuYeuCau.TieuDe + "' />");
                                     }
                                 }
                             }
@@ -180,7 +241,7 @@ namespace VNPT.CRM.Controllers
         public IActionResult Update(AM_PhieuYeuCauViewModel model)
         {
             if (model.AM_PhieuYeuCauDataTransfer.ID > 0)
-            {                
+            {
                 model.AM_PhieuYeuCau = _aM_PhieuYeuCauResposistory.GetByID(model.AM_PhieuYeuCauDataTransfer.ID);
                 if (model.AM_PhieuYeuCau != null)
                 {
@@ -188,12 +249,13 @@ namespace VNPT.CRM.Controllers
                     model.AM_PhieuYeuCau.DaNhan = model.AM_PhieuYeuCauDataTransfer.DaNhan001;
                     model.AM_PhieuYeuCau.DangXuLy = model.AM_PhieuYeuCauDataTransfer.DangXuLy001;
                     model.AM_PhieuYeuCau.HoanThanh = model.AM_PhieuYeuCauDataTransfer.HoanThanh001;
+                    model.AM_PhieuYeuCau.NguoiNhanID = RequestUserID;
                     model.AM_PhieuYeuCau.Initialization(InitType.Update, RequestUserID);
                     _aM_PhieuYeuCauResposistory.Update(model.AM_PhieuYeuCau.ID, model.AM_PhieuYeuCau);
                 }
             }
             string controller = "AM_PhieuYeuCau";
-            string action = "Info";
+            string action = "InfoKyThuat";
             return RedirectToAction(action, controller, new { ID = model.AM_PhieuYeuCauDataTransfer.ID });
         }
         public IActionResult Delete(int ID)
@@ -207,6 +269,38 @@ namespace VNPT.CRM.Controllers
             else
             {
                 note = AppGlobal.Error + " - " + AppGlobal.DeleteFail;
+            }
+            return Json(note);
+        }
+        public IActionResult DaNhan(int ID)
+        {
+            string note = AppGlobal.InitString;
+            if (ID > 0)
+            {
+                AM_PhieuYeuCau model = _aM_PhieuYeuCauResposistory.GetByID(ID);
+                if (model != null)
+                {
+                    model.DaNhan = true;
+                    model.NguoiNhanID = RequestUserID;
+                    model.Initialization(InitType.Update, RequestUserID);
+                    _aM_PhieuYeuCauResposistory.Update(model.ID, model);
+                }
+            }
+            return Json(note);
+        }
+        public IActionResult DangXuLy(int ID)
+        {
+            string note = AppGlobal.InitString;
+            if (ID > 0)
+            {
+                AM_PhieuYeuCau model = _aM_PhieuYeuCauResposistory.GetByID(ID);
+                if (model != null)
+                {
+                    model.DangXuLy = true;
+                    model.NguoiNhanID = RequestUserID;
+                    model.Initialization(InitType.Update, RequestUserID);
+                    _aM_PhieuYeuCauResposistory.Update(model.ID, model);
+                }
             }
             return Json(note);
         }

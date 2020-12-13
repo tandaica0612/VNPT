@@ -15,5 +15,6 @@ namespace VNPT.Data.Repositories
         public List<AM_PhieuYeuCauDataTransfer> GetDangXuLyToList();
         public List<AM_PhieuYeuCauDataTransfer> GetHoanThanhToList();
         public List<AM_PhieuYeuCauDataTransfer> GetByNguoiTaoIDToList(int nguoiTaoID);
+        public List<AM_PhieuYeuCauDataTransfer> GetHoanThanhByNguoiTaoIDToList(int nguoiTaoID);
     }
 }

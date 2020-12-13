@@ -3,6 +3,7 @@
 @model VNPT.CRM.Models.AM_PhieuYeuCauViewModel
 <form method="post" enctype="multipart/form-data" asp-action="Save" asp-controller="AM_PhieuYeuCau">
     @Html.HiddenFor(Model => Model.AM_PhieuYeuCau.ID)
+    @Html.HiddenFor(Model => Model.AM_PhieuYeuCau.KhachHangID)
     <div class="row">
         <div class="col s12">
             <div class="card card-tabs">
@@ -13,9 +14,9 @@
                                 <h5><b>@Model.AM_PhieuYeuCau.TieuDe - Phiếu yêu cầu Hóa đơn điện tử</b></h5>
                             </div>
                             <div class="col s12 m6 l2">
-                                <ul class="tabs">                                    
+                                <ul class="tabs">
                                     <li class="tab col s12 m6 l6">
-                                        <a target="_blank" href="/AM_PhieuYeuCau/Info?ID=@Model.AM_PhieuYeuCau.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
+                                        <a target="_blank" href="/AM_PhieuYeuCau/InfoView?ID=@Model.AM_PhieuYeuCau.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
                                     </li>
                                     <li class="tab col s12 m6 l6">
                                         <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
@@ -31,23 +32,12 @@
                     <div class="row">
                         <div class="col s12 m6 l4">
                             <div class='form-group'>
-                                <label for='AM_PhieuYeuCau_KhachHangID'>Tìm khách hàng</label>
-                                @(Html.Kendo().DropDownListFor(Model => Model.AM_PhieuYeuCau.KhachHangID)
-                     .DataValueField("ID")
-                     .DataTextField("FullName")
-                     .HtmlAttributes(new { @class = "form-control", @style = "height:46px;" })
-                     .Events(e => e.Change("onKhachHangChange"))
-                       .Filter(FilterType.Contains)
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLDoanhNghiep001ToList", "Membership")))
-                            )
-                            </div>
-                            <div class='form-group'>
-                                <label for='FullName'>Khách hàng</label>
-                                @(Html.TextBoxFor(Model => Model.Membership.FullName, new { placeholder = "Khách hàng", @class = "form-control" }))
-                            </div>
-                            <div class='form-group'>
-                                <label for='TaxCode'>Mã số thuế</label>
+                                <label for='Membership_TaxCode'>Mã số thuế</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.TaxCode, new { placeholder = "Mã số thuế", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='Membership_FullName'>Khách hàng</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.FullName, new { placeholder = "Khách hàng", @class = "form-control" }))
                             </div>
                             <div class='form-group'>
                                 <label for='MembershipCode'>Mã khách hàng</label>
@@ -248,6 +238,7 @@
                 ID: khachHangID
             },
             success: function (item) {
+                
                 $("#Membership_FullName").val(item.FullName);
                 $("#Membership_TaxCode").val(item.TaxCode);
                 $("#Membership_MembershipCode").val(item.MembershipCode);
@@ -293,4 +284,33 @@
         }).done(() => {
         });
     }
+    $("#Membership_TaxCode").change(function () {
+        var taxCodeValue = $("#Membership_TaxCode").val();
+        $.ajax({
+            type: 'GET',
+            url: "/Membership/GetByTaxCode",
+            data: {
+                taxCode: taxCodeValue
+            },
+            success: function (item) {
+                $("#AM_PhieuYeuCau_KhachHangID").val(item.ID);
+                $("#Membership_FullName").val(item.FullName);           
+                $("#Membership_MembershipCode").val(item.MembershipCode);
+                $("#Membership_Phone").val(item.Phone);
+                $("#Membership_Address").val(item.Address);
+                $("#Membership_Email").val(item.Email);
+                $("#Membership_ContactFullName").val(item.ContactFullName);
+                $("#Membership_ContactPhone").val(item.ContactPhone);
+                $("#Membership_NganHang_SoTaiKhoan").val(item.NganHang_SoTaiKhoan);
+
+                $('#Membership_NganHangID').data("kendoDropDownList").value(item.NganHangID);
+                $('#Membership_CategoryID').data("kendoDropDownList").value(item.CategoryID);
+                $('#Membership_WardID').data("kendoDropDownList").value(item.WardID);
+                $('#Membership_CityID').data("kendoDropDownList").value(item.CityID);
+                $('#Membership_ProvinceID').data("kendoDropDownList").value(item.ProvinceID);
+            }
+        }).done(() => {
+
+        });
+    });
 </script>

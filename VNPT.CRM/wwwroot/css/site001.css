@@ -39,7 +39,7 @@ body {
     border-color: #000000;
     border-style: solid;
     border-width: 1px;
-    padding: 10px;
+    padding: 20px;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -64,9 +64,7 @@ body {
     border-color: #000000;
     border-style: solid;
     border-width: 1px;
-    padding: 2px;
-    white-space: nowrap;
-    overflow: hidden;
+    padding: 10px;
 }
 
 .border01 {

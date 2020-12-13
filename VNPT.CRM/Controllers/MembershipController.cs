@@ -206,6 +206,10 @@ namespace VNPT.CRM.Controllers
             }
             return model;
         }
+        public Membership GetByTaxCode(string taxCode)
+        {
+            return _membershipRepository.GetByTaxCode(taxCode);
+        }
         public ActionResult GetMembershipDataTransferKhachHangToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetMembershipDataTransferByParentIDToList(AppGlobal.DoanhNghiepID);

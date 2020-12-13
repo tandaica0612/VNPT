@@ -114,6 +114,26 @@ namespace VNPT.Data.Repositories
             }
             return list;
         }
-
+        public List<AM_PhieuYeuCauDataTransfer> GetHoanThanhByNguoiTaoIDToList(int nguoiTaoID)
+        {
+            List<AM_PhieuYeuCauDataTransfer> list = new List<AM_PhieuYeuCauDataTransfer>();
+            if (nguoiTaoID > 0)
+            {
+                if (nguoiTaoID == AppGlobal.NguyenVietDungID)
+                {
+                    list = GetHoanThanhToList();
+                }
+                else
+                {
+                    SqlParameter[] parameters =
+                    {
+                        new SqlParameter("@NguoiTaoID",nguoiTaoID),
+                    };
+                    DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_AM_PhieuYeuCauSelectHoanThanhAndNguoiTaoID", parameters);
+                    list = SQLHelper.ToList<AM_PhieuYeuCauDataTransfer>(dt).ToList();
+                }
+            }
+            return list;
+        }
     }
 }

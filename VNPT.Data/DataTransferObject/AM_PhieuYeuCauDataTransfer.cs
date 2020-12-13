@@ -15,6 +15,7 @@ namespace VNPT.Data.DataTransferObject
         public int? HoanThanhCount { get; set; }
         public string KhachHang { get; set; }
         public string NgonNgu { get; set; }
+        public string NguoiNhan { get; set; }
         public bool DaGui001
         {
             get; set;           
@@ -48,6 +49,18 @@ namespace VNPT.Data.DataTransferObject
             get
             {
                 string result = KetQua;
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = "";
+                }
+                return result;
+            }
+        }
+        public string NguoiNhanString
+        {
+            get
+            {
+                string result = NguoiNhan;
                 if (string.IsNullOrEmpty(result))
                 {
                     result = "";

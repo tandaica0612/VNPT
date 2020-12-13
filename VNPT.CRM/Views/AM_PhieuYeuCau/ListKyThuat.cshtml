@@ -1,4 +1,4 @@
-﻿@{ Layout = "~/Views/Shared/_LayoutByNhanVien.cshtml"; ViewData["Title"] = "Phiếu yêu cầu Hóa đơn điện tử"; }
+﻿@{ Layout = "~/Views/Shared/_LayoutByKyThuat.cshtml"; ViewData["Title"] = "Phiếu yêu cầu Hóa đơn điện tử"; }
 
 <div class="row">
     <div class="col s12 m12 l12">
@@ -13,7 +13,6 @@
                     <div class="col s12 m6 l2">
                     </div>
                     <div class="col s12 m6 l2">
-                        <a target="_blank" href="/AM_PhieuYeuCau/Detail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
                     </div>
                 </div>
                 <hr />
@@ -107,22 +106,36 @@
         $("#HoanThanh").html('');
         $.ajax({
             type: 'GET',
-            url: "/AM_PhieuYeuCau/GetHoanThanhByNguoiTaoIDToListToJSON",
+            url: "/AM_PhieuYeuCau/GetHoanThanhToListToJSON",
+            data: {
+            },
+            success: function (list) {
+                onLoadHTML(list, "HoanThanh")
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadDataDangXuLy() {
+        $("#DangXuLy").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetDangXuLyToListToJSON",
             data: {
             },
             success: function (list) {
                 var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
                 html = html + '<thead>';
                 html = html + '<tr>';
+
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Hoàn thành</a></th>";
                 html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>Xem</a></th>";
                 html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
                 html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
                 html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
-                html = html + "<th class='text-center' style='width: 20%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
                 html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
                 html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
                 html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";
-                html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Kết quả</a></th>";
                 html = html + '</tr>';
                 html = html + '</thead>';
                 html = html + '<tbody>';
@@ -138,9 +151,11 @@
                         }
                         let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
                         var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                        let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoView?ID=" + item.ID + "' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
-                        let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.TaxCode + "</a>";
+                        let urlAction = "<a target='_blank' href='/AM_PhieuYeuCau/InfoKyThuat?ID=" + item.ID + "' title='Hoàn thành' style='cursor: pointer; font-size: 16px; color:#ffffff; background-color:blue; padding:10px; padding-left:16px; padding-right:16px;  border-radius: 6px;'><i class='fas fa-check-circle'></i></a>";
+                        let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoViewKyThuat?ID=" + item.ID + "' title='Xem chi tiết' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                        let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "' title='Khách hàng'>" + item.TaxCode + "</a>";
                         let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlAction + '</td>';
                         html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
                         html = html + '<td class="text-center" style="text-align: center;">' + no + '</td>';
                         html = html + '<td class="text-center" style="text-align: center;">' + item.NgayTaoString + '</td>';
@@ -149,27 +164,14 @@
                         html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
                         html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
                         html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';
-                        html = html + '<td class="text-left" style="text-align: left;">' + item.KetQuaString + '</td>';
+
                         html = html + '</tr>';
                     });
                 }
                 html = html + '</tbody>';
                 html = html + '</table>';
                 html = $.parseHTML(html);
-                $("#HoanThanh").append(html);
-            }
-        }).done(() => {
-        });
-    }
-    function onLoadDataDangXuLy() {
-        $("#DangXuLy").html('');
-        $.ajax({
-            type: 'GET',
-            url: "/AM_PhieuYeuCau/GetDangXuLyToListToJSON",
-            data: {
-            },
-            success: function (list) {
-                onLoadHTML(list, "DangXuLy")
+                $("#DangXuLy").append(html);
             }
         }).done(() => {
         });
@@ -182,7 +184,55 @@
             data: {
             },
             success: function (list) {
-                onLoadHTML(list, "DaNhan")
+                var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Xử lý</a></th>";
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>Xem</a></th>";
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
+                html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                var no = 0;
+                for (var index in list) {
+                    $(list[index]).each(function (iRec, item) {
+                        no = no + 1;
+                        if (no % 2 == 0) {
+                            html = html + '<tr style="background-color:#ffffff;">';
+                        }
+                        else {
+                            html = html + '<tr style="background-color:#f1f1f1;">';
+                        }
+                        let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
+                        var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        let urlAction = "<a onclick='onDangXuLy(" + item.ID + ")' title='Xử lý' style='cursor: pointer; font-size: 16px; color:#ffffff; background-color:blue; padding:10px; padding-left:16px; padding-right:16px;  border-radius: 6px;'><i class='fas fa-check-circle'></i></a>";
+                        let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoKyThuat?ID=" + item.ID + "' title='Xem chi tiết' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                        let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "' title='Khách hàng'>" + item.TaxCode + "</a>";
+                        let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlAction + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + no + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + item.NgayTaoString + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlTaxCode + '</td>';
+                        html = html + '<td class="text-left"><div style="text-align: left; word-wrap: break-word; width:300px;">' + urlKhachHang + '</div></td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
+                        html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';
+
+                        html = html + '</tr>';
+                    });
+                }
+                html = html + '</tbody>';
+                html = html + '</table>';
+                html = $.parseHTML(html);
+                $("#DaNhan").append(html);
             }
         }).done(() => {
         });
@@ -195,7 +245,55 @@
             data: {
             },
             success: function (list) {
-                onLoadHTML(list, "DaGui")
+                var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Tiếp nhận</a></th>";
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>Xem</a></th>";
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
+                html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                var no = 0;
+                for (var index in list) {
+                    $(list[index]).each(function (iRec, item) {
+                        no = no + 1;
+                        if (no % 2 == 0) {
+                            html = html + '<tr style="background-color:#ffffff;">';
+                        }
+                        else {
+                            html = html + '<tr style="background-color:#f1f1f1;">';
+                        }
+                        let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
+                        var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        let urlAction = "<a onclick='onDaNhan(" + item.ID + ")' title='Tiếp nhận' style='cursor: pointer; font-size: 16px; color:#ffffff; background-color:blue; padding:10px; padding-left:16px; padding-right:16px;  border-radius: 6px;'><i class='fas fa-check-circle'></i></a>";
+                        let url = "<a target='_blank' href='/AM_PhieuYeuCau/Info?ID=" + item.ID + "' title='Xem chi tiết' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                        let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "' title='Khách hàng'>" + item.TaxCode + "</a>";
+                        let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlAction + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + no + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + item.NgayTaoString + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlTaxCode + '</td>';
+                        html = html + '<td class="text-left"><div style="text-align: left; word-wrap: break-word; width:300px;">' + urlKhachHang + '</div></td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
+                        html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';
+
+                        html = html + '</tr>';
+                    });
+                }
+                html = html + '</tbody>';
+                html = html + '</table>';
+                html = $.parseHTML(html);
+                $("#DaGui").append(html);
             }
         }).done(() => {
         });
@@ -208,10 +306,11 @@
         html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
         html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
         html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
-        html = html + "<th class='text-center' style='width: 35%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+        html = html + "<th class='text-center' style='width: 20%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
         html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
         html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
-        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";        
+        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";
+        html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Kết quả</a></th>";
         html = html + '</tr>';
         html = html + '</thead>';
         html = html + '<tbody>';
@@ -227,7 +326,7 @@
                 }
                 let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
                 var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoView?ID=" + item.ID + "' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoViewKyThuat?ID=" + item.ID + "' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
                 let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.TaxCode + "</a>";
                 let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
                 html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
@@ -237,7 +336,8 @@
                 html = html + '<td class="text-left"><div style="text-align: left; word-wrap: break-word; width:300px;">' + urlKhachHang + '</div></td>';
                 html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
                 html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
-                html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';               
+                html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';
+                html = html + '<td class="text-left" style="text-align: left;">' + item.KetQuaString + '</td>';
                 html = html + '</tr>';
             });
         }
@@ -245,6 +345,32 @@
         html = html + '</table>';
         html = $.parseHTML(html);
         $("#" + HTMLName).append(html);
+    }
+    function onDaNhan(ID) {
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/DaNhan",
+            data: {
+                ID: ID
+            },
+            success: function (item) {
+                onLoadData();
+            }
+        }).done(() => {
+        });
+    }
+    function onDangXuLy(ID) {
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/DangXuLy",
+            data: {
+                ID: ID
+            },
+            success: function (item) {
+                onLoadData();
+            }
+        }).done(() => {
+        });
     }
     setInterval(function () {
         setTimeout(function () {
