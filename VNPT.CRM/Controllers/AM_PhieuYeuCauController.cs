@@ -172,6 +172,21 @@ namespace VNPT.CRM.Controllers
         [AcceptVerbs("Post")]
         public IActionResult Save(AM_PhieuYeuCauViewModel model)
         {
+            if (model.Membership != null)
+            {
+                model.Membership.ParentID = AppGlobal.DoanhNghiepID;
+                if (model.AM_PhieuYeuCau.KhachHangID == 0)
+                {
+                    model.Membership.Initialization(InitType.Insert, RequestUserID);
+                    _membershipResposistory.Create(model.Membership);
+                    model.AM_PhieuYeuCau.KhachHangID = model.Membership.ID;
+                }
+                else
+                {
+                    model.Membership.Initialization(InitType.Update, RequestUserID);
+                    _membershipResposistory.Update(model.AM_PhieuYeuCau.KhachHangID.Value, model.Membership);
+                }
+            }
             if (model.AM_PhieuYeuCau.KhachHangID > 0)
             {
                 model.AM_PhieuYeuCau.DaGui = true;
@@ -186,11 +201,6 @@ namespace VNPT.CRM.Controllers
                 {
                     model.AM_PhieuYeuCau.Initialization(InitType.Insert, RequestUserID);
                     _aM_PhieuYeuCauResposistory.Create(model.AM_PhieuYeuCau);
-                }
-                if (model.AM_PhieuYeuCau.KhachHangID > 0)
-                {
-                    model.Membership.Initialization(InitType.Update, RequestUserID);
-                    _membershipResposistory.Update(model.AM_PhieuYeuCau.KhachHangID.Value, model.Membership);
                 }
                 if (model.AM_PhieuYeuCau.ID > 0)
                 {

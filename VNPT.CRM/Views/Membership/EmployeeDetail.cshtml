@@ -26,9 +26,8 @@
         </div>
     </div>
 </div>
-<form asp-action="SaveEmployee" asp-controller="Membership">
-    @Html.HiddenFor(Model => Model.ID)
-    @Html.HiddenFor(Model => Model.ParentID)
+<form asp-action="SaveEmployeeQuanTri" asp-controller="Membership">
+    @Html.HiddenFor(Model => Model.ID)    
     @Html.HiddenFor(Model => Model.Image)
     @Html.HiddenFor(Model => Model.GUICode)
     <div class="row">
@@ -44,7 +43,7 @@
                      .DataTextField("FullName")
                      .HtmlAttributes(new { @class = "form-control", @style = "height:46px;" })
                        .Filter(FilterType.Contains)
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNhanVienToList", "Membership")))
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetByThanhVienToList", "Membership")))
                             )
                             </div>
                             <div class="col s12 m6 l6">
@@ -97,7 +96,7 @@
                      .DataTextField("Title")
                      .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
                        .Filter(FilterType.Contains)
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNganHangToList", "Config")))
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetMembershipTypeToList", "Config")))
                             )
                             </div>
                         </div>

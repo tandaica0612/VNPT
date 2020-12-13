@@ -98,18 +98,22 @@ namespace VNPT.Data.Repositories
             List<AM_PhieuYeuCauDataTransfer> list = new List<AM_PhieuYeuCauDataTransfer>();
             if (nguoiTaoID > 0)
             {
-                if (nguoiTaoID == AppGlobal.NguyenVietDungID)
+                Membership membership = _context.Set<Membership>().FirstOrDefault(item => item.ID == nguoiTaoID);
+                if (membership != null)
                 {
-                    list = GetAllItemsToList();
-                }
-                else
-                {
-                    SqlParameter[] parameters =
+                    if (membership.ParentID == AppGlobal.QuanTriID)
                     {
-                        new SqlParameter("@NguoiTaoID",nguoiTaoID),
-                    };
-                    DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_AM_PhieuYeuCauSelectByNguoiTaoID", parameters);
-                    list = SQLHelper.ToList<AM_PhieuYeuCauDataTransfer>(dt).ToList();
+                        list = GetAllItemsToList();
+                    }
+                    else
+                    {
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@NguoiTaoID",nguoiTaoID),
+                        };
+                        DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_AM_PhieuYeuCauSelectByNguoiTaoID", parameters);
+                        list = SQLHelper.ToList<AM_PhieuYeuCauDataTransfer>(dt).ToList();
+                    }
                 }
             }
             return list;
@@ -119,19 +123,23 @@ namespace VNPT.Data.Repositories
             List<AM_PhieuYeuCauDataTransfer> list = new List<AM_PhieuYeuCauDataTransfer>();
             if (nguoiTaoID > 0)
             {
-                if (nguoiTaoID == AppGlobal.NguyenVietDungID)
+                Membership membership = _context.Set<Membership>().FirstOrDefault(item => item.ID == nguoiTaoID);
+                if (membership != null)
                 {
-                    list = GetHoanThanhToList();
-                }
-                else
-                {
-                    SqlParameter[] parameters =
+                    if (membership.ParentID == AppGlobal.QuanTriID)
                     {
-                        new SqlParameter("@NguoiTaoID",nguoiTaoID),
-                    };
-                    DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_AM_PhieuYeuCauSelectHoanThanhAndNguoiTaoID", parameters);
-                    list = SQLHelper.ToList<AM_PhieuYeuCauDataTransfer>(dt).ToList();
-                }
+                        list = GetHoanThanhToList();
+                    }
+                    else
+                    {
+                        SqlParameter[] parameters =
+                        {
+                            new SqlParameter("@NguoiTaoID",nguoiTaoID),
+                        };
+                        DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_AM_PhieuYeuCauSelectHoanThanhAndNguoiTaoID", parameters);
+                        list = SQLHelper.ToList<AM_PhieuYeuCauDataTransfer>(dt).ToList();
+                    }
+                }                
             }
             return list;
         }

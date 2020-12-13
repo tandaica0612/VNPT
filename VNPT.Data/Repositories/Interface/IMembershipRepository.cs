@@ -22,6 +22,8 @@ namespace VNPT.Data.Repositories
         public List<Membership> GetParentIDAndSeachStringToList(int parentID, string searchString);
         public List<MembershipDataTransfer> GetSQLByParentIDToList(int parentID);
         public List<MembershipDataTransfer> GetSQLMembershipDataTransferByParentID001ToList(int parentID);
+        public List<Membership> GetByThanhVienToList();
+        public List<Membership> GetParentIDAndCityIDAndWardIDToList(int parentID, int cityID, int wardID);
 
     }
 }

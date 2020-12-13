@@ -166,6 +166,22 @@ namespace VNPT.Data.Helpers
                 return int.Parse(builder.Build().GetSection("AppSettings").GetSection("UnitID").Value);
             }
         }
+        public static int KyThuatID
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return int.Parse(builder.Build().GetSection("AppSettings").GetSection("KyThuatID").Value);
+            }
+        }
+        public static int QuanTriID
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return int.Parse(builder.Build().GetSection("AppSettings").GetSection("QuanTriID").Value);
+            }
+        }
         public static int DoanhNghiepID
         {
             get
@@ -236,6 +252,14 @@ namespace VNPT.Data.Helpers
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 return builder.Build().GetSection("AppSettings").GetSection("Product").Value;
+            }
+        }
+        public static string NhanVien
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("NhanVien").Value;
             }
         }
         public static string Unit

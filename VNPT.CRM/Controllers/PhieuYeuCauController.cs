@@ -209,9 +209,17 @@ namespace VNPT.CRM.Controllers
             }
             string controller = "PhieuYeuCau";
             string action = "DetailByNhanVienID";
-            if (RequestUserID == AppGlobal.NguyenVietDungID)
+
+            if (RequestUserID > 0)
             {
-                action = "Detail";
+                Membership membership = _membershipRepository.GetByID(RequestUserID);
+                if (membership != null)
+                {
+                    if (membership.ParentID == AppGlobal.QuanTriID)
+                    {
+                        action = "Detail";
+                    }
+                }
             }
             return RedirectToAction(action, controller, new { ID = model.ID });
         }
@@ -288,9 +296,16 @@ namespace VNPT.CRM.Controllers
             }
             string controller = "PhieuYeuCau";
             string action = "InfoByNhanVienID";
-            if (RequestUserID == AppGlobal.NguyenVietDungID)
+            if (RequestUserID > 0)
             {
-                action = "Info";
+                Membership membership = _membershipRepository.GetByID(RequestUserID);
+                if (membership != null)
+                {
+                    if (membership.ParentID == AppGlobal.QuanTriID)
+                    {
+                        action = "Detail";
+                    }
+                }
             }
             return RedirectToAction(action, controller, new { ID = model.PhieuYeuCauDataTransfer.ID });
         }

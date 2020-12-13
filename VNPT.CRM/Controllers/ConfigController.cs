@@ -151,6 +151,11 @@ namespace VNPT.CRM.Controllers
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Ward);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetWardByParentIDToList([DataSourceRequest] DataSourceRequest request, int parentID)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeAndParentIDToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Ward, parentID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetProvinceToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Province);
