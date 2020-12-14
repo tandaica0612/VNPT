@@ -1,13 +1,50 @@
 ﻿@{ ViewData["Title"] = "Đơn vị tính"; }
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Đơn vị tính</h3>
+<div class="breadcrumbs-inline pt-3 pb-1" id="breadcrumbs-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12 breadcrumbs-left">
+                <ol class="breadcrumbs mb-0">
+                    <li class="breadcrumb-item">
+                        <a href="/Config/MembershipType">Thành viên</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/LoaiBaiViet">Bài viết</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/LoaiPhieuYeuCau">Phiếu yêu cầu</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/NganHang">Ngân hàng</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/Product">Dịch vụ</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/Unit">Đơn vị tính</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/Ward">Xã</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/City">Huyện</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/Config/Province">Tỉnh</a>
+                    </li>
+                </ol>
             </div>
-            <div class="card-body">
-                @(Html.Kendo().Grid<VNPT.Data.Models.Config>()
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <h6>Danh mục Đơn vị tính</h6>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        @(Html.Kendo().Grid<VNPT.Data.Models.Config>()
 .Name("Config")
 .Columns(columns =>
 {
@@ -59,10 +96,14 @@
 .Update(t => t.Action("Update", "Config"))
 )
 )
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 @(Html.Kendo().Notification()
     .Name("Notification")

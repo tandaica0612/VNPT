@@ -115,6 +115,16 @@ namespace VNPT.CRM.Controllers
             var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhDoKhachHangGuiToList(year, month, daGui, dangXuLy, hoanThanh);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetByYearAndMonthDoKhachHangGuiToList([DataSourceRequest] DataSourceRequest request, int year, int month)
+        {
+            var data = _phieuYeuCauRepository.GetByYearAndMonthDoKhachHangGuiToList(year, month);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetByYearAndMonthAndNguoiTaoIDToList([DataSourceRequest] DataSourceRequest request, int year, int month)
+        {
+            var data = _phieuYeuCauRepository.GetByYearAndMonthAndNguoiTaoIDToList(year, month, RequestUserID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList([DataSourceRequest] DataSourceRequest request, int year, int month, bool daGui, bool dangXuLy, bool hoanThanh)
         {
             var data = _phieuYeuCauRepository.GetByYearAndMonthAndDaGuiAndDangXuLyAndHoanThanhAndNguoiTaoID001ToList(year, month, daGui, dangXuLy, hoanThanh, RequestUserID);
@@ -199,9 +209,17 @@ namespace VNPT.CRM.Controllers
             }
             string controller = "PhieuYeuCau";
             string action = "DetailByNhanVienID";
-            if (RequestUserID == AppGlobal.NguyenVietDungID)
+
+            if (RequestUserID > 0)
             {
-                action = "Detail";
+                Membership membership = _membershipRepository.GetByID(RequestUserID);
+                if (membership != null)
+                {
+                    if (membership.ParentID == AppGlobal.QuanTriID)
+                    {
+                        action = "Detail";
+                    }
+                }
             }
             return RedirectToAction(action, controller, new { ID = model.ID });
         }
@@ -278,9 +296,16 @@ namespace VNPT.CRM.Controllers
             }
             string controller = "PhieuYeuCau";
             string action = "InfoByNhanVienID";
-            if (RequestUserID == AppGlobal.NguyenVietDungID)
+            if (RequestUserID > 0)
             {
-                action = "Info";
+                Membership membership = _membershipRepository.GetByID(RequestUserID);
+                if (membership != null)
+                {
+                    if (membership.ParentID == AppGlobal.QuanTriID)
+                    {
+                        action = "Detail";
+                    }
+                }
             }
             return RedirectToAction(action, controller, new { ID = model.PhieuYeuCauDataTransfer.ID });
         }

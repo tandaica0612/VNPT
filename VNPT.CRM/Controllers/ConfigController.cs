@@ -72,9 +72,63 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult LoaiPhieuYeuCau()
+        {
+            return View();
+        }
+        public IActionResult AM_HeThong()
+        {
+            return View();
+        }
+        public IActionResult AM_MauHoaDon()
+        {
+            return View();
+        }
+        public IActionResult AM_MauSo()
+        {
+            return View();
+        }
+        public IActionResult AM_NgonNgu()
+        {
+            return View();
+        }
+        public IActionResult NganHang()
+        {
+            return View();
+        }
+        public ActionResult GetNganHangToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.NganHang);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetAMNgonNguToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.AMNgonNgu);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetAMMauHoaDonToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.AMMauHoaDon);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetAMMauSoToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.AMMauSo);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetAMHeThongToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.AMHeThong);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetLoaiBaiVietToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.LoaiBaiViet);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetLoaiPhieuYeuCauToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.LoaiPhieuYeuCau);
             return Json(data.ToDataSourceResult(request));
         }
         public ActionResult GetProductToList([DataSourceRequest] DataSourceRequest request)
@@ -97,6 +151,11 @@ namespace VNPT.CRM.Controllers
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Ward);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetWardByParentIDToList([DataSourceRequest] DataSourceRequest request, int parentID)
+        {
+            var data = _configResposistory.GetByGroupNameAndCodeAndParentIDToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Ward, parentID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetProvinceToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.Province);
@@ -111,6 +170,150 @@ namespace VNPT.CRM.Controllers
         {
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.City);
             return Json(data.ToDataSourceResult(request));
+        }
+        public IActionResult CreateNganHang(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.NganHang;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
+        }
+        public IActionResult CreateAMNgonNgu(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.AMNgonNgu;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
+        }
+        public IActionResult CreateAMHeThong(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.AMHeThong;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
+        }
+        public IActionResult CreateAMMauSo(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.AMMauSo;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
+        }
+        public IActionResult CreateAMMauHoaDon(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.AMMauHoaDon;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
+        }
+        public IActionResult CreateLoaiPhieuYeuCau(Config model)
+        {
+            Initialization(model);
+            model.GroupName = AppGlobal.CRM;
+            model.Code = AppGlobal.LoaiPhieuYeuCau;
+            model.ParentID = 0;
+            string note = AppGlobal.InitString;
+            model.Initialization(InitType.Insert, RequestUserID);
+            int result = 0;
+            Config config = _configResposistory.GetByGroupNameAndCodeAndTitle(model.GroupName, model.Code, model.Title);
+            if (config == null)
+            {
+                result = _configResposistory.Create(model);
+            }
+            if (result > 0)
+            {
+                note = AppGlobal.Success + " - " + AppGlobal.CreateSuccess;
+            }
+            else
+            {
+                note = AppGlobal.Error + " - " + AppGlobal.CreateFail;
+            }
+            return Json(note);
         }
         public IActionResult CreateLoaiBaiViet(Config model)
         {

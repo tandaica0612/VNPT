@@ -22,6 +22,8 @@ namespace VNPT.Data.Models
         public virtual DbSet<VNPT.Data.Models.MembershipProperty> MembershipProperty { get; set; }
         public virtual DbSet<VNPT.Data.Models.PhieuYeuCau> PhieuYeuCau { get; set; }
         public virtual DbSet<VNPT.Data.Models.PhieuYeuCau_ThuocTinh> PhieuYeuCau_ThuocTinh { get; set; }
+        public virtual DbSet<VNPT.Data.Models.AM_PhieuYeuCau> AM_PhieuYeuCau { get; set; }
+        public virtual DbSet<VNPT.Data.Models.AM_PhieuYeuCau_ThuocTinh> AM_PhieuYeuCau_ThuocTinh { get; set; }
         public virtual DbSet<VNPT.Data.Models.Product> Product { get; set; }
         public virtual DbSet<VNPT.Data.Models.ProductConfig> ProductConfig { get; set; }
 

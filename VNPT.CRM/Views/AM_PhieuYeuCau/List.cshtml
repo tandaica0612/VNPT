@@ -1,0 +1,254 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutByNhanVien.cshtml"; ViewData["Title"] = "Phiếu yêu cầu Hóa đơn điện tử"; }
+
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <b>Phiếu yêu cầu Hóa đơn điện tử</b>
+                    </div>
+                    <div class="col s12 m6 l2">
+                    </div>
+                    <div class="col s12 m6 l2">
+                    </div>
+                    <div class="col s12 m6 l2">
+                        <a target="_blank" href="/AM_PhieuYeuCau/Detail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class='form-group'>
+                            <div id="Count"></div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <h5><b>Hoàn thành</b></h5>
+                        <div class='form-group'>
+                            <div id="HoanThanh"></div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <h5><b>Đang xử lý</b></h5>
+                        <div class='form-group'>
+                            <div id="DangXuLy"></div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <h5><b>Đã tiếp nhận</b></h5>
+                        <div class='form-group'>
+                            <div id="DaNhan"></div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12 l12">
+                        <h5><b>Đã gửi</b></h5>
+                        <div class='form-group'>
+                            <div id="DaGui"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(() => {
+        onLoadData();
+    });
+    function onLoadData() {
+        onLoadDataCount();
+        onLoadDataHoanThanh();
+        onLoadDataDangXuLy();
+        onLoadDataDaNhan();
+        onLoadDataDaGui();
+    }
+    function onLoadDataCount() {
+        $("#Count").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetCountToJSON",
+            data: {
+            },
+            success: function (item) {
+                var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Số lượng yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Đã tiếp nhận</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Đang xử lý</a></th>";
+                html = html + "<th class='text-center' style='width: 25%;'><a style='cursor:pointer;'>Hoàn thành</a></th>";
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                html = html + '<tr>';
+                let TongCong = Math.round(item.TongCong);
+                var TongCongString = TongCong.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                let DaNhanCount = Math.round(item.DaNhanCount);
+                var DaNhanCountString = DaNhanCount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                let DangXuLyCount = Math.round(item.DangXuLyCount);
+                var DangXuLyCountString = DangXuLyCount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                let HoanThanhCount = Math.round(item.HoanThanhCount);
+                var HoanThanhCountString = HoanThanhCount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                html = html + '<td class="text-center"><b>' + TongCongString + '</b></td>';
+                html = html + '<td class="text-center"><b>' + DaNhanCountString + '</b></td>';
+                html = html + '<td class="text-center"><b>' + DangXuLyCountString + '</b></td>';
+                html = html + '<td class="text-center"><b>' + HoanThanhCountString + '</b></td>';
+                html = html + '</tr>';
+                html = html + '</tbody>';
+                html = html + '</table>';
+                html = $.parseHTML(html);
+                $("#Count").append(html);
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadDataHoanThanh() {
+        $("#HoanThanh").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetHoanThanhByNguoiTaoIDToListToJSON",
+            data: {
+            },
+            success: function (list) {
+                var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
+                html = html + '<thead>';
+                html = html + '<tr>';
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>Xem</a></th>";
+                html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
+                html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
+                html = html + "<th class='text-center' style='width: 20%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
+                html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";
+                html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Kết quả</a></th>";
+                html = html + '</tr>';
+                html = html + '</thead>';
+                html = html + '<tbody>';
+                var no = 0;
+                for (var index in list) {
+                    $(list[index]).each(function (iRec, item) {
+                        no = no + 1;
+                        if (no % 2 == 0) {
+                            html = html + '<tr style="background-color:#ffffff;">';
+                        }
+                        else {
+                            html = html + '<tr style="background-color:#f1f1f1;">';
+                        }
+                        let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
+                        var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                        let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoView?ID=" + item.ID + "' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                        let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.TaxCode + "</a>";
+                        let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
+                        html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + no + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + item.NgayTaoString + '</td>';
+                        html = html + '<td class="text-center" style="text-align: center;">' + urlTaxCode + '</td>';
+                        html = html + '<td class="text-left"><div style="text-align: left; word-wrap: break-word; width:300px;">' + urlKhachHang + '</div></td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
+                        html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
+                        html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';
+                        html = html + '<td class="text-left" style="text-align: left;">' + item.KetQuaString + '</td>';
+                        html = html + '</tr>';
+                    });
+                }
+                html = html + '</tbody>';
+                html = html + '</table>';
+                html = $.parseHTML(html);
+                $("#HoanThanh").append(html);
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadDataDangXuLy() {
+        $("#DangXuLy").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetDangXuLyToListToJSON",
+            data: {
+            },
+            success: function (list) {
+                onLoadHTML(list, "DangXuLy")
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadDataDaNhan() {
+        $("#DaNhan").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetDaNhanToListToJSON",
+            data: {
+            },
+            success: function (list) {
+                onLoadHTML(list, "DaNhan")
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadDataDaGui() {
+        $("#DaGui").html('');
+        $.ajax({
+            type: 'GET',
+            url: "/AM_PhieuYeuCau/GetDaGuiToListToJSON",
+            data: {
+            },
+            success: function (list) {
+                onLoadHTML(list, "DaGui")
+            }
+        }).done(() => {
+        });
+    }
+    function onLoadHTML(list, HTMLName) {
+        var html = '<table class="border01" id="Data" cellspacing="4" style="background-color:#ffffff; width: 100%;">';
+        html = html + '<thead>';
+        html = html + '<tr>';
+        html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>Xem</a></th>";
+        html = html + "<th class='text-center' style='width: 5%;'><a style='cursor:pointer;'>STT</a></th>";
+        html = html + "<th class='text-center' style='width: 15%;'><a style='cursor:pointer;'>Ngày yêu cầu</a></th>";
+        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>MST</a></th>";
+        html = html + "<th class='text-center' style='width: 35%;'><a style='cursor:pointer;'>Khách hàng</a></th>";
+        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>AM yêu cầu</a></th>";
+        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Người nhận</a></th>";
+        html = html + "<th class='text-center' style='width: 10%;'><a style='cursor:pointer;'>Số lượng HĐ</a></th>";        
+        html = html + '</tr>';
+        html = html + '</thead>';
+        html = html + '<tbody>';
+        var no = 0;
+        for (var index in list) {
+            $(list[index]).each(function (iRec, item) {
+                no = no + 1;
+                if (no % 2 == 0) {
+                    html = html + '<tr style="background-color:#ffffff;">';
+                }
+                else {
+                    html = html + '<tr style="background-color:#f1f1f1;">';
+                }
+                let SoLuongHoaDon = Math.round(item.SoLuongHoaDon);
+                var SoLuongHoaDonString = SoLuongHoaDon.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                let url = "<a target='_blank' href='/AM_PhieuYeuCau/InfoView?ID=" + item.ID + "' style='cursor: pointer; color: green;'><i class='material-icons'>open_in_new</i></a>";
+                let urlTaxCode = "<a target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.TaxCode + "</a>";
+                let urlKhachHang = "<a title='" + item.KhachHang + "' target='_blank' href='/Membership/CustomerDetail001?ID=" + item.KhachHangID + "'>" + item.KhachHang + "</a>";
+                html = html + '<td class="text-center" style="text-align: center;">' + url + '</td>';
+                html = html + '<td class="text-center" style="text-align: center;">' + no + '</td>';
+                html = html + '<td class="text-center" style="text-align: center;">' + item.NgayTaoString + '</td>';
+                html = html + '<td class="text-center" style="text-align: center;">' + urlTaxCode + '</td>';
+                html = html + '<td class="text-left"><div style="text-align: left; word-wrap: break-word; width:300px;">' + urlKhachHang + '</div></td>';
+                html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiTao + '</td>';
+                html = html + '<td class="text-left" style="text-align: center;">' + item.NguoiNhanString + '</td>';
+                html = html + '<td class="text-left" style="text-align: right;">' + SoLuongHoaDonString + '</td>';               
+                html = html + '</tr>';
+            });
+        }
+        html = html + '</tbody>';
+        html = html + '</table>';
+        html = $.parseHTML(html);
+        $("#" + HTMLName).append(html);
+    }
+    setInterval(function () {
+        setTimeout(function () {
+            onLoadData();
+        }, 600000);
+    }, 600000);
+</script>

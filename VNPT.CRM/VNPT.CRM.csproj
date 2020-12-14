@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\Membership\" />
     <Folder Include="wwwroot\Product\" />
     <Folder Include="wwwroot\PhieuYeuCau\" />
   </ItemGroup>

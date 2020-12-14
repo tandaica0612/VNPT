@@ -22,10 +22,13 @@ namespace VNPT.Data.Models
         public int? ProvinceID { get; set; }
         public int? CityID { get; set; }
         public int? WardID { get; set; }
+        public int? NganHangID { get; set; }
+        public string NganHang_SoTaiKhoan { get; set; }
         public string MembershipCode { get; set; }
         public string ContactFullName { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
+        public string Image { get; set; }
         public void InitDefaultValue()
         {
             if (string.IsNullOrEmpty(this.GUICode))

@@ -61,12 +61,44 @@ namespace VNPT.Data.Repositories
             Membership item = _context.Set<Membership>().FirstOrDefault(item => item.TaxCode.Equals(taxCode));
             return item;
         }
+        public List<Membership> GetByThanhVienToList()
+        {
+            List<Membership> list = new List<Membership>();
+            list = _context.Set<Membership>().Where(item => item.ParentID != AppGlobal.DoanhNghiepID).OrderBy(item => item.FullName).ToList();
+            return list;
+        }
         public List<Membership> GetByCityIDToList(int cityID)
         {
             List<Membership> list = new List<Membership>();
             if (cityID > 0)
             {
                 list = _context.Set<Membership>().Where(item => item.CityID == cityID).OrderBy(item => item.FullName).ToList();
+            }
+            return list;
+        }
+        public List<Membership> GetParentIDAndSeachStringToList(int parentID, string searchString)
+        {
+            List<Membership> list = new List<Membership>();
+            if (parentID > 0)
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    searchString = searchString.Trim();
+                    list = _context.Set<Membership>().Where(item => item.ParentID == parentID && ((item.TaxCode.Contains(searchString) == true) || (item.MembershipCode.Contains(searchString) == true) || (item.FullName.Contains(searchString) == true) || (item.Address.Contains(searchString) == true) || (item.ContactPhone.Contains(searchString) == true))).OrderBy(item => item.FullName).ToList();
+                }
+                else
+                {
+                    list = _context.Set<Membership>().Where(item => item.ParentID == parentID).OrderBy(item => item.FullName).ToList();
+                }
+            }
+            return list;
+        }
+        public List<Membership> GetParentIDAndCityIDAndWardIDToList(int parentID, int cityID, int wardID)
+        {
+            List<Membership> list = new List<Membership>();
+            if ((parentID > 0) && (cityID > 0) && (wardID > 0))
+            {
+                list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID && item.WardID == wardID).OrderBy(item => item.FullName).ToList();
             }
             return list;
         }
@@ -238,6 +270,34 @@ namespace VNPT.Data.Repositories
                 };
                 DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectNotRevenueByYearAndMonthAndProductIDAndCityID", parameters);
                 list = SQLHelper.ToList<Membership>(dt);
+            }
+            return list;
+        }
+        public List<MembershipDataTransfer> GetSQLByParentIDToList(int parentID)
+        {
+            List<MembershipDataTransfer> list = new List<MembershipDataTransfer>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@ParentID",parentID)
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectByParentID", parameters);
+                list = SQLHelper.ToList<MembershipDataTransfer>(dt);
+            }
+            return list;
+        }
+        public List<MembershipDataTransfer> GetSQLMembershipDataTransferByParentID001ToList(int parentID)
+        {
+            List<MembershipDataTransfer> list = new List<MembershipDataTransfer>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@ParentID",parentID)
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectMembershipDataTransferByParentID001", parameters);
+                list = SQLHelper.ToList<MembershipDataTransfer>(dt);
             }
             return list;
         }

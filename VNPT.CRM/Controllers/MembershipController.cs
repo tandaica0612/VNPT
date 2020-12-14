@@ -59,6 +59,10 @@ namespace VNPT.CRM.Controllers
             {
                 model.Password = "0";
             }
+            if (string.IsNullOrEmpty(model.GUICode))
+            {
+                model.InitDefaultValue();
+            }
             switch (action)
             {
                 case 0:
@@ -85,11 +89,28 @@ namespace VNPT.CRM.Controllers
         {
             return View();
         }
+        public IActionResult CustomerList()
+        {
+            return View();
+        }
+        public IActionResult CustomerList001()
+        {
+            return View();
+        }
         public IActionResult Employee()
         {
             return View();
         }
-        public IActionResult EmployeeDetail()
+        public IActionResult EmployeeDetail(int ID)
+        {
+            Membership model = new Membership();
+            if (ID > 0)
+            {
+                model = _membershipRepository.GetByID(ID);
+            }
+            return View(model);
+        }
+        public IActionResult EmployeeInfo()
         {
             Membership model = new Membership();
             if (this.RequestUserID > 0)
@@ -116,17 +137,44 @@ namespace VNPT.CRM.Controllers
                 var CookieExpires = new CookieOptions();
                 CookieExpires.Expires = DateTime.Now.AddMonths(2);
                 Response.Cookies.Append("UserID", membership.ID.ToString(), CookieExpires);
-                controller = "PhieuYeuCau";
-                action = "DanhSachByNhanVienID";
-                if (membership.ID == AppGlobal.NguyenVietDungID)
+                controller = "AM_PhieuYeuCau";
+                action = "List";
+                if (membership.ParentID == AppGlobal.QuanTriID)
                 {
-                    controller = "PhieuYeuCau";
-                    action = "DanhSach";
+                    controller = "Membership";
+                    action = "Employee";
+                }
+                if (membership.ParentID == AppGlobal.NhanVienID)
+                {
+                    controller = "AM_PhieuYeuCau";
+                    action = "List";
+                }
+                if (membership.ParentID == AppGlobal.KyThuatID)
+                {
+                    controller = "AM_PhieuYeuCau";
+                    action = "ListKyThuat";
                 }
             }
             return RedirectToAction(action, controller);
         }
         public IActionResult CustomerDetail(int ID)
+        {
+            BaseViewModel viewModel = new BaseViewModel();
+            viewModel.YearFinance = DateTime.Now.Year;
+            viewModel.MonthFinance = DateTime.Now.Month;
+            viewModel.Membership = new Membership();
+            if (ID > 0)
+            {
+                viewModel.Membership = _membershipRepository.GetByID(ID);
+            }
+            if (viewModel.Membership == null)
+            {
+                viewModel.Membership = new Membership();
+            }
+            viewModel.Membership.ParentID = AppGlobal.DoanhNghiepID;
+            return View(viewModel);
+        }
+        public IActionResult CustomerDetail001(int ID)
         {
             BaseViewModel viewModel = new BaseViewModel();
             viewModel.YearFinance = DateTime.Now.Year;
@@ -167,14 +215,57 @@ namespace VNPT.CRM.Controllers
             viewModel.MonthFinance = DateTime.Now.Month;
             return View(viewModel);
         }
+        public Membership GetByID(int ID)
+        {
+            Membership model = new Membership();
+            if (ID > 0)
+            {
+                model = _membershipRepository.GetByID(ID);
+            }
+            return model;
+        }
+        public Membership GetByTaxCode(string taxCode)
+        {
+            return _membershipRepository.GetByTaxCode(taxCode);
+        }
         public ActionResult GetMembershipDataTransferKhachHangToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetMembershipDataTransferByParentIDToList(AppGlobal.DoanhNghiepID);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetDoanhNghiepAndSeachStringToList([DataSourceRequest] DataSourceRequest request, string searchString)
+        {
+            var data = _membershipRepository.GetParentIDAndSeachStringToList(AppGlobal.DoanhNghiepID, searchString);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetDoanhNghiepAndCityIDAndWardIDToList([DataSourceRequest] DataSourceRequest request, string searchString, int cityID, int wardID)
+        {
+            var data = _membershipRepository.GetParentIDAndCityIDAndWardIDToList(AppGlobal.DoanhNghiepID, cityID, wardID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetSQLDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetSQLByParentIDToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetSQLDoanhNghiep001ToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetSQLMembershipDataTransferByParentID001ToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetByParentIDToList(AppGlobal.DoanhNghiepID);
+            return Json(data.ToDataSourceResult(request));
+        }
         public ActionResult GetNhanVienToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetByParentIDToList(AppGlobal.NhanVienID);
+            return Json(data.ToDataSourceResult(request));
+        }
+        public ActionResult GetByThanhVienToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _membershipRepository.GetByThanhVienToList();
             return Json(data.ToDataSourceResult(request));
         }
         public ActionResult GetByCityIDToList([DataSourceRequest] DataSourceRequest request, int cityID)
@@ -226,8 +317,26 @@ namespace VNPT.CRM.Controllers
             return RedirectToAction("CustomerDetail", new { ID = model.ID });
         }
         [AcceptVerbs("Post")]
-        public IActionResult SaveEmployee(Membership model)
+        public IActionResult SaveEmployeeQuanTri(Membership model)
         {
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if (file != null)
+                {
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    fileName = AppGlobal.SetName(fileName);
+                    fileName = model.Phone + fileExtension;
+                    var physicalPath = Path.Combine(_hostingEnvironment.WebRootPath, "images/Membership", fileName);
+                    using (var stream = new FileStream(physicalPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                        model.Image = fileName;
+                    }
+                }
+            }
+
             if (model.ID > 0)
             {
                 Initialization(model, 1);
@@ -241,6 +350,41 @@ namespace VNPT.CRM.Controllers
                 _membershipRepository.Create(model);
             }
             return RedirectToAction("EmployeeDetail", new { ID = model.ID });
+        }
+        [AcceptVerbs("Post")]
+        public IActionResult SaveEmployee(Membership model)
+        {
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if (file != null)
+                {
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    fileName = AppGlobal.SetName(fileName);
+                    fileName = model.Phone + fileExtension;
+                    var physicalPath = Path.Combine(_hostingEnvironment.WebRootPath, "images/Membership", fileName);
+                    using (var stream = new FileStream(physicalPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                        model.Image = fileName;
+                    }
+                }
+            }
+
+            if (model.ID > 0)
+            {
+                Initialization(model, 1);
+                model.Initialization(InitType.Update, RequestUserID);
+                _membershipRepository.Update(model.ID, model);
+            }
+            else
+            {
+                Initialization(model, 0);
+                model.Initialization(InitType.Insert, RequestUserID);
+                _membershipRepository.Create(model);
+            }
+            return RedirectToAction("EmployeeInfo", new { ID = model.ID });
         }
         [AcceptVerbs("Post")]
         public IActionResult SaveCustomerWithWindow(BaseViewModel model)
@@ -408,6 +552,7 @@ namespace VNPT.CRM.Controllers
 
                                                                 if (membershipProperty.MembershipID > 0)
                                                                 {
+                                                                    membershipProperty.Code = AppGlobal.Product;
                                                                     membershipProperty.ValueContract = valueContract;
                                                                     membershipProperty.DateBegin = DateTime.Now;
                                                                     membershipProperty.DateEnd = DateTime.Now;
