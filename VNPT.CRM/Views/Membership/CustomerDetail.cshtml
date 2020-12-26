@@ -59,23 +59,38 @@
                                 <label for='Phone'>Điện thoại</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.Phone, new { placeholder = "Điện thoại", @class = "form-control" }))
                             </div>
-                            <div class='form-group'>
-                                <label for='Email'>Email</label>
-                                @(Html.TextBoxFor(Model => Model.Membership.Email, new { placeholder = "Email", @class = "form-control" }))
-                            </div>
+
                             <div class='form-group'>
                                 <label for='Address'>Địa chỉ</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.Address, new { placeholder = "Địa chỉ", @class = "form-control" }))
                             </div>
-                        </div>
-                        <div class="col s12 m6 l6">
                             <div class='form-group'>
                                 <label for='ContactFullName'>Liên hệ</label>
                                 @(Html.TextBoxFor(Model => Model.Membership.ContactFullName, new { placeholder = "Liên hệ", @class = "form-control" }))
                             </div>
                             <div class='form-group'>
-                                <label for='ContactPhone'>Điện thoại</label>
-                                @(Html.TextBoxFor(Model => Model.Membership.ContactPhone, new { placeholder = "Điện thoại", @class = "form-control" }))
+                                <label for='ContactPhone'>Điện thoại liên hệ</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.ContactPhone, new { placeholder = "Điện thoại liên hệ", @class = "form-control" }))
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l6">
+                            <div class='form-group'>
+                                <label for='Email'>Email</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.Email, new { placeholder = "Email", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='NganHang_SoTaiKhoan'>Số tài khoản ngân hàng</label>
+                                @(Html.TextBoxFor(Model => Model.Membership.NganHang_SoTaiKhoan, new { placeholder = "Số tài khoản ngân hàng", @class = "form-control" }))
+                            </div>
+                            <div class='form-group'>
+                                <label for='ContactPhone'>Ngân hàng</label>
+                                @(Html.Kendo().DropDownListFor(Model => Model.Membership.NganHangID)
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style="height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetNganHangToList", "Config")))
+                            )
                             </div>
                             <div class='form-group'>
                                 <label for='ContactPhone'>Ngành nghề</label>
@@ -87,7 +102,6 @@
                      .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCustomerTypeToList", "Config")))
                             )
                             </div>
-
                             <div class='form-group'>
                                 <label for='ContactPhone'>Phường, xã, thị trấn</label>
                                 @(Html.Kendo().DropDownListFor(Model => Model.Membership.WardID)
@@ -129,6 +143,68 @@
     <div class="col s12 m12 l12">
         <div class="card card card-default scrollspy">
             <div class="card-content">
+                <h4 class="card-title">Nhân viên quản lý</h4>
+                <div class="row">
+                    @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.MembershipPropertyDataTransfer>()
+.Name("MembershipPropertyNhanVien")
+.Columns(columns =>
+{
+    columns.Command(command => { command.Edit().Text("&nbsp;").CancelText("&nbsp;").UpdateText("&nbsp;").IconClass("fas fa-edit").HtmlAttributes(new { style = "font-size: 16px; padding-left:16px; padding-top:6px; border-radius: 6px; font-weight:bold; width:50px;" }); command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(150);
+    columns.Bound(t => t.NhanVienQuanLy.TextName).Title("Nhân viên quản lý").EditorTemplateName("ThanhVien").Width(500);
+    columns.Bound(t => t.ID).Title("ID").Width(100);
+})
+.ToolBar(toolBar => toolBar.Create().Text("&nbsp;").IconClass("fas fa-plus").HtmlAttributes(new { style = "font-size: 16px; border-radius: 6px; font-weight:bold; background-color:#009966; color:#ffffff; padding-left:16px;" }))
+.ToolBar(toolBar => toolBar.Search())
+.Editable(editable => editable.Mode(GridEditMode.InLine))
+.Sortable()
+.Scrollable()
+.Reorderable(r => r.Columns(true))
+.Resizable(r => r.Columns(true))
+.Pageable(pageable => pageable
+.Refresh(true)
+.PageSizes(true)
+.ButtonCount(10))
+.Excel(excel => excel
+.FileName("Config.xlsx")
+.Filterable(true)
+.ProxyURL(Url.Action("ExportExcel", "Config"))
+)
+.Pdf(pdf => pdf
+.AllPages()
+.AvoidLinks()
+.PaperSize("A4")
+.Margin("2cm", "1cm", "1cm", "1cm")
+.Landscape()
+.RepeatHeaders()
+.FileName("Config.pdf")
+)
+.HtmlAttributes(new { @class = "KendoGrid" })
+.Search(search => { search.Field(f => f.ProductName);})
+.DataSource(dataSource => dataSource
+.Ajax()
+.PageSize(1000)
+.Model(model =>
+{
+    model.Id(t => t.ID);
+    model.Field(t => t.ID).Editable(false);
+    model.Field(t => t.NhanVienQuanLy).DefaultValue(new VNPT.Data.DataTransferObject.ModelTemplate());
+})
+.Events(t => { t.RequestEnd("onGridRequestEndMembershipPropertyNhanVien"); })
+.Read(t => t.Action("GetDataTransferNhanVienByMembershipIDAndCodeToList", "MembershipProperty").Data("filterMembershipPropertyDataTransfer"))
+.Destroy(t => t.Action("Delete", "MembershipProperty"))
+.Create(t => t.Action("CreateNhanVien", "MembershipProperty").Data("filterMembershipPropertyDataTransfer"))
+.Update(t => t.Action("UpdateNhanVien", "MembershipProperty"))
+)
+)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
                 <h4 class="card-title">Dịch vụ đăng ký</h4>
                 <div class="row">
                     @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.MembershipPropertyDataTransfer>()
@@ -139,10 +215,10 @@
     columns.Bound(t => t.ProductName).Title("Dịch vụ").Width(200);
     columns.Bound(t => t.PaymentCode).Title("Mã thanh toán").Width(200);
     columns.Bound(t => t.ProductCode).Title("Mã thuê bao").Width(200);
-    columns.Bound(t => t.ValueContract).Title("Giá trị").Width(100).HtmlAttributes(new { @class = "text-right", @style="font-weight:bold;" });
-    columns.Bound(t => t.DateContract).Title("Ngày ký").Width(120).HtmlAttributes(new { @class = "text-right" });
-    columns.Bound(t => t.DateBegin).Title("Bắt đầu").Width(120).HtmlAttributes(new { @class = "text-right" });
-    columns.Bound(t => t.DateEnd).Title("Kết thúc").Width(120).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.ValueContract).Title("Giá trị").Width(200).HtmlAttributes(new { @class = "text-right", @style="font-weight:bold;" });
+    columns.Bound(t => t.DateContract).Title("Ngày ký").Width(200).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.DateBegin).Title("Bắt đầu").Width(200).HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.DateEnd).Title("Kết thúc").Width(200).HtmlAttributes(new { @class = "text-right" });
     columns.Bound(t => t.ID).Title("ID").Width(100);
 })
 .ToolBar(toolBar => toolBar.Search())
@@ -183,8 +259,8 @@
     model.Field(t => t.ProductCode).Editable(false);
 })
 .Events(t => { t.RequestEnd("onGridRequestEndMembershipPropertyDataTransfer"); })
-.Read(t => t.Action("GetDataTransferProductByMembershipIDToList", "MembershipProperty").Data("filterMembershipPropertyDataTransfer"))
-.Update(t => t.Action("Update", "MembershipProperty"))
+.Read(t => t.Action("GetDataTransferProductByMembershipIDAndCodeToList", "MembershipProperty").Data("filterMembershipPropertyDataTransfer"))
+.Update(t => t.Action("UpdateProduct", "MembershipProperty"))
 )
 )
                 </div>
@@ -285,6 +361,16 @@
 )
 
 <script>
+    function onGridRequestEndMembershipPropertyNhanVien(e) {
+        if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+            var response = e.response;
+            var messageType = response.split('-')[0];
+            var note = response.split('-')[1];
+            var notification = $("#Notification").data("kendoNotification");
+            notification.show(note, messageType);
+            $("#MembershipPropertyNhanVien").data("kendoGrid").dataSource.read();
+        }
+    }
     function onGridRequestEndMembershipPropertyDataTransfer(e) {
         if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
             var response = e.response;

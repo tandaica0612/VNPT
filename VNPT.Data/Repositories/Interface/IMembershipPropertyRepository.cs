@@ -10,5 +10,7 @@ namespace VNPT.Data.Repositories
     {
         public MembershipProperty GetByMembershipIDAndPaymentCodeAndProductCode(int membershipID, string paymentCode, string productCode);
         public List<MembershipPropertyDataTransfer> GetDataTransferProductByMembershipIDToList(int membershipID);
+        public List<MembershipPropertyDataTransfer> GetDataTransferProductByMembershipIDAndCodeToList(int membershipID, string code);
+        public List<MembershipPropertyDataTransfer> GetDataTransferNhanVienByMembershipIDAndCodeToList(int membershipID, string code);
     }
 }

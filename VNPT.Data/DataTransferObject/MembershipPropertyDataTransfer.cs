@@ -9,5 +9,7 @@ namespace VNPT.Data.DataTransferObject
     public class MembershipPropertyDataTransfer : MembershipProperty
     {
         public string ProductName { get; set; }
+        public string NhanVien { get; set; }
+        public ModelTemplate NhanVienQuanLy { get; set; }
     }
 }

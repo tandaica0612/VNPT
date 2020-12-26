@@ -14,14 +14,14 @@
                             <div class="col s12 m6 l6">
                                 <ul class="tabs">
                                     <li class="tab col s3">
-                                        <a href="/PhieuYeuCau/DanhSach" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">keyboard_backspace</i></a>                                       
+                                        <a href="/PhieuYeuCau/DanhSach" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-amber-amber z-depth-1 border-round"><i class="material-icons">keyboard_backspace</i></a>
                                     </li>
                                     <li class="tab col s3">
                                         <button type="submit" title="Save" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-light-blue-cyan z-depth-1 border-round">
                                             <i class="material-icons">save</i>
                                         </button>
                                     </li>
-                                    <li class="tab col s3">                                        
+                                    <li class="tab col s3">
                                         <a target="_blank" href="/PhieuYeuCau/Info?ID=@Model.ID" style="height:46px; padding-top:6px; color:#ffffff;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">open_in_new</i></a>
                                     </li>
                                     <li class="tab col s3">
@@ -54,11 +54,11 @@
                                 <label for='DaGui'>Trạng thái</label>
                                 <br />
                                 @(Html.CheckBoxFor(Model => Model.DaGui.Value, new { placeholder = "Đã gửi" }))
-                                <span>Đã gửi</span>                                
+                                <span>Đã gửi</span>
                                 @(Html.CheckBoxFor(Model => Model.DangXuLy.Value, new { placeholder = "Đang xử lý" }))
-                            <span>Đang xử lý</span>
+                                <span>Đang xử lý</span>
                                 @(Html.CheckBoxFor(Model => Model.HoanThanh.Value, new { placeholder = "Hoàn thành" }))
-                            <span>Hoàn thành</span>
+                                <span>Hoàn thành</span>
                             </div>
                         </div>
                         <div class="col s12 m6 l6">
@@ -109,6 +109,7 @@
                             </div>
                         </div>
                     </div>
+                    <br />
                     <div class="row">
                         <div class="col s12 m12 l12">
                             @Html.TextAreaFor(Model => Model.NoiDung)
@@ -119,7 +120,7 @@
                                 CKEDITOR.replace("NoiDung", {
                                     on: {
                                         'instanceReady': function (evt) {
-                                            evt.editor.resize("100%", "500");
+                                            evt.editor.resize("100%", "300");
                                         }
                                     }
                                 });</script>
@@ -139,9 +140,9 @@
 
 <script>
     $(document).ready(() => {
-        onGetCompanyByIDToListToJSON();
+        onGetDinhKemByIDToListToJSON();
     });
-    function onGetCompanyByIDToListToJSON() {
+    function onGetDinhKemByIDToListToJSON() {
         $("#Data").html('');
         var IDValue = $("#ID").val();
          $.ajax({

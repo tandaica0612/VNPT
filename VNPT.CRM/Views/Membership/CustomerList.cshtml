@@ -24,7 +24,7 @@
 .Columns(columns =>
 {
 
-    columns.Template(@"<a href='/Membership/CustomerDetail?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
+    columns.Template(@"<a target='_blank' href='/Membership/CustomerDetail?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
     columns.Bound(t => t.MembershipCode).Title("Mã khách hàng").Width(150);
     columns.Bound(t => t.TaxCode).Title("Mã số thuế").Width(150);
     columns.Bound(t => t.FullName).Title("Khách hàng").Width(700);

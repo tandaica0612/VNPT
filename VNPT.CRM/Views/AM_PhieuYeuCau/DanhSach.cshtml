@@ -1,0 +1,97 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutByNhanVien.cshtml"; ViewData["Title"] = "Phiếu yêu cầu Hóa đơn điện tử"; }
+
+
+<div class="row">
+    <div class="col s12 m12 l12">
+        <div class="card card card-default scrollspy">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 m6 l10">
+                    </div>
+                    <div class="col s12 m6 l2">
+                        <a target="_blank" href="/AM_PhieuYeuCau/Detail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">add</i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        @(Html.Kendo().Grid<VNPT.Data.DataTransferObject.AM_PhieuYeuCauDataTransfer>()
+.Name("AM_PhieuYeuCau")
+.Columns(columns =>
+{
+    columns.Command(command => { command.Destroy().Text("&nbsp;").IconClass("fas fa-trash-alt").HtmlAttributes(new { style = "font-size: 16px; color:#ffffff; background-color:#d73925; padding-left:16px; padding-top:6px; border-radius: 6px; width:50px;" }); }).Width(70);
+    columns.Template(@"<a target='_blank' href='/AM_PhieuYeuCau/Detail?ID=#=ID#' style='color:white; background-color:green; padding:10px; padding-left:15px; padding-right:15px; border-radius: 6px;'><i class='fas fa-edit'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+    columns.Template(@"<a target='_blank' href='/AM_PhieuYeuCau/InfoView?ID=#=ID#' style='color:white; background-color:green; padding:10px; padding-left:15px; padding-right:15px; border-radius: 6px;'><i class='fas fa-eye'></i></a>").Title("").Width(70).HtmlAttributes(new { style = "text-align:center;" });
+    columns.Bound(t => t.DaGui).Title("Đã gửi").Width(120);
+    columns.Bound(t => t.DaNhan).Title("Đã nhận").Width(120);
+    columns.Bound(t => t.DangXuLy).Title("Đang xử lý").Width(120);
+    columns.Bound(t => t.HoanThanh).Title("Hoàn thành").Width(120);    
+    columns.Bound(t => t.KhachHang).Title("Khách hàng").Width(500);
+    columns.Bound(t => t.TieuDe).Title("Phiếu yêu cầu").Width(500);
+    columns.Bound(t => t.NgayTao).Title("Ngày tạo").Width(200).Format("{0:MM/dd/yyyy HH:mm:ss}").HtmlAttributes(new { @class = "text-right" });
+    columns.Bound(t => t.ID).Title("ID").Width(100);
+})
+
+.ToolBar(toolBar => toolBar.Search())
+.Editable(editable => editable.Mode(GridEditMode.InLine))
+.Sortable()
+.Scrollable()
+.Reorderable(r => r.Columns(true))
+.Resizable(r => r.Columns(true))
+.Pageable(pageable => pageable
+.Refresh(true)
+.PageSizes(true)
+.ButtonCount(10))
+.Excel(excel => excel
+.FileName("Config.xlsx")
+.Filterable(true)
+.ProxyURL(Url.Action("ExportExcel", "Config"))
+)
+.Pdf(pdf => pdf
+.AllPages()
+.AvoidLinks()
+.PaperSize("A4")
+.Margin("2cm", "1cm", "1cm", "1cm")
+.Landscape()
+.RepeatHeaders()
+.FileName("Config.pdf")
+)
+.HtmlAttributes(new { @class = "KendoGrid" })
+.Search(search => { search.Field(f => f.KhachHang); search.Field(f => f.TieuDe); })
+.DataSource(dataSource => dataSource
+.Ajax()
+.PageSize(1000)
+.Model(model =>
+{
+    model.Id(t => t.ID);
+    model.Field(t => t.ID).Editable(false);
+})
+.Events(t => { t.RequestEnd("onGridRequestEnd"); })
+.Read(t => t.Action("GetByNguoiTaoIDToList", "AM_PhieuYeuCau"))
+.Destroy(t => t.Action("Delete", "AM_PhieuYeuCau"))
+)
+)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Notification()
+    .Name("Notification")
+    .Position(p => p.Pinned(true).Top(30).Right(30))
+    .Width(400)
+)
+
+<script>
+    function onGridRequestEnd(e) {
+        if ((e.type == "create") || (e.type == "update") || (e.type == "destroy")) {
+            var response = e.response;
+            var messageType = response.split('-')[0];
+            var note = response.split('-')[1];
+            var notification = $("#Notification").data("kendoNotification");
+            notification.show(note, messageType);
+            $("#AM_PhieuYeuCau").data("kendoGrid").dataSource.read();
+        }
+    }   
+</script>

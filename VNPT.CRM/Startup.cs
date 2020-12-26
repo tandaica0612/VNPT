@@ -45,6 +45,8 @@ namespace VNPT.CRM
             services.AddTransient<IPhieuYeuCau_ThuocTinhRepository, PhieuYeuCau_ThuocTinhRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductConfigRepository, ProductConfigRepository>();
+            services.AddTransient<IAM_PhieuYeuCauRepository, AM_PhieuYeuCauRepository>();
+            services.AddTransient<IAM_PhieuYeuCau_ThuocTinhRepository, AM_PhieuYeuCau_ThuocTinhRepository>();
             // Add Kendo UI services to the services container
             services.AddKendo();
         }

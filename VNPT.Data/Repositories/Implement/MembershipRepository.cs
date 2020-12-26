@@ -61,6 +61,12 @@ namespace VNPT.Data.Repositories
             Membership item = _context.Set<Membership>().FirstOrDefault(item => item.TaxCode.Equals(taxCode));
             return item;
         }
+        public List<Membership> GetByThanhVienToList()
+        {
+            List<Membership> list = new List<Membership>();
+            list = _context.Set<Membership>().Where(item => item.ParentID != AppGlobal.DoanhNghiepID).OrderBy(item => item.FullName).ToList();
+            return list;
+        }
         public List<Membership> GetByCityIDToList(int cityID)
         {
             List<Membership> list = new List<Membership>();
@@ -84,6 +90,15 @@ namespace VNPT.Data.Repositories
                 {
                     list = _context.Set<Membership>().Where(item => item.ParentID == parentID).OrderBy(item => item.FullName).ToList();
                 }
+            }
+            return list;
+        }
+        public List<Membership> GetParentIDAndCityIDAndWardIDToList(int parentID, int cityID, int wardID)
+        {
+            List<Membership> list = new List<Membership>();
+            if ((parentID > 0) && (cityID > 0) && (wardID > 0))
+            {
+                list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID && item.WardID == wardID).OrderBy(item => item.FullName).ToList();
             }
             return list;
         }
@@ -264,10 +279,24 @@ namespace VNPT.Data.Repositories
             if (parentID > 0)
             {
                 SqlParameter[] parameters =
-                {              
+                {
                 new SqlParameter("@ParentID",parentID)
                 };
                 DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectByParentID", parameters);
+                list = SQLHelper.ToList<MembershipDataTransfer>(dt);
+            }
+            return list;
+        }
+        public List<MembershipDataTransfer> GetSQLMembershipDataTransferByParentID001ToList(int parentID)
+        {
+            List<MembershipDataTransfer> list = new List<MembershipDataTransfer>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@ParentID",parentID)
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_MembershipSelectMembershipDataTransferByParentID001", parameters);
                 list = SQLHelper.ToList<MembershipDataTransfer>(dt);
             }
             return list;

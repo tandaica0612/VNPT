@@ -21,7 +21,7 @@
 .Columns(columns =>
 {
 
-    columns.Template(@"<a href='/Membership/EmployeeDetail?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
+    columns.Template(@"<a target='_blank' href='/Membership/EmployeeDetail?ID=#=ID#' style='color: blue;'><i class='material-icons'>open_in_new</i></a>").Width(70).HtmlAttributes(new { style = "text-align:center;" }).Locked(true);
     columns.Bound(t => t.MembershipCode).Title("Mã nhân viên").Width(200);
     columns.Bound(t => t.FullName).Title("Khách hàng").Width(300).HtmlAttributes(new { @style = "font-weight:bold;" });
     columns.Bound(t => t.Phone).Title("Điện thoại").Width(300);
@@ -60,7 +60,7 @@
     model.Id(t => t.ID);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetNhanVienToList", "Membership"))
+.Read(t => t.Action("GetByThanhVienToList", "Membership"))
 
 )
 )

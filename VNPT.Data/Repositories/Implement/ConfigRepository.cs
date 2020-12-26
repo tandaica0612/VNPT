@@ -29,5 +29,9 @@ namespace VNPT.Data.Repositories
         {
             return _context.Config.Where(item => item.GroupName.Equals(groupName) && item.Code.Equals(code)).OrderBy(item => item.SortOrder).ToList();
         }
+        public List<Config> GetByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID)
+        {
+            return _context.Config.Where(item => item.GroupName.Equals(groupName) && item.Code.Equals(code) && item.ParentID == parentID).OrderBy(item => item.Title).ToList();
+        }
     }
 }

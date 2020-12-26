@@ -22,6 +22,54 @@ namespace VNPT.Data.Helpers
         #endregion
 
         #region AppSettings 
+        public static string NganHang
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("NganHang").Value;
+            }
+        }
+        public static string AMNgonNgu
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("AMNgonNgu").Value;
+            }
+        }
+        public static string AMMauHoaDon
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("AMMauHoaDon").Value;
+            }
+        }
+        public static string AMMauSo
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("AMMauSo").Value;
+            }
+        }
+        public static string AMHeThong
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("AMHeThong").Value;
+            }
+        }
+        public static string LoaiPhieuYeuCau
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("LoaiPhieuYeuCau").Value;
+            }
+        }
         public static string LoaiBaiViet
         {
             get
@@ -118,6 +166,22 @@ namespace VNPT.Data.Helpers
                 return int.Parse(builder.Build().GetSection("AppSettings").GetSection("UnitID").Value);
             }
         }
+        public static int KyThuatID
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return int.Parse(builder.Build().GetSection("AppSettings").GetSection("KyThuatID").Value);
+            }
+        }
+        public static int QuanTriID
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return int.Parse(builder.Build().GetSection("AppSettings").GetSection("QuanTriID").Value);
+            }
+        }
         public static int DoanhNghiepID
         {
             get
@@ -188,6 +252,14 @@ namespace VNPT.Data.Helpers
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 return builder.Build().GetSection("AppSettings").GetSection("Product").Value;
+            }
+        }
+        public static string NhanVien
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings").GetSection("NhanVien").Value;
             }
         }
         public static string Unit
