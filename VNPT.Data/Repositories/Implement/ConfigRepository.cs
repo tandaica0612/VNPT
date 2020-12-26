@@ -33,5 +33,61 @@ namespace VNPT.Data.Repositories
         {
             return _context.Config.Where(item => item.GroupName.Equals(groupName) && item.Code.Equals(code) && item.ParentID == parentID).OrderBy(item => item.Title).ToList();
         }
+        public List<Config> GetSQLByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID)
+        {
+            List<Config> list = new List<Config>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@GroupName",groupName),
+                new SqlParameter("@Code",code),
+                new SqlParameter("@ParentID",parentID),
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_ConfigSelectByGroupNameAndCodeAndParentID", parameters);
+                list = SQLHelper.ToList<Config>(dt);
+            }
+            return list;
+        }
+        public List<Config> GetSQLWardByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID)
+        {
+            List<Config> list = new List<Config>();
+            if (parentID > 0)
+            {
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@GroupName",groupName),
+                new SqlParameter("@Code",code),
+                new SqlParameter("@ParentID",parentID),
+                };
+                DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_ConfigSelectWardByGroupNameAndCodeAndParentID", parameters);
+                list = SQLHelper.ToList<Config>(dt);
+            }
+            return list;
+        }
+        public List<Config> GetSQLByGroupNameAndCodeToList(string groupName, string code)
+        {
+            List<Config> list = new List<Config>();
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@GroupName",groupName),
+                new SqlParameter("@Code",code),
+                };
+            DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_ConfigSelectByGroupNameAndCode", parameters);
+            list = SQLHelper.ToList<Config>(dt);
+            return list;
+        }
+        public List<Config> GetSQLProductByGroupNameAndCodeToList(string groupName, string code)
+        {
+            List<Config> list = new List<Config>();
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@GroupName",groupName),
+                new SqlParameter("@Code",code),
+                };
+            DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_ConfigSelectProductByGroupNameAndCode", parameters);
+            list = SQLHelper.ToList<Config>(dt);
+            return list;
+        }
     }
 }

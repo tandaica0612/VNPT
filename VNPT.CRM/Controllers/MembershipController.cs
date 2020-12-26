@@ -243,6 +243,12 @@ namespace VNPT.CRM.Controllers
             var data = _membershipRepository.GetParentIDAndCityIDAndWardIDToList(AppGlobal.DoanhNghiepID, cityID, wardID);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetDoanhNghiepAndCityIDAndWardIDAndProductIDAndSearchStringToList([DataSourceRequest] DataSourceRequest request, int cityID, int wardID, int productID, string searchString)
+        {
+            var data = _membershipRepository.GetParentIDAndCityIDAndWardIDAndProductIDAndSearchStringToList(AppGlobal.DoanhNghiepID, cityID, wardID, productID, searchString);
+            return Json(data.ToDataSourceResult(request));
+        }
+       
         public ActionResult GetSQLDoanhNghiepToList([DataSourceRequest] DataSourceRequest request)
         {
             var data = _membershipRepository.GetSQLByParentIDToList(AppGlobal.DoanhNghiepID);

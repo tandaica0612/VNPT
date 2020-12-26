@@ -11,5 +11,9 @@ namespace VNPT.Data.Repositories
         public Config GetByGroupNameAndCodeAndTitle(string groupName, string code, string title);
         public List<Config> GetByGroupNameAndCodeToList(string groupName, string code);
         public List<Config> GetByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID);
+        public List<Config> GetSQLByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID);
+        public List<Config> GetSQLByGroupNameAndCodeToList(string groupName, string code);
+        public List<Config> GetSQLWardByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID);
+        public List<Config> GetSQLProductByGroupNameAndCodeToList(string groupName, string code);
     }
 }

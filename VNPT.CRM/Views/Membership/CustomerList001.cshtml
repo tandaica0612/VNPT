@@ -24,7 +24,7 @@
                      .DataTextField("Title")
                      .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
                        .Filter(FilterType.Contains)
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetWardByParentIDToList", "Config").Data("filterWard")))
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLWardByParentIDToList", "Config").Data("filterWard")))
                             )
                     </div>
                     <div class="col s12 m6 l2">
@@ -32,6 +32,22 @@
                     </div>
                     <div class="col s12 m6 l2">
                         <a href="/Membership/CustomerDetail?ID=0" style="height:46px; padding-top:6px;" class="waves-effect waves-light btn gradient-45deg-green-teal z-depth-1 border-round"><i class="material-icons">person_add</i></a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col s12 m6 l4">
+                        @(Html.Kendo().DropDownList()
+                        .Name("Product")
+                     .DataValueField("ID")
+                     .DataTextField("Title")
+                     .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
+                       .Filter(FilterType.Contains)
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLProductToList", "Config")))
+                            )
+                    </div>
+                    <div class="col s12 m6 l4">
+                        <input placeholder="Tìm..." id="SearchString" type="text" style="border-style:solid; border-color:#d6d6d6; border-width:1px; color:#000000;" class='btn border-round' />
                     </div>
                 </div>
                 <hr />
@@ -83,7 +99,7 @@
     model.Id(t => t.ID);
 })
 .Events(t => { t.RequestEnd("onGridRequestEnd"); })
-.Read(t => t.Action("GetDoanhNghiepAndCityIDAndWardIDToList", "Membership").Data("filterMembership"))
+.Read(t => t.Action("GetDoanhNghiepAndCityIDAndWardIDAndProductIDAndSearchStringToList", "Membership").Data("filterMembership"))
 
 )
 )
@@ -122,13 +138,15 @@
         }
     }
     function filterWard(e) {
-        var cityIDValue = $("#City").data("kendoDropDownList").value();        
+        var cityIDValue = $("#City").data("kendoDropDownList").value();
         return { parentID: cityIDValue };
     }
     function filterMembership(e) {
         var cityIDValue = $("#City").data("kendoDropDownList").value();
         var wardIDValue = $("#Ward").data("kendoDropDownList").value();
-        return { cityID: cityIDValue, wardID: wardIDValue };
+        var productIDValue = $("#Product").data("kendoDropDownList").value();
+        var searchStringValue = $("#SearchString").val();
+        return { cityID: cityIDValue, wardID: wardIDValue, productID: productIDValue, searchString: searchStringValue };
     }
     function onSearch() {
         $("#Membership").data("kendoGrid").dataSource.read();
