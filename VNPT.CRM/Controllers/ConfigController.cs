@@ -181,6 +181,11 @@ namespace VNPT.CRM.Controllers
             var data = _configResposistory.GetByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.City);
             return Json(data.ToDataSourceResult(request));
         }
+        public ActionResult GetSQLCityToList([DataSourceRequest] DataSourceRequest request)
+        {
+            var data = _configResposistory.GetSQLCityByGroupNameAndCodeToList(VNPT.Data.Helpers.AppGlobal.CRM, VNPT.Data.Helpers.AppGlobal.City);
+            return Json(data.ToDataSourceResult(request));
+        }
         public IActionResult CreateNganHang(Config model)
         {
             Initialization(model);

@@ -116,25 +116,39 @@ namespace VNPT.Data.Repositories
                 {
                     if (productID > 0)
                     {
-                        if (wardID > 0)
+                        if (cityID > 0)
                         {
-                            list = GetByProductIDAndCityIDAndWardIDToList(productID, cityID, wardID);
+                            if (wardID > 0)
+                            {
+                                list = GetByProductIDAndCityIDAndWardIDToList(productID, cityID, wardID);
+                            }
+                            else
+                            {
+                                list = GetByProductIDAndCityIDToList(productID, cityID);
+                            }
                         }
                         else
                         {
-                            list = GetByProductIDAndCityIDToList(productID, cityID);
-                        }
+                            list = GetByProductIDToList(productID);
+                        }                     
                     }
                     else
                     {
-                        if (wardID > 0)
+                        if (cityID > 0)
                         {
-                            list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID && item.WardID == wardID).OrderBy(item => item.FullName).ToList();
+                            if (wardID > 0)
+                            {
+                                list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID && item.WardID == wardID).OrderBy(item => item.FullName).ToList();
+                            }
+                            else
+                            {
+                                list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID).OrderBy(item => item.FullName).ToList();
+                            }
                         }
                         else
                         {
-                            list = _context.Set<Membership>().Where(item => item.ParentID == parentID && item.CityID == cityID).OrderBy(item => item.FullName).ToList();
-                        }
+                            list = _context.Set<Membership>().Where(item => item.ParentID == parentID).OrderBy(item => item.FullName).ToList();
+                        }    
                     }
                 }
             }

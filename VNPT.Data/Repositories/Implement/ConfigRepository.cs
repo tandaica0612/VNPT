@@ -89,5 +89,17 @@ namespace VNPT.Data.Repositories
             list = SQLHelper.ToList<Config>(dt);
             return list;
         }
+        public List<Config> GetSQLCityByGroupNameAndCodeToList(string groupName, string code)
+        {
+            List<Config> list = new List<Config>();
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@GroupName",groupName),
+                new SqlParameter("@Code",code),
+                };
+            DataTable dt = SQLHelper.Fill(AppGlobal.ConectionString, "sp_ConfigSelectCityByGroupNameAndCode", parameters);
+            list = SQLHelper.ToList<Config>(dt);
+            return list;
+        }
     }
 }

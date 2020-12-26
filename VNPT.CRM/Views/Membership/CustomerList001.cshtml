@@ -14,7 +14,7 @@
                      .HtmlAttributes(new { @class = "form-control", @style = "height:50px;" })
                        .Filter(FilterType.Contains)
                        .Events(e => e.DataBound("onCityDataBound").Change("onCityChange"))
-                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetCityToList", "Config")))
+                     .DataSource(dataSource => dataSource.Ajax().Read(t => t.Action("GetSQLCityToList", "Config")))
                             )
                     </div>
                     <div class="col s12 m6 l4">

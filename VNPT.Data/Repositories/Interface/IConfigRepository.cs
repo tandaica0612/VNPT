@@ -15,5 +15,6 @@ namespace VNPT.Data.Repositories
         public List<Config> GetSQLByGroupNameAndCodeToList(string groupName, string code);
         public List<Config> GetSQLWardByGroupNameAndCodeAndParentIDToList(string groupName, string code, int parentID);
         public List<Config> GetSQLProductByGroupNameAndCodeToList(string groupName, string code);
+        public List<Config> GetSQLCityByGroupNameAndCodeToList(string groupName, string code);
     }
 }
